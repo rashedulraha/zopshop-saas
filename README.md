@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ZopShop - Business Management SaaS
+
+ZopShop is a high-performance, multi-tenant SaaS platform built to help small and medium business owners digitize their operations. It provides a seamless experience for managing inventory, tracking daily sales, and monitoring business profitability in a minimalist, user-friendly interface.
+
+## Key Features
+
+- **Multi-Tenant Architecture**: Manage multiple independent shops securely within a single platform.
+- **Smart Inventory**: Real-time stock tracking with low-stock alerts to ensure you never run out of essential products.
+- **Sales Dashboard**: Intuitive UI to track daily, weekly, and monthly sales and profit analytics.
+- **Role-Based Access**: Secure access levels for Super Admin, Shop Owners, and Staff members.
+- **Mobile-First Design**: Optimized for mobile devices, making it perfect for shop owners who manage operations on the go.
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS, shadcn/ui
+- **Database**: MongoDB
+- **Authentication**: Auth.js (NextAuth)
+- **Deployment**: Vercel
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repository:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+````bash
+  git clone [https://github.com/yourusername/zopshop-saas.git](https://github.com/yourusername/zopshop-saas.git)
+  ```
+2.  **Navigate to the project directory:**
+  ```bash
+  cd zopshop-saas
+  ```
+3.  **Install dependencies:**
+  ```bash
+  npm install
+  ```
+4.  **Configure environment variables:**
+  Create a `.env` file in the root directory and add your required API keys (e.g., MongoDB URI, Auth Secret).
+5.  **Run the development server:**
+  ```bash
+  npm run dev
+  ```
 
-## Learn More
+## 💡 Goal
 
-To learn more about Next.js, take a look at the following resources:
+Our mission is to replace traditional manual ledger (Khata) systems with a robust, minimalist, and powerful digital solution for local businesses.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with ❤️ by **Md Rashedul Islam**
+````
