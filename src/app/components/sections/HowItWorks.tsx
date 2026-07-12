@@ -34,14 +34,14 @@ export function HowItWorks() {
           <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-0.5 bg-border/50 z-0"></div>
 
           {STEPS.map((step, index) => (
-            <div key={index} className="glass p-8 rounded-2xl flex flex-col items-center text-center relative z-10">
-              <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground font-bold text-xl flex items-center justify-center mb-6 shadow-lg">
+            <div key={index} className="bg-card border border-border shadow-sm p-10 rounded-3xl flex flex-col items-center text-center relative z-10 hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground font-bold text-xl flex items-center justify-center mb-6 shadow-sm">
                 {step.number}
               </div>
               <h3 className="font-semibold text-xl mb-3 text-foreground">
                 {step.title}
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 {step.description}
               </p>
             </div>
