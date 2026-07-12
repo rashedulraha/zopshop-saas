@@ -1,0 +1,79 @@
+"use client";
+
+import Link from "next/link";
+import { FaGithub, FaGoogle } from "react-icons/fa6";
+
+export function LoginForm() {
+  return (
+    <div className="w-full max-w-md bg-card border border-border shadow-sm rounded-3xl p-8 sm:p-10">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">Welcome back</h1>
+        <p className="text-sm text-muted-foreground">
+          Enter your credentials to access your account
+        </p>
+      </div>
+
+      <form className="flex flex-col gap-5">
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-foreground" htmlFor="email">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            placeholder="name@example.com"
+            className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+            required
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <label className="text-sm font-semibold text-foreground" htmlFor="password">
+              Password
+            </label>
+            <Link href="#" className="text-xs text-primary hover:underline font-medium">
+              Forgot password?
+            </Link>
+          </div>
+          <input
+            type="password"
+            id="password"
+            placeholder="••••••••"
+            className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-3 rounded-full font-semibold shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 mt-2"
+        >
+          Sign In
+        </button>
+      </form>
+
+      <div className="my-8 flex items-center gap-3 before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
+        <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Or continue with</span>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <button className="flex items-center justify-center gap-2 w-full bg-background border border-border hover:bg-accent text-foreground py-3 rounded-xl font-medium transition-colors text-sm">
+          <FaGoogle className="w-4 h-4 text-red-500" />
+          Google
+        </button>
+        <button className="flex items-center justify-center gap-2 w-full bg-background border border-border hover:bg-accent text-foreground py-3 rounded-xl font-medium transition-colors text-sm">
+          <FaGithub className="w-4 h-4" />
+          GitHub
+        </button>
+      </div>
+
+      <p className="text-center text-sm text-muted-foreground mt-8">
+        Don't have an account?{" "}
+        <Link href="/register" className="text-primary font-semibold hover:underline">
+          Create account
+        </Link>
+      </p>
+    </div>
+  );
+}
