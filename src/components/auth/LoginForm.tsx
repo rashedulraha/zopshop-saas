@@ -9,7 +9,7 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="w-full max-w-md bg-card border border-border shadow-sm rounded-3xl p-8 sm:p-10">
+    <div className="w-full max-w-md bg-card border border-border shadow-sm rounded-xl p-8 sm:p-10">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">Welcome back</h1>
         <p className="text-sm text-muted-foreground">
@@ -26,7 +26,7 @@ export function LoginForm() {
             type="email"
             id="email"
             placeholder="name@example.com"
-            className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+            className="w-full px-4 py-3 rounded-xl bg-transparent border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
             required
           />
         </div>
@@ -45,7 +45,7 @@ export function LoginForm() {
               type={showPassword ? "text" : "password"}
               id="password"
               placeholder="••••••••"
-              className="w-full px-4 py-3 pr-12 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+              className="w-full px-4 py-3 pr-12 rounded-xl bg-transparent border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
               required
             />
             <button
@@ -61,7 +61,7 @@ export function LoginForm() {
 
         <button
           type="submit"
-          className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-3 rounded-full font-semibold shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 mt-2"
+          className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-3 rounded-xl font-semibold shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 mt-2"
         >
           Sign In
         </button>
