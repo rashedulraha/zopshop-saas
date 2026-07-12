@@ -1,9 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { FaGithub, FaGoogle } from "react-icons/fa6";
+import { FaGoogle } from "react-icons/fa6";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 export function RegisterForm() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   return (
     <div className="w-full max-w-lg bg-card border border-border shadow-sm rounded-3xl p-8 sm:p-10">
       <div className="text-center mb-8">
@@ -21,7 +26,7 @@ export function RegisterForm() {
           <input
             type="text"
             id="name"
-            placeholder="John Doe"
+            placeholder="Your full name"
             className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
             required
           />
@@ -57,25 +62,45 @@ export function RegisterForm() {
             <label className="text-sm font-semibold text-foreground" htmlFor="password">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                placeholder="••••••••"
+                className="w-full px-4 py-3 pr-12 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold text-foreground" htmlFor="confirmPassword">
               Confirm Password
             </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirmPassword"
+                placeholder="••••••••"
+                className="w-full px-4 py-3 pr-12 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
+                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+              >
+                {showConfirmPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -91,14 +116,10 @@ export function RegisterForm() {
         <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Or sign up with</span>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div>
         <button className="flex items-center justify-center gap-2 w-full bg-background border border-border hover:bg-accent text-foreground py-3 rounded-xl font-medium transition-colors text-sm">
           <FaGoogle className="w-4 h-4 text-red-500" />
           Google
-        </button>
-        <button className="flex items-center justify-center gap-2 w-full bg-background border border-border hover:bg-accent text-foreground py-3 rounded-xl font-medium transition-colors text-sm">
-          <FaGithub className="w-4 h-4" />
-          GitHub
         </button>
       </div>
 
@@ -111,3 +132,4 @@ export function RegisterForm() {
     </div>
   );
 }
+
