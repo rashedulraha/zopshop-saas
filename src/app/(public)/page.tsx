@@ -6,6 +6,9 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { PricingSection } from "@/components/sections/PricingSection";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { AboutSection } from "@/components/sections/AboutSection";
+import { UseCasesSection } from "@/components/sections/UseCasesSection";
+import { FAQSection } from "@/components/sections/FAQSection";
 
 export default function LandingPage() {
   return (
@@ -13,10 +16,13 @@ export default function LandingPage() {
       <Navbar />
       <main className="flex-1 relative z-10">
         <HeroSection />
+        <Testimonials />
+        <AboutSection />
+        <UseCasesSection />
         <FeaturesSection />
         <HowItWorks />
-        <Testimonials />
         <PricingSection />
+        <FAQSection />
         <CTASection />
       </main>
       <Footer />
