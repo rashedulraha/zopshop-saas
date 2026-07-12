@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export function CTASection() {
   return (
-    <section className="py-12 lg:py-16 relative z-10 overflow-hidden px-4">
+    <section className="py-12 lg:py-20 relative z-10 overflow-hidden px-4">
       <ResponsiveComponents>
         <div className="relative rounded-xl overflow-hidden p-12 md:p-20 text-center bg-card backdrop-blur-3xl border border-border max-w-6xl mx-auto">
           {/* Top gloss line */}
@@ -33,7 +33,7 @@ export function CTASection() {
               Limited Time Offer
             </span>
 
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter leading-tight max-w-3xl text-foreground">
+            <h2 className="mb-5 text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-5xl">
               Ready to Get Started?
             </h2>
 
@@ -43,11 +43,20 @@ export function CTASection() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
-              <Button render={<Link href="/register" />} size="lg" className="bg-primary hover:bg-primary-light text-primary-foreground rounded-xl px-10 py-6 text-base group">
-                Start Free Trial
+              <Button
+                render={<Link href="/register" />}
+                size="lg"
+                className="bg-primary hover:bg-primary-light text-primary-foreground rounded-xl px-10 py-6 text-base group"
+              >
+                Start 30-Day Free Trial
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button render={<Link href="#features" />} variant="outline" size="lg" className="rounded-xl px-10 py-6 text-base bg-card border-border hover:bg-muted text-foreground">
+              <Button
+                render={<Link href="#features" />}
+                variant="outline"
+                size="lg"
+                className="rounded-xl px-10 py-6 text-base bg-card border-border hover:bg-muted text-foreground"
+              >
                 See Features
               </Button>
             </div>

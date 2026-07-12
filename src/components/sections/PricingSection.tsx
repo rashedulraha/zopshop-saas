@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Zap, Crown, Rocket } from "lucide-react";
+import { motion } from "framer-motion";
 import ResponsiveComponents from "../providers/ResponsiveComponents";
 import { Button } from "@/components/ui/button";
 
@@ -25,8 +28,8 @@ const PLANS = [
     description: "Extra customization for growth",
     buttonText: "Start Free Trial",
     isPopular: true,
-    cardClasses: "border-cyan-500/40",
-    iconContainerClasses: "bg-cyan-500/10 border-cyan-500/30 text-cyan-400",
+    cardClasses: "border-transparent",
+    iconContainerClasses: "bg-primary/10 border-primary/30 text-primary",
     priceGradient: "from-white to-cyan-400",
   },
   {
@@ -48,7 +51,7 @@ export function PricingSection() {
   return (
     <section
       id="pricing"
-      className="relative z-10 overflow-hidden px-4 py-12 lg:py-16"
+      className="relative z-10 overflow-hidden px-4 py-12 lg:py-20"
     >
       {/* Ambient orb */}
       <div
@@ -59,108 +62,146 @@ export function PricingSection() {
       <ResponsiveComponents>
         {/* Header */}
         <div className="relative z-10 mb-20 flex flex-col items-center text-center">
-          <div className="mb-4 flex justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="flex justify-center mb-4"
+          >
             <span className="inline-flex items-center gap-2 rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-400">
               Pricing
             </span>
-          </div>
+          </motion.div>
 
-          <h2 className="mb-5 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mb-5 text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-5xl"
+          >
             Simple,{" "}
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">
               Transparent
             </span>{" "}
             Pricing
-          </h2>
+          </motion.h2>
 
-          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mx-auto max-w-2xl text-lg leading-relaxed text-muted-foreground"
+          >
             Try any plan free for 30 days. No credit card required. Cancel
             anytime.
-          </p>
+          </motion.p>
         </div>
 
         {/* Plans */}
         <div className="relative z-10 mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3 md:items-center">
           {PLANS.map((plan, index) => (
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -8, scale: 1.02 }}
               key={index}
               className={cn(
-                "relative flex flex-col rounded-xl border bg-card p-8 transition-all duration-300 hover:-translate-y-1 hover:bg-muted",
-                plan.cardClasses,
-                plan.isPopular && "md:-mt-6 md:mb-6",
+                "relative flex flex-col rounded-2xl bg-card p-8",
+                plan.isPopular ? "md:-mt-6 md:mb-6" : "border border-border",
               )}
             >
-              {/* Popular Badge */}
+              {/* Border Beam Effect for Popular Plan */}
               {plan.isPopular && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 px-4 py-1 text-xs font-bold text-primary-foreground">
-                  ⚡ Most Popular
-                </div>
+                <>
+                  <div className="absolute inset-0 z-0 rounded-2xl bg-[conic-gradient(from_0deg,transparent_0_340deg,rgba(6,182,212,1)_360deg)] animate-[spin_10s_linear_infinite]" />
+                  <div className="absolute inset-[1px] z-0 rounded-2xl bg-card" />
+                </>
               )}
 
-              {/* Header */}
-              <div className="mb-6 flex items-start justify-between">
-                <div>
-                  <div
-                    className={cn(
-                      "mb-3 flex h-10 w-10 items-center justify-center rounded-xl border",
-                      plan.iconContainerClasses,
-                    )}
-                  >
-                    {plan.icon}
+              <div className="relative z-10">
+                {/* Popular Badge */}
+                {plan.isPopular && (
+                  <div className="absolute -top-11 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-gradient-to-br from-primary to-cyan-400 px-4 py-1.5 text-xs font-bold text-primary-foreground">
+                    ⚡ Most Popular
                   </div>
-
-                  <h3 className="text-xl font-bold text-foreground">
-                    {plan.name}
-                  </h3>
-
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {plan.description}
-                  </p>
-                </div>
-              </div>
-
-              {/* Price */}
-              <div className="mb-8">
-                <div className="flex items-end gap-1">
-                  <span
-                    className={cn(
-                      "bg-gradient-to-br bg-clip-text text-5xl font-black tracking-tighter text-transparent",
-                      plan.priceGradient,
-                    )}
-                  >
-                    {plan.price}
-                  </span>
-
-                  <span className="text-sm font-medium text-muted-foreground">
-                    {plan.period}
-                  </span>
-                </div>
-              </div>
-
-              {/* CTA */}
-              <Button
-                size="lg"
-                variant={plan.isPopular ? "default" : "outline"}
-                className={cn(
-                  "w-full rounded-xl font-semibold",
-                  plan.isPopular
-                    ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                    : "border-border bg-card text-foreground hover:bg-muted",
                 )}
-              >
-                <Link href="/register">{plan.buttonText}</Link>
-              </Button>
-            </div>
+
+                {/* Header */}
+                <div className="mb-6 flex items-start justify-between">
+                  <div>
+                    <div
+                      className={cn(
+                        "mb-3 flex h-12 w-12 items-center justify-center rounded-xl border",
+                        plan.iconContainerClasses,
+                      )}
+                    >
+                      {plan.icon}
+                    </div>
+
+                    <h3 className="text-xl font-bold text-foreground">
+                      {plan.name}
+                    </h3>
+
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {plan.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Price */}
+                <div className="mb-8">
+                  <div className="flex items-end gap-1">
+                    <span
+                      className={cn(
+                        "bg-gradient-to-br bg-clip-text text-5xl font-black font-normal tracking-tighter text-transparent",
+                        plan.priceGradient,
+                      )}
+                    >
+                      {plan.price}
+                    </span>
+
+                    <span className="text-sm font-medium text-muted-foreground">
+                      {plan.period}
+                    </span>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <Button
+                  size="lg"
+                  variant={plan.isPopular ? "default" : "outline"}
+                  className={cn(
+                    "w-full rounded-xl font-semibold",
+                    plan.isPopular
+                      ? "bg-primary text-primary-foreground hover:bg-primary-light"
+                      : "border-border bg-card text-foreground hover:bg-muted",
+                  )}
+                >
+                  <Link href="/register">{plan.buttonText}</Link>
+                </Button>
+              </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Bottom Note */}
-        <div className="mt-12 flex justify-center">
-          <div className="flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-2.5 text-sm text-muted-foreground">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mt-16 flex justify-center"
+        >
+          <div className="flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-2.5 text-sm text-muted-foreground shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
             No credit card required · Free for 30 days · Cancel anytime
           </div>
-        </div>
+        </motion.div>
       </ResponsiveComponents>
     </section>
   );
