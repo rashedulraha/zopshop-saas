@@ -13,9 +13,6 @@ export function RegisterForm() {
     <div className="w-full max-w-lg bg-card border border-border shadow-sm rounded-3xl p-8 sm:p-10">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">Create an account</h1>
-        <div className="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-semibold mb-2">
-          New account for 30 day free trial
-        </div>
       </div>
 
       <form className="flex flex-col gap-5">
