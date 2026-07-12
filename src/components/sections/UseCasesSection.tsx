@@ -9,7 +9,7 @@ import {
   Utensils,
   Store,
   CheckCircle2,
-  BarChart2
+  BarChart2,
 } from "lucide-react";
 import ResponsiveComponents from "../providers/ResponsiveComponents";
 import { cn } from "@/lib/utils";
@@ -104,18 +104,17 @@ const USE_CASES = [
     icon: <Utensils className="w-6 h-6" />,
     color: "from-rose-400 to-pink-500",
     bgLight: "bg-rose-500/10 text-rose-400",
-  }
+  },
 ];
 
 export function UseCasesSection() {
   return (
-    <section 
-      id="use-cases" 
+    <section
+      id="use-cases"
       className="py-12 lg:pt-24 lg:pb-12 relative bg-muted/30 overflow-visible border-t border-border"
     >
       <ResponsiveComponents>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
           {/* Header */}
           <div className="text-center mb-16 md:mb-24">
             <motion.div
@@ -159,7 +158,7 @@ export function UseCasesSection() {
           <div className="flex flex-col gap-8 md:gap-12 pb-12 lg:pb-16">
             {USE_CASES.map((useCase, index) => {
               const topOffset = `calc(6rem + ${index * 1.5}rem)`;
-              
+
               return (
                 <motion.div
                   key={index}
@@ -170,65 +169,87 @@ export function UseCasesSection() {
                   className="sticky w-full max-w-[1200px] mx-auto group/card"
                   style={{
                     top: topOffset,
-                    zIndex: 10 + index, 
+                    zIndex: 10 + index,
                   }}
                 >
                   <div className="relative">
                     {/* Outer Glow Effect */}
-                    <div className={cn("absolute -inset-[1px] rounded-[2rem] opacity-0 group-hover/card:opacity-30 blur-xl transition-opacity duration-500", useCase.color)} />
-                    
-                    <div className="relative bg-card/80 backdrop-blur-xl border border-border/60 shadow-2xl rounded-[2rem] overflow-hidden flex flex-col md:flex-row transition-all duration-500 group-hover/card:border-border min-h-[450px]">
-                      
+                    <div
+                      className={cn(
+                        "absolute -inset-[1px] rounded-[2rem] opacity-0 group-hover/card:opacity-30 blur-xl transition-opacity duration-500",
+                        useCase.color,
+                      )}
+                    />
+
+                    <div className="relative bg-card/80 backdrop-blur-xl border border-border/60 rounded-[2rem] overflow-hidden flex flex-col md:flex-row transition-all duration-500 group-hover/card:border-border/80">
                       {/* Left Side: 16:9 Image Area */}
                       <div className="w-full md:w-1/2 lg:w-[55%] relative bg-black/5 aspect-video md:aspect-auto overflow-hidden shrink-0">
                         {/* Gradient separator to smoothly blend image into content */}
                         <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-card to-transparent z-10 hidden md:block" />
                         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-card to-transparent z-10 md:hidden block" />
                         <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] [background-size:2rem_2rem] opacity-20" />
-                        <div className={cn("absolute inset-0 bg-gradient-to-br opacity-10", useCase.color)} />
-                        
-                        <img 
-                          src={useCase.image} 
-                          alt={useCase.title} 
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-[1.03]" 
+                        <div
+                          className={cn(
+                            "absolute inset-0 bg-gradient-to-br opacity-10",
+                            useCase.color,
+                          )}
+                        />
+
+                        <img
+                          src={useCase.image}
+                          alt={useCase.title}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-[1.03]"
                         />
                       </div>
 
                       {/* Right Side: Content Area */}
-                      <div className="w-full md:w-1/2 lg:w-[45%] p-6 md:p-8 lg:p-12 flex flex-col bg-card/50 relative z-20">
-                        
+                      <div className="w-full md:w-1/2 lg:w-[45%] p-6 md:p-8 lg:p-10 flex flex-col bg-card/50 relative z-20">
                         <h3 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground mb-3">
                           {useCase.title}
                         </h3>
 
-                        <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+                        <p className="text-muted-foreground text-lg leading-relaxed mb-6">
                           {useCase.subtitle}
                         </p>
 
-                        <div className="mb-8">
+                        <div className="mb-6">
                           <h4 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider flex items-center gap-2">
-                            <span className={cn("w-6 h-6 rounded-md flex items-center justify-center shrink-0", useCase.bgLight)}>
+                            <span
+                              className={cn(
+                                "w-6 h-6 rounded-md flex items-center justify-center shrink-0",
+                                useCase.bgLight,
+                              )}
+                            >
                               {useCase.icon}
                             </span>
                             What ZopShop does for you
                           </h4>
                           <ul className="space-y-3">
                             {useCase.features.map((feature, i) => (
-                              <li key={i} className="flex items-start gap-3 text-muted-foreground">
+                              <li
+                                key={i}
+                                className="flex items-start gap-3 text-muted-foreground"
+                              >
                                 <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                                 <span className="leading-tight">{feature}</span>
                               </li>
                             ))}
                           </ul>
                         </div>
-                        
+
                         <div className="bg-background/50 border border-border/50 rounded-2xl p-5 mt-auto shadow-sm transition-colors group-hover/card:bg-background/80">
                           <div className="flex items-center gap-3 text-foreground font-medium">
-                            <BarChart2 className={cn("w-5 h-5 shrink-0", useCase.bgLight.split(' ')[1])} />
-                            <span className="text-sm leading-snug">{useCase.stat}</span>
+                            <BarChart2
+                              className={cn(
+                                "w-5 h-5 shrink-0",
+                                useCase.bgLight.split(" ")[1],
+                              )}
+                            />
+                            <span className="text-sm leading-snug">
+                              {useCase.stat}
+                            </span>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -236,7 +257,6 @@ export function UseCasesSection() {
               );
             })}
           </div>
-          
         </div>
       </ResponsiveComponents>
     </section>

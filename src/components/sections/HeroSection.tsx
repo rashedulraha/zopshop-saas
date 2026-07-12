@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BarChart2, Package, Users } from "lucide-react";
+import { ArrowRight, BarChart2, Package, Users, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import ResponsiveComponents from "../providers/ResponsiveComponents";
 import { Button } from "@/components/ui/button";
@@ -79,7 +79,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10"
           >
             <Button
               render={<Link href="/register" />}
@@ -97,6 +97,47 @@ export function HeroSection() {
             >
               How it works
             </Button>
+          </motion.div>
+
+          {/* Avatars and Rating */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className="flex flex-col items-center justify-center gap-4 mb-16"
+          >
+            <div className="flex items-center -space-x-3">
+              {[
+                "https://i.pravatar.cc/100?img=11",
+                "https://i.pravatar.cc/100?img=12",
+                "https://i.pravatar.cc/100?img=33",
+                "https://i.pravatar.cc/100?img=47",
+                "https://i.pravatar.cc/100?img=50",
+              ].map((src, i) => (
+                <div
+                  key={i}
+                  className="w-10 h-10 rounded-full border-2 border-background overflow-hidden relative shadow-sm"
+                >
+                  <img
+                    src={src}
+                    alt="User avatar"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col items-center gap-1.5">
+              <div className="flex items-center gap-1 text-amber-500">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="w-4 h-4 fill-current" />
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground font-medium">
+                Trusted by{" "}
+                <span className="text-foreground font-semibold">2,400+</span>{" "}
+                business owners
+              </p>
+            </div>
           </motion.div>
 
           {/* Stats row */}
