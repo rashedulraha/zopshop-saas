@@ -1,115 +1,162 @@
 "use client";
 
 import ResponsiveComponents from "../providers/ResponsiveComponents";
-import { UserPlus, Store, ShoppingBag } from "lucide-react";
+import { UserPlus, LayoutDashboard, BarChart3, ArrowRight } from "lucide-react";
 
 const STEPS = [
   {
-    number: "01",
-    icon: <UserPlus className="w-6 h-6" />,
-    title: "Sign Up Free",
+    number: "1",
+    title: "Create Your Account",
     description:
-      "Create your account in seconds — no credit card required. Start with our free 30-day trial.",
-    iconContainerClasses: "bg-cyan-500/10 border-cyan-500/20 text-cyan-400",
-    badgeClasses: "bg-cyan-400 text-primary-foreground",
-    lineClasses: "bg-cyan-400",
+      "Sign up in seconds. No credit card required. Instantly get access to your personalized dashboard.",
+    icon: <UserPlus className="w-8 h-8" />,
+    color: "from-blue-500 to-cyan-500",
+    bgIcon: "bg-blue-500/10 text-blue-500",
   },
   {
-    number: "02",
-    icon: <Store className="w-6 h-6" />,
-    title: "Create Your Store",
+    number: "2",
+    title: "Configure Your Store",
     description:
-      "Set up your store details, add your branding, and configure your inventory categories.",
-    iconContainerClasses: "bg-purple-500/10 border-purple-500/20 text-purple-400",
-    badgeClasses: "bg-purple-400 text-primary-foreground",
-    lineClasses: "bg-purple-400",
+      "Add your products, organize them into categories, and set your pricing using our beautiful built-in templates.",
+    icon: <LayoutDashboard className="w-8 h-8" />,
+    color: "from-purple-500 to-pink-500",
+    bgIcon: "bg-purple-500/10 text-purple-500",
   },
   {
-    number: "03",
-    icon: <ShoppingBag className="w-6 h-6" />,
+    number: "3",
     title: "Start Selling",
     description:
-      "Add products, set prices, and start managing your inventory and sales from day one.",
-    iconContainerClasses: "bg-emerald-500/10 border-emerald-500/20 text-emerald-400",
-    badgeClasses: "bg-emerald-400 text-primary-foreground",
-    lineClasses: "bg-emerald-400",
+      "Connect your payment gateways and hit publish. Start accepting orders instantly and track your revenue in real-time.",
+    icon: <BarChart3 className="w-8 h-8" />,
+    color: "from-emerald-500 to-teal-500",
+    bgIcon: "bg-emerald-500/10 text-emerald-500",
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section className="py-12 lg:py-16 relative z-10 overflow-hidden px-4">
-      {/* Background orb */}
-      <div
-        aria-hidden="true"
-        className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(168,85,247,0.08)_0%,transparent_70%)] blur-[80px]"
-      />
-
-      {/* Mesh grid */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-[0.025] pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)`,
-          backgroundSize: "60px 60px",
-        }}
-      />
+    <section
+      id="how-it-works"
+      className="py-12 lg:py-20 relative bg-background overflow-hidden border-t border-border"
+    >
+      {/* Background accents */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <ResponsiveComponents>
-        {/* Header */}
-        <div className="text-center mb-20 relative z-10 flex flex-col items-center">
-          <div className="flex justify-center mb-4">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-24">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
               How It Works
-            </span>
+            </div>
+            <h2 className="mb-5 text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-5xl">
+              Three steps to{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-500">
+                launch your store
+              </span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              We&apos;ve eliminated the complex setup process. Just follow these
+              steps and you are ready to sell your products to the world.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-5 leading-tight">
-            From Setup to <span className="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent">Scaling</span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-            From signup to your first sale — it takes less than 5 minutes to get
-            started with ZopShop.
-          </p>
-        </div>
 
-        {/* Steps */}
-        <div className="relative max-w-6xl mx-auto">
-          {/* Connector line (desktop) */}
-          <div
-            aria-hidden="true"
-            className="hidden lg:block absolute top-8 left-[18%] right-[18%] h-px pointer-events-none bg-gradient-to-r from-transparent via-purple-500/30 to-transparent"
-          />
+          {/* Timeline */}
+          <div className="relative">
+            {/* Vertical Line */}
+            <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-1/2" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
-            {STEPS.map((step, index) => (
-              <div
-                key={index}
-                className="relative p-8 rounded-xl bg-card border border-border transition-all duration-300 hover:bg-muted hover:border-foreground/20 hover:-translate-y-1 flex flex-col items-center text-center gap-5 group">
-                {/* Number badge + icon */}
-                <div className="relative z-10">
-                  {/* Hexagon style icon container */}
-                  <div className={`w-16 h-16 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 border ${step.iconContainerClasses}`}>
-                    {step.icon}
+            <div className="flex flex-col gap-16 md:gap-24 relative">
+              {STEPS.map((step, index) => {
+                const isEven = index % 2 !== 0;
+
+                return (
+                  <div
+                    key={step.number}
+                    className="relative flex items-center justify-between md:justify-center group"
+                  >
+                    {/* Desktop Left Content */}
+                    <div
+                      className={`hidden md:flex flex-1 ${isEven ? "justify-start pl-16" : "justify-end pr-16 text-right"}`}
+                    >
+                      <div
+                        className={`w-full max-w-sm ${isEven ? "order-2" : ""}`}
+                      >
+                        {isEven ? (
+                          <>
+                            <h3 className="text-2xl font-bold text-foreground mb-3">
+                              {step.title}
+                            </h3>
+                            <p className="text-muted-foreground leading-relaxed">
+                              {step.description}
+                            </p>
+                          </>
+                        ) : (
+                          <div className="w-full h-48 rounded-2xl bg-card border border-border shadow-sm flex items-center justify-center p-6 group-hover:-translate-y-2 group-hover:shadow-lg transition-all duration-300">
+                            <div
+                              className={`w-20 h-20 rounded-full bg-gradient-to-br ${step.color} opacity-20 blur-xl absolute`}
+                            />
+                            {step.icon}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Center Node */}
+                    <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-background border-4 border-border flex items-center justify-center z-10 group-hover:border-primary transition-colors duration-300">
+                      <span className="text-sm font-bold text-foreground">
+                        {step.number}
+                      </span>
+                    </div>
+
+                    {/* Desktop Right Content */}
+                    <div
+                      className={`hidden md:flex flex-1 ${isEven ? "justify-end pr-16 text-right" : "justify-start pl-16"}`}
+                    >
+                      <div
+                        className={`w-full max-w-sm ${isEven ? "" : "order-2"}`}
+                      >
+                        {isEven ? (
+                          <div className="w-full h-48 rounded-2xl bg-card border border-border shadow-sm flex items-center justify-center p-6 group-hover:-translate-y-2 group-hover:shadow-lg transition-all duration-300">
+                            <div
+                              className={`w-20 h-20 rounded-full bg-gradient-to-br ${step.color} opacity-20 blur-xl absolute`}
+                            />
+                            {step.icon}
+                          </div>
+                        ) : (
+                          <>
+                            <h3 className="text-2xl font-bold text-foreground mb-3">
+                              {step.title}
+                            </h3>
+                            <p className="text-muted-foreground leading-relaxed">
+                              {step.description}
+                            </p>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Mobile Content (Visible only on small screens) */}
+                    <div className="md:hidden flex-1 pl-20 relative">
+                      <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
+                        <div
+                          className={`w-12 h-12 rounded-xl ${step.bgIcon} flex items-center justify-center mb-4`}
+                        >
+                          {step.icon}
+                        </div>
+                        <h3 className="text-xl font-bold text-foreground mb-2">
+                          {step.title}
+                        </h3>
+                        <p className="text-muted-foreground text-sm leading-relaxed">
+                          {step.description}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  {/* Step number badge */}
-                  <div className={`absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${step.badgeClasses}`}>
-                    {step.number}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-xl mb-3 tracking-tight text-foreground">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {step.description}
-                  </p>
-                </div>
-
-                {/* Bottom accent line */}
-                <div className={`w-12 h-0.5 rounded-full opacity-50 group-hover:opacity-100 group-hover:w-20 transition-all duration-500 ${step.lineClasses}`} />
-              </div>
-            ))}
+                );
+              })}
+            </div>
           </div>
         </div>
       </ResponsiveComponents>
