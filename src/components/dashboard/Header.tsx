@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, Search, Menu, Plus, Home } from "lucide-react";
+import { Bell, Search, Menu, Plus } from "lucide-react";
 import { useSidebar } from "@/hooks/useSidebar";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -17,7 +17,7 @@ export function Header() {
   return (
     <header className="h-14 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-background sticky top-0 z-30 shrink-0">
       <div className="flex items-center gap-4 flex-1">
-        <button 
+        <button
           onClick={toggleSidebar}
           className="md:hidden w-9 h-9 flex items-center justify-center rounded-md border border-border bg-muted/50 text-foreground hover:bg-muted transition-colors"
         >
@@ -38,7 +38,7 @@ export function Header() {
 
         <div className="relative max-w-md w-full ml-auto sm:ml-4 flex-1 sm:flex-initial hidden md:block">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <input 
+          <input
             type="text"
             placeholder="Search anything..."
             className="w-full h-9 pl-9 pr-4 rounded-md border border-border bg-muted/50 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
@@ -51,13 +51,6 @@ export function Header() {
           <Plus className="w-4 h-4" />
           <span>New</span>
         </button>
-        <Link 
-          href="/dashboard" 
-          title="Dashboard Home"
-          className="w-9 h-9 rounded-md flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent hover:border-border transition-colors"
-        >
-          <Home className="w-4 h-4" />
-        </Link>
         <button className="w-9 h-9 rounded-md flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent hover:border-border transition-colors">
           <Bell className="w-4 h-4" />
         </button>

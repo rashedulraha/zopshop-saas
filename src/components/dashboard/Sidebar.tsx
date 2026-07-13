@@ -5,11 +5,27 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/hooks/useSidebar";
-import { 
-  LayoutDashboard, Package, Boxes, ShoppingCart, Tags,
-  Users, Truck, Send, Wallet, FileText, Briefcase, Shield,
-  Settings, ChevronDown, X, PanelLeftClose, PanelLeftOpen,
-  ChevronsUp, PlusCircle
+import {
+  LayoutDashboard,
+  Package,
+  Boxes,
+  ShoppingCart,
+  Tags,
+  Users,
+  Truck,
+  Send,
+  Wallet,
+  FileText,
+  Briefcase,
+  Shield,
+  Settings,
+  ChevronDown,
+  X,
+  PanelLeftClose,
+  PanelLeftOpen,
+  ChevronsUp,
+  PlusCircle,
+  Home,
 } from "lucide-react";
 
 export interface SubMenuItem {
@@ -31,7 +47,7 @@ const defaultItems: SidebarItem[] = [
     subItems: [
       { name: "Overview", href: "/dashboard" },
       { name: "Analytics", href: "/dashboard/analytics" },
-    ]
+    ],
   },
   {
     name: "Inventory",
@@ -40,7 +56,7 @@ const defaultItems: SidebarItem[] = [
       { name: "Products", href: "/dashboard/inventory/products" },
       { name: "Categories", href: "/dashboard/inventory/categories" },
       { name: "Brands", href: "/dashboard/inventory/brands" },
-    ]
+    ],
   },
   {
     name: "Stock",
@@ -48,7 +64,7 @@ const defaultItems: SidebarItem[] = [
     subItems: [
       { name: "Low Stock Alert", href: "/dashboard/stock/alerts" },
       { name: "Stock Adjustment", href: "/dashboard/stock/adjustments" },
-    ]
+    ],
   },
   {
     name: "Purchase",
@@ -57,7 +73,7 @@ const defaultItems: SidebarItem[] = [
       { name: "Purchase List", href: "/dashboard/purchase" },
       { name: "Create Purchase", href: "/dashboard/purchase/create" },
       { name: "Purchase Returns", href: "/dashboard/purchase/returns" },
-    ]
+    ],
   },
   {
     name: "Sales",
@@ -67,7 +83,7 @@ const defaultItems: SidebarItem[] = [
       { name: "New Sale", href: "/dashboard/sales/new" },
       { name: "Sales Return", href: "/dashboard/sales/returns" },
       { name: "POS Billing", href: "/dashboard/pos" },
-    ]
+    ],
   },
   {
     name: "Customers",
@@ -76,7 +92,7 @@ const defaultItems: SidebarItem[] = [
       { name: "Customer List", href: "/dashboard/customers" },
       { name: "Customer Ledger", href: "/dashboard/customers/ledger" },
       { name: "Customer Due", href: "/dashboard/customers/due" },
-    ]
+    ],
   },
   {
     name: "Suppliers",
@@ -85,7 +101,7 @@ const defaultItems: SidebarItem[] = [
       { name: "Supplier List", href: "/dashboard/suppliers" },
       { name: "Supplier Ledger", href: "/dashboard/suppliers/ledger" },
       { name: "Supplier Due", href: "/dashboard/suppliers/due" },
-    ]
+    ],
   },
   {
     name: "Delivery",
@@ -94,7 +110,7 @@ const defaultItems: SidebarItem[] = [
       { name: "Pending Deliveries", href: "/dashboard/delivery/pending" },
       { name: "Completed Deliveries", href: "/dashboard/delivery/completed" },
       { name: "Delivery Vehicles", href: "/dashboard/delivery/vehicles" },
-    ]
+    ],
   },
   {
     name: "Finance",
@@ -105,7 +121,7 @@ const defaultItems: SidebarItem[] = [
       { name: "Income", href: "/dashboard/finance/income" },
       { name: "Expenses", href: "/dashboard/finance/expenses" },
       { name: "Profit & Loss", href: "/dashboard/finance/pl" },
-    ]
+    ],
   },
   {
     name: "Reports",
@@ -119,7 +135,7 @@ const defaultItems: SidebarItem[] = [
       { name: "Daily Report", href: "/dashboard/reports/daily" },
       { name: "Monthly Report", href: "/dashboard/reports/monthly" },
       { name: "Yearly Report", href: "/dashboard/reports/yearly" },
-    ]
+    ],
   },
   {
     name: "Employees",
@@ -128,7 +144,7 @@ const defaultItems: SidebarItem[] = [
       { name: "Employee List", href: "/dashboard/employees" },
       { name: "Attendance", href: "/dashboard/employees/attendance" },
       { name: "Salary", href: "/dashboard/employees/salary" },
-    ]
+    ],
   },
   {
     name: "Users & Roles",
@@ -137,7 +153,7 @@ const defaultItems: SidebarItem[] = [
       { name: "Users", href: "/dashboard/users" },
       { name: "Roles", href: "/dashboard/roles" },
       { name: "Permissions", href: "/dashboard/permissions" },
-    ]
+    ],
   },
   {
     name: "Settings",
@@ -150,7 +166,7 @@ const defaultItems: SidebarItem[] = [
       { name: "Backup", href: "/dashboard/settings/backup" },
       { name: "Security", href: "/dashboard/settings/security" },
       { name: "System Settings", href: "/dashboard/settings/system" },
-    ]
+    ],
   },
 ];
 
@@ -162,14 +178,16 @@ interface SidebarProps {
 export function Sidebar({ items = defaultItems, className }: SidebarProps) {
   const pathname = usePathname();
   const { isOpen, close, isCollapsed, toggleCollapse } = useSidebar();
-  
+
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const newExpanded = { ...expanded };
-    items.forEach(item => {
+    items.forEach((item) => {
       if (item.subItems) {
-        const isChildActive = item.subItems.some(sub => pathname === sub.href);
+        const isChildActive = item.subItems.some(
+          (sub) => pathname === sub.href,
+        );
         if (isChildActive) {
           newExpanded[item.name] = true;
         }
@@ -182,39 +200,52 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
   const toggleExpand = (name: string) => {
     if (isCollapsed) {
       toggleCollapse(); // Auto-expand sidebar if clicking a menu while collapsed
-      setExpanded(prev => ({ ...prev, [name]: true }));
+      setExpanded((prev) => ({ ...prev, [name]: true }));
     } else {
-      setExpanded(prev => ({ ...prev, [name]: !prev[name] }));
+      setExpanded((prev) => ({ ...prev, [name]: !prev[name] }));
     }
   };
 
   const SidebarContent = () => (
     <>
-      <div className={cn(
-        "h-14 flex items-center border-b border-border shrink-0 transition-all duration-300",
-        isCollapsed ? "justify-center px-0" : "justify-between px-6"
-      )}>
-        <Link 
-          href="/dashboard" 
-          className={cn("flex items-center gap-2", isCollapsed && "hidden md:flex")}
+      <div
+        className={cn(
+          "h-14 flex items-center border-b border-border shrink-0 transition-all duration-300",
+          isCollapsed ? "justify-center px-0" : "justify-between px-6",
+        )}
+      >
+        <Link
+          href="/dashboard"
+          className={cn(
+            "flex items-center gap-2",
+            isCollapsed && "hidden md:flex",
+          )}
           onClick={close}
         >
           <div className="w-6 h-6 rounded bg-primary flex items-center justify-center shrink-0">
             <span className="text-primary-foreground font-bold text-xs">Z</span>
           </div>
           {!isCollapsed && (
-            <span className="font-semibold text-foreground tracking-tight whitespace-nowrap">ZopShop</span>
+            <span className="font-semibold text-foreground tracking-tight whitespace-nowrap">
+              ZopShop
+            </span>
           )}
         </Link>
 
         {/* Mobile close button */}
-        <button onClick={close} className="md:hidden p-1 text-muted-foreground hover:text-foreground">
+        <button
+          onClick={close}
+          className="md:hidden p-1 text-muted-foreground hover:text-foreground"
+        >
           <X className="w-5 h-5" />
         </button>
 
         {/* Desktop collapse toggle */}
         {!isCollapsed && (
-          <button onClick={toggleCollapse} className="hidden md:flex p-1 text-muted-foreground hover:text-foreground">
+          <button
+            onClick={toggleCollapse}
+            className="hidden md:flex p-1 text-muted-foreground hover:text-foreground"
+          >
             <PanelLeftClose className="w-5 h-5" />
           </button>
         )}
@@ -224,17 +255,30 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
       {!isCollapsed && (
         <div className="px-3 py-2 border-b border-border/50 flex items-center justify-between shrink-0 bg-muted/10">
           <div className="flex items-center gap-1">
-            <button title="New Sale" className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-colors">
+            <button
+              title="New Sale"
+              className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+            >
               <Tags className="w-4 h-4" />
             </button>
-            <button title="Add Product" className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-colors">
+            <button
+              title="Add Product"
+              className="p-1.5 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-md transition-colors"
+            >
               <PlusCircle className="w-4 h-4" />
             </button>
+            <Link
+              href="/dashboard"
+              title="Dashboard Home"
+              className="w-9 h-9 rounded-md flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent hover:border-border transition-colors"
+            >
+              <Home className="w-4 h-4" />
+            </Link>
           </div>
-          
-          <button 
+
+          <button
             onClick={() => setExpanded({})}
-            title="Collapse All Menus" 
+            title="Collapse All Menus"
             className="flex items-center gap-1.5 px-2 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
           >
             <ChevronsUp className="w-3.5 h-3.5" />
@@ -249,9 +293,11 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
           const hasSubItems = item.subItems && item.subItems.length > 0;
           const isExpanded = expanded[item.name] && !isCollapsed;
           const isSingleActive = !hasSubItems && pathname === item.href;
-          const isChildActive = hasSubItems && item.subItems!.some(sub => pathname === sub.href);
-          
-          const isActiveVisual = isSingleActive || (isCollapsed && isChildActive);
+          const isChildActive =
+            hasSubItems && item.subItems!.some((sub) => pathname === sub.href);
+
+          const isActiveVisual =
+            isSingleActive || (isCollapsed && isChildActive);
 
           return (
             <div key={item.name} className="flex flex-col">
@@ -261,16 +307,32 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
                   title={isCollapsed ? item.name : undefined}
                   className={cn(
                     "flex items-center rounded-md text-sm font-medium transition-colors text-muted-foreground hover:bg-muted hover:text-foreground w-full",
-                    isCollapsed ? "justify-center py-2.5 px-0" : "justify-between px-3 py-2",
-                    isActiveVisual && isCollapsed && "bg-primary/10 text-primary"
+                    isCollapsed
+                      ? "justify-center py-2.5 px-0"
+                      : "justify-between px-3 py-2",
+                    isActiveVisual &&
+                      isCollapsed &&
+                      "bg-primary/10 text-primary",
                   )}
                 >
-                  <div className={cn("flex items-center gap-3", isCollapsed && "justify-center")}>
+                  <div
+                    className={cn(
+                      "flex items-center gap-3",
+                      isCollapsed && "justify-center",
+                    )}
+                  >
                     <Icon className="w-5 h-5 shrink-0" />
-                    {!isCollapsed && <span className="whitespace-nowrap">{item.name}</span>}
+                    {!isCollapsed && (
+                      <span className="whitespace-nowrap">{item.name}</span>
+                    )}
                   </div>
                   {!isCollapsed && (
-                    <ChevronDown className={cn("w-4 h-4 transition-transform duration-200 shrink-0", isExpanded && "rotate-180")} />
+                    <ChevronDown
+                      className={cn(
+                        "w-4 h-4 transition-transform duration-200 shrink-0",
+                        isExpanded && "rotate-180",
+                      )}
+                    />
                   )}
                 </button>
               ) : (
@@ -280,14 +342,18 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
                   title={isCollapsed ? item.name : undefined}
                   className={cn(
                     "flex items-center rounded-md text-sm font-medium transition-colors",
-                    isCollapsed ? "justify-center py-2.5 px-0" : "gap-3 px-3 py-2",
-                    isSingleActive 
-                      ? "bg-primary/10 text-primary" 
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    isCollapsed
+                      ? "justify-center py-2.5 px-0"
+                      : "gap-3 px-3 py-2",
+                    isSingleActive
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   <Icon className="w-5 h-5 shrink-0" />
-                  {!isCollapsed && <span className="whitespace-nowrap">{item.name}</span>}
+                  {!isCollapsed && (
+                    <span className="whitespace-nowrap">{item.name}</span>
+                  )}
                 </Link>
               )}
 
@@ -305,7 +371,7 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
                           "px-3 py-2 rounded-md text-sm transition-colors whitespace-nowrap",
                           isSubActive
                             ? "font-medium text-foreground bg-muted"
-                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
                         )}
                       >
                         {sub.name}
@@ -320,20 +386,39 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
       </nav>
 
       {/* Footer Area */}
-      <div className={cn("p-4 border-t border-border shrink-0 flex flex-col gap-4 transition-all duration-300", isCollapsed && "items-center px-2")}>
-        {isCollapsed && (
-           <button onClick={toggleCollapse} className="hidden md:flex p-2 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors mx-auto">
-             <PanelLeftOpen className="w-5 h-5" />
-           </button>
+      <div
+        className={cn(
+          "p-4 border-t border-border shrink-0 flex flex-col gap-4 transition-all duration-300",
+          isCollapsed && "items-center px-2",
         )}
-        <div className={cn("flex items-center rounded-md hover:bg-muted transition-colors cursor-pointer", isCollapsed ? "justify-center p-0" : "gap-3 px-3 py-2")}>
+      >
+        {isCollapsed && (
+          <button
+            onClick={toggleCollapse}
+            className="hidden md:flex p-2 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors mx-auto"
+          >
+            <PanelLeftOpen className="w-5 h-5" />
+          </button>
+        )}
+        <div
+          className={cn(
+            "flex items-center rounded-md hover:bg-muted transition-colors cursor-pointer",
+            isCollapsed ? "justify-center p-0" : "gap-3 px-3 py-2",
+          )}
+        >
           <div className="w-8 h-8 rounded bg-muted flex items-center justify-center shrink-0">
-            <span className="text-sm font-medium text-muted-foreground">AD</span>
+            <span className="text-sm font-medium text-muted-foreground">
+              AD
+            </span>
           </div>
           {!isCollapsed && (
             <div className="flex flex-col overflow-hidden">
-              <span className="text-sm font-medium text-foreground truncate">Admin User</span>
-              <span className="text-xs text-muted-foreground truncate">admin@zopshop.com</span>
+              <span className="text-sm font-medium text-foreground truncate">
+                Admin User
+              </span>
+              <span className="text-xs text-muted-foreground truncate">
+                admin@zopshop.com
+              </span>
             </div>
           )}
         </div>
@@ -345,19 +430,19 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
     <>
       {/* Mobile Backdrop */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden"
           onClick={close}
         />
       )}
 
       {/* Sidebar Container */}
-      <aside 
+      <aside
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border bg-background transform transition-all duration-300 ease-in-out md:relative md:translate-x-0 md:h-screen md:sticky md:top-0 custom-scrollbar",
           isOpen ? "translate-x-0" : "-translate-x-full",
           isCollapsed ? "w-[72px]" : "w-64",
-          className
+          className,
         )}
       >
         <SidebarContent />
