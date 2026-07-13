@@ -23,7 +23,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  
+
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isTransparent = isHome && !scrolled;
@@ -78,10 +78,10 @@ export function Navbar() {
         className={cn(
           "fixed left-1/2 z-50 transition-colors duration-300",
           isTransparent
-            ? "bg-white/10 dark:bg-black/20 backdrop-blur-2xl border border-white/20 shadow-sm"
+            ? "bg-white/5 hover:bg-white/10 backdrop-blur-2xl border border-white/10 text-white/90 hover:text-white transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.1)] shadow-sm"
             : scrolled
               ? "bg-background/80 backdrop-blur-xl border-b border-border"
-              : "bg-background/80 backdrop-blur-xl border border-border/50 shadow-sm"
+              : "bg-background/80 backdrop-blur-xl border border-border/50 shadow-sm",
         )}
       >
         {/* Container */}
@@ -89,10 +89,12 @@ export function Navbar() {
           <div className="relative w-full container mx-auto flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-              <span className={cn(
-                "font-bold text-lg tracking-tight",
-                isTransparent ? "text-white" : "text-foreground"
-              )}>
+              <span
+                className={cn(
+                  "font-bold text-lg tracking-tight",
+                  isTransparent ? "text-white" : "text-foreground",
+                )}
+              >
                 Zop<span className="text-primary-light">Shop</span>
               </span>
             </Link>
@@ -140,7 +142,7 @@ export function Navbar() {
                 className={cn(
                   isTransparent
                     ? "text-white hover:text-white hover:bg-white/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
                 )}
               >
                 Sign In
@@ -164,7 +166,7 @@ export function Navbar() {
                 className={cn(
                   isTransparent
                     ? "border-white/20 bg-white/10 text-white hover:bg-white/20"
-                    : "border-border bg-muted/50 hover:bg-muted text-foreground"
+                    : "border-border bg-muted/50 hover:bg-muted text-foreground",
                 )}
                 onClick={() => setIsOpen(true)}
                 aria-label="Open menu"
