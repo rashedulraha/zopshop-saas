@@ -86,7 +86,7 @@ export function HeroSection() {
               render={<Link href="/register" />}
               nativeButton={false}
               size="lg"
-              className="bg-white/10 hover:bg-white/20 dark:bg-black/20 dark:hover:bg-black/30 backdrop-blur-2xl border border-white/20 text-white rounded-full px-8 py-6 text-sm font-semibold group transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:scale-105"
+              className="bg-white/5 hover:bg-white/10 backdrop-blur-2xl border border-white/10 text-white/90 hover:text-white transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.1)] rounded-full px-8 py-6 text-sm font-semibold group "
             >
               Start 30-Day Free Trial
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
