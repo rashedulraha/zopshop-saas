@@ -6,8 +6,10 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import ResponsiveComponents from "../providers/ResponsiveComponents";
 
 const NAV_LINKS = [
+  { name: "Home", href: "#home" },
   { name: "Features", href: "#features" },
   { name: "How It Works", href: "#how-it-works" },
   { name: "Pricing", href: "#pricing" },
@@ -17,7 +19,7 @@ const NAV_LINKS = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -34,7 +36,7 @@ export function Navbar() {
           }
         });
       },
-      { rootMargin: "-20% 0px -60% 0px" }
+      { rootMargin: "-20% 0px -60% 0px" },
     );
 
     const sections = NAV_LINKS.map((link) => link.href.substring(1));
@@ -57,80 +59,104 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+          "fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-300",
           scrolled
-            ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-lg"
-            : "bg-transparent border-b border-transparent",
+            ? "top-0 w-full bg-background/80 backdrop-blur-xl border-b border-border rounded-none"
+            : "top-4 w-[calc(100%-2rem)] max-w-5xl bg-transparent backdrop-blur-md border border-white/10 dark:border-white/5 rounded-full",
         )}
       >
-        {/* Container with relative positioning for absolute centering */}
-        <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-            <span className="font-bold text-lg tracking-tight text-foreground">
-              Zop<span className="text-primary-light">Shop</span>
-            </span>
-          </Link>
+        {/* Container */}
+        <ResponsiveComponents>
+          <div className="relative w-full container mx-auto flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
+              <span
+                className={cn(
+                  "font-bold text-lg tracking-tight",
+                  scrolled ? "text-foreground" : "text-white",
+                )}
+              >
+                Zop<span className="text-primary-light">Shop</span>
+              </span>
+            </Link>
 
-          {/* Desktop Nav - Centered */}
-          <nav className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
-            {NAV_LINKS.map((link) => {
-              const isActive = activeSection === link.href.substring(1);
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
-                    if (link.href.startsWith("#")) {
-                      e.preventDefault();
-                      const target = document.querySelector(link.href);
-                      if (target) {
-                        target.scrollIntoView({ behavior: "smooth" });
+            {/* Desktop Nav - Centered */}
+            <nav className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
+              {NAV_LINKS.map((link) => {
+                const isActive = activeSection === link.href.substring(1);
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => {
+                      if (link.href.startsWith("#")) {
+                        e.preventDefault();
+                        const target = document.querySelector(link.href);
+                        if (target) {
+                          target.scrollIntoView({ behavior: "smooth" });
+                        }
                       }
-                    }
-                  }}
-                  className={cn(
-                    "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
-                    isActive
-                      ? "text-primary bg-primary/10"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                  )}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
-          </nav>
+                    }}
+                    className={cn(
+                      "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
+                      isActive
+                        ? "text-primary bg-primary/10"
+                        : scrolled
+                          ? "text-foreground/70 hover:text-foreground hover:bg-muted/50"
+                          : "text-white/80 hover:text-white hover:bg-white/10",
+                    )}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </nav>
 
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center gap-2 shrink-0">
-            <ThemeToggle />
-            <Button variant="ghost" size="sm" render={<Link href="/login" />}>
-              Sign In
-            </Button>
-            <Button
-              size="sm"
-              render={<Link href="/register" />}
-              className="bg-primary text-primary-foreground"
-            >
-              Get Started
-            </Button>
-          </div>
+            {/* Desktop Actions */}
+            <div className="hidden md:flex items-center gap-2 shrink-0">
+              <ThemeToggle />
+              <Button
+                variant="ghost"
+                size="sm"
+                render={<Link href="/login" />}
+                nativeButton={false}
+                className={cn(
+                  scrolled
+                    ? ""
+                    : "text-white hover:text-white hover:bg-white/10",
+                )}
+              >
+                Sign In
+              </Button>
+              <Button
+                size="sm"
+                render={<Link href="/register" />}
+                nativeButton={false}
+                className="bg-primary text-primary-foreground"
+              >
+                Get Started
+              </Button>
+            </div>
 
-          {/* Mobile Actions */}
-          <div className="flex md:hidden items-center gap-2">
-            <ThemeToggle />
-            <Button
-              variant="outline"
-              size="icon"
-              className="border-border bg-muted/50 hover:bg-muted"
-              onClick={() => setIsOpen(true)}
-              aria-label="Open menu"
-            >
-              <Menu className="w-5 h-5" />
-            </Button>
+            {/* Mobile Actions */}
+            <div className="flex md:hidden items-center gap-2">
+              <ThemeToggle />
+              <Button
+                variant="outline"
+                size="icon"
+                className={cn(
+                  "border-border bg-muted/50 hover:bg-muted",
+                  !scrolled &&
+                    "border-white/20 bg-white/10 text-white hover:bg-white/20",
+                )}
+                onClick={() => setIsOpen(true)}
+                aria-label="Open menu"
+              >
+                <Menu className="w-5 h-5" />
+              </Button>
+            </div>
           </div>
-        </div>
+        </ResponsiveComponents>
       </header>
 
       {/* ═══ MOBILE DRAWER ═══ */}
@@ -197,7 +223,7 @@ export function Navbar() {
                   "flex items-center px-4 py-3 rounded-lg text-base font-medium transition-all duration-200",
                   isActive
                     ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
                 )}
                 onClick={(e) => {
                   setIsOpen(false);
@@ -224,12 +250,14 @@ export function Navbar() {
             variant="outline"
             className="w-full border-border"
             render={<Link href="/login" onClick={() => setIsOpen(false)} />}
+            nativeButton={false}
           >
             Sign In
           </Button>
           <Button
-            className="w-full bg-primary text-primary-foreground shadow-[0_0_15px_var(--primary)] hover:bg-primary-light hover:shadow-[0_0_25px_var(--primary-light)] transition-all duration-300"
+            className="w-full bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
             render={<Link href="/register" onClick={() => setIsOpen(false)} />}
+            nativeButton={false}
           >
             Get Started Free
           </Button>
