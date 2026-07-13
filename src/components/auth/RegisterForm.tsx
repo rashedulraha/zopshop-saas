@@ -12,7 +12,7 @@ export function RegisterForm() {
   return (
     <div className="w-full max-w-lg bg-card border border-border shadow-sm rounded-xl p-8 sm:p-10">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">
+        <h1 className="mb-3 text-3xl font-normal leading-tight tracking-tight text-foreground">
           Create an account
         </h1>
       </div>

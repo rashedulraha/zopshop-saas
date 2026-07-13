@@ -3,6 +3,7 @@
 import Link from "next/link";
 import ResponsiveComponents from "../providers/ResponsiveComponents";
 import { FaGithub, FaLinkedin, FaXTwitter, FaYoutube } from "react-icons/fa6";
+import { ArrowUp } from "lucide-react";
 
 const FOOTER_LINKS = [
   {
@@ -46,6 +47,10 @@ const SOCIAL = [
 ];
 
 export function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <footer className="relative z-10 mt-auto pt-14 pb-8 overflow-hidden bg-[#04040f]/80 backdrop-blur-2xl border-t border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] px-4">
       {/* Top border glow */}
@@ -60,10 +65,8 @@ export function Footer() {
           <div className="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 no-underline group">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center font-black text-sm bg-gradient-to-br from-cyan-400 to-blue-500 text-slate-950 shadow-[0_0_16px_rgba(6,182,212,0.3)]">
-                Z
-              </div>
+              className="inline-flex items-center gap-2 no-underline group"
+            >
               <span className="font-extrabold text-lg tracking-tight text-slate-100">
                 Zop<span className="text-cyan-400">Shop</span>
               </span>
@@ -79,7 +82,8 @@ export function Footer() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 bg-white/5 border border-white/10 text-slate-400 hover:text-cyan-400 hover:border-cyan-400/30 hover:shadow-[0_0_12px_rgba(6,182,212,0.2)]">
+                  className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 bg-white/5 border border-white/10 text-slate-400 hover:text-cyan-400 hover:border-cyan-400/30 hover:shadow-[0_0_12px_rgba(6,182,212,0.2)]"
+                >
                   {s.icon}
                 </a>
               ))}
@@ -96,7 +100,8 @@ export function Footer() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="text-sm transition-all duration-200 hover:translate-x-0.5 text-slate-400 hover:text-slate-200 no-underline">
+                  className="text-sm transition-all duration-200 hover:translate-x-0.5 text-slate-400 hover:text-slate-200 no-underline"
+                >
                   {link.name}
                 </Link>
               ))}
@@ -105,23 +110,35 @@ export function Footer() {
         </div>
 
         {/* Bottom row */}
-        <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/10 max-w-7xl mx-auto">
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-white/10 max-w-7xl mx-auto relative">
           <p className="text-xs text-slate-400">
             Copyright © 2026 ZopShop Inc. All rights reserved.
           </p>
+
           <div className="flex items-center gap-4 text-xs text-slate-400">
             <Link
               href="#"
-              className="hover:text-cyan-400 transition-colors no-underline">
+              className="hover:text-cyan-400 transition-colors no-underline"
+            >
               Privacy Policy
             </Link>
             <span className="text-white/10">·</span>
             <Link
               href="#"
-              className="hover:text-cyan-400 transition-colors no-underline">
+              className="hover:text-cyan-400 transition-colors no-underline"
+            >
               Terms of Service
             </Link>
           </div>
+
+          {/* Scroll to Top Button */}
+          <button
+            onClick={scrollToTop}
+            className="md:absolute right-0 -top-20 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:bg-white/10 hover:border-cyan-400/30 transition-all duration-300 hover:-translate-y-1 shadow-sm"
+            aria-label="Scroll to top"
+          >
+            <ArrowUp className="w-4 h-4" />
+          </button>
         </div>
       </ResponsiveComponents>
     </footer>

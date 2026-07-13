@@ -16,13 +16,29 @@ export default function LandingPage() {
       <Navbar />
       <main className="flex-1 relative z-10">
         <HeroSection />
-        <Testimonials />
-        <AboutSection />
-        <UseCasesSection />
-        <FeaturesSection />
+        
+        {/* 1. Show them exactly how it solves their problem first */}
         <HowItWorks />
+        
+        {/* 2. Deep dive into the capabilities */}
+        <FeaturesSection />
+        
+        {/* 3. Show them it's built for their specific industry */}
+        <UseCasesSection />
+        
+        {/* 4. Massive social proof right before pricing to build trust */}
+        <Testimonials />
+        
+        {/* 5. The cost */}
         <PricingSection />
+        
+        {/* 6. Address any lingering doubts */}
         <FAQSection />
+        
+        {/* 7. Brand story / Mission (Good to have before the final push) */}
+        <AboutSection />
+        
+        {/* 8. Final push to convert */}
         <CTASection />
       </main>
       <Footer />

@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 import ResponsiveComponents from "../providers/ResponsiveComponents";
 import { Button } from "@/components/ui/button";
 
@@ -27,7 +30,13 @@ export function CTASection() {
           />
 
           {/* Content */}
-          <div className="relative z-10 flex flex-col items-center gap-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative z-10 flex flex-col items-center gap-6"
+          >
             <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" />
               Limited Time Offer
@@ -45,6 +54,7 @@ export function CTASection() {
             <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
               <Button
                 render={<Link href="/register" />}
+                nativeButton={false}
                 size="lg"
                 className="bg-primary hover:bg-primary-light text-primary-foreground rounded-xl px-10 py-6 text-base group"
               >
@@ -53,6 +63,7 @@ export function CTASection() {
               </Button>
               <Button
                 render={<Link href="#features" />}
+                nativeButton={false}
                 variant="outline"
                 size="lg"
                 className="rounded-xl px-10 py-6 text-base bg-card border-border hover:bg-muted text-foreground"
@@ -64,7 +75,7 @@ export function CTASection() {
             <p className="text-xs mt-2 text-muted-foreground font-medium">
               Free for 30 days · No credit card required · Cancel anytime
             </p>
-          </div>
+          </motion.div>
         </div>
       </ResponsiveComponents>
     </section>

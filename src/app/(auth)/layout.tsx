@@ -27,7 +27,7 @@ export default function AuthLayout({
 
         {/* Main Trust Content (Typography focus) */}
         <div className="relative z-10 max-w-2xl my-auto">
-          <h1 className="text-5xl xl:text-6xl font-bold tracking-tight mb-8 leading-[1.1] text-foreground">
+          <h1 className="mb-5 text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-5xl">
             Everything you need to scale your business.
           </h1>
           <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
@@ -50,10 +50,10 @@ export default function AuthLayout({
           </div>
           <div>
             <div className="text-sm font-semibold text-foreground">
-              Trusted by 2,000+ businesses
+              Trusted by 0 businesses
             </div>
             <div className="text-sm text-muted-foreground">
-              Rated 4.9/5 on G2 and Capterra
+              Rated 0.00/5 on G2 and Capterra
             </div>
           </div>
         </div>
@@ -80,9 +80,6 @@ export default function AuthLayout({
           href="/"
           className="lg:hidden absolute top-6 left-6 z-20 flex items-center gap-2 no-underline"
         >
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center font-black text-sm bg-gradient-to-br from-cyan-400 to-blue-500 text-white shadow-sm">
-            Z
-          </div>
           <span className="font-extrabold text-xl tracking-tight text-foreground">
             Zop<span className="text-cyan-500">Shop</span>
           </span>

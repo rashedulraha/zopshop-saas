@@ -11,7 +11,9 @@ export function LoginForm() {
   return (
     <div className="w-full max-w-md bg-card border border-border shadow-sm rounded-xl p-8 sm:p-10">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground mb-2">Welcome back</h1>
+        <h1 className="mb-3 text-3xl font-normal leading-tight tracking-tight text-foreground">
+          Welcome back
+        </h1>
         <p className="text-sm text-muted-foreground">
           Enter your credentials to access your account
         </p>
@@ -19,7 +21,10 @@ export function LoginForm() {
 
       <form className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-semibold text-foreground" htmlFor="email">
+          <label
+            className="text-sm font-semibold text-foreground"
+            htmlFor="email"
+          >
             Email
           </label>
           <input
@@ -33,10 +38,16 @@ export function LoginForm() {
 
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-semibold text-foreground" htmlFor="password">
+            <label
+              className="text-sm font-semibold text-foreground"
+              htmlFor="password"
+            >
               Password
             </label>
-            <Link href="#" className="text-xs text-primary hover:underline font-medium">
+            <Link
+              href="#"
+              className="text-xs text-primary hover:underline font-medium"
+            >
               Forgot password?
             </Link>
           </div>
@@ -54,7 +65,11 @@ export function LoginForm() {
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+              {showPassword ? (
+                <FiEyeOff className="w-4 h-4" />
+              ) : (
+                <FiEye className="w-4 h-4" />
+              )}
             </button>
           </div>
         </div>
@@ -68,7 +83,9 @@ export function LoginForm() {
       </form>
 
       <div className="my-8 flex items-center gap-3 before:h-px before:flex-1 before:bg-border after:h-px after:flex-1 after:bg-border">
-        <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Or continue with</span>
+        <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+          Or continue with
+        </span>
       </div>
 
       <div>
@@ -80,7 +97,10 @@ export function LoginForm() {
 
       <p className="text-center text-sm text-muted-foreground mt-8">
         Don't have an account?{" "}
-        <Link href="/register" className="text-primary font-semibold hover:underline">
+        <Link
+          href="/register"
+          className="text-primary font-semibold hover:underline"
+        >
           Create account
         </Link>
       </p>
