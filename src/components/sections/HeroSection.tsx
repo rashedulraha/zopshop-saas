@@ -9,34 +9,35 @@ import { Button } from "@/components/ui/button";
 const STATS = [
   {
     icon: <Package className="w-4 h-4" />,
-    value: "2,400+",
+    value: "0",
     label: "Businesses",
   },
   {
     icon: <BarChart2 className="w-4 h-4" />,
-    value: "18,000+",
+    value: "0",
     label: "Products Tracked",
   },
-  { icon: <Users className="w-4 h-4" />, value: "99.9%", label: "Uptime" },
+  { icon: <Users className="w-4 h-4" />, value: "0%", label: "Uptime" },
 ];
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden z-10 pt-24 pb-12 lg:pt-32 lg:pb-20 flex flex-col items-center text-center px-4 min-h-[90vh] justify-center">
-      {/* Modern SaaS Background - Aceternity Spotlight Style */}
-      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
-        {/* Glowing Spotlight Orbs */}
-        <div
-          className="absolute top-[-20%] left-1/2 -translate-x-full w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full bg-cyan-500/20 sm:bg-cyan-500/15 blur-[80px] sm:blur-[120px] animate-pulse"
-          style={{ animationDuration: "10s" }}
-        />
-        <div
-          className="absolute top-[-10%] right-1/2 translate-x-full w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full bg-primary/20 sm:bg-primary/15 blur-[80px] sm:blur-[120px] animate-pulse"
-          style={{ animationDuration: "12s" }}
-        />
-
-        {/* Premium Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] [background-size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_0%,#000_20%,transparent_100%)] opacity-40 dark:opacity-20" />
+    <section
+      id="home"
+      className="relative overflow-hidden z-10 pt-24 pb-12 lg:pt-32 lg:pb-20 flex flex-col items-center text-center min-h-[90vh] justify-center"
+    >
+      {/* Raw Video Background without Gradients */}
+      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden bg-black">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/hero_video/flower-field.jpg"
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+        >
+          <source src="/hero_video/flower-field.mp4" type="video/mp4" />
+        </video>
       </div>
 
       <ResponsiveComponents>
@@ -48,31 +49,31 @@ export function HeroSection() {
             className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium mb-8 bg-primary/10 border border-primary/20 text-primary"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            Smart Inventory Management Platform
+            🌱 Nurture Your Business Growth
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-4xl mb-6 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground leading-tight"
+            className="max-w-4xl mb-6 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white leading-tight drop-shadow-xl"
           >
-            Your{" "}
-            <span className="bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">
-              Business
+            Where{" "}
+            <span className="bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent drop-shadow-md">
+              Business Growth
             </span>
-            ,<br className="hidden sm:block" />
-            Digitized & Simplified.
+            <br className="hidden sm:block" />
+            Meets Simplicity.
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="max-w-xl mb-10 text-base md:text-lg text-muted-foreground leading-relaxed"
+            className="max-w-xl mb-10 text-base md:text-lg text-white/90 leading-relaxed drop-shadow-md"
           >
-            ZopShop gives you real-time inventory control, fast invoicing, and
-            powerful reports — all in one clean dashboard built for business
-            owners.
+            Focus on growing your business while ZopShop handles the heavy
+            lifting — real-time inventory, seamless invoicing, and powerful
+            analytics.
           </motion.p>
 
           <motion.div
@@ -83,59 +84,41 @@ export function HeroSection() {
           >
             <Button
               render={<Link href="/register" />}
+              nativeButton={false}
               size="lg"
-              className="bg-primary hover:bg-primary-light text-primary-foreground rounded-xl px-8 py-6 text-sm font-semibold group"
+              className="bg-white/10 hover:bg-white/20 dark:bg-black/20 dark:hover:bg-black/30 backdrop-blur-2xl border border-white/20 text-white rounded-full px-8 py-6 text-sm font-semibold group transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:scale-105"
             >
               Start 30-Day Free Trial
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button
               render={<Link href="#how-it-works" />}
+              nativeButton={false}
               variant="outline"
               size="lg"
-              className="rounded-xl px-8 py-6 text-sm font-semibold bg-card border-border hover:bg-muted text-foreground"
+              className="rounded-full px-8 py-6 text-sm font-semibold bg-white/5 hover:bg-white/10 backdrop-blur-2xl border border-white/10 text-white/90 hover:text-white transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.1)]"
             >
               How it works
             </Button>
           </motion.div>
 
-          {/* Avatars and Rating */}
+          {/* Rating */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.45 }}
             className="flex flex-col items-center justify-center gap-4 mb-16"
           >
-            <div className="flex items-center -space-x-3">
-              {[
-                "https://i.pravatar.cc/100?img=11",
-                "https://i.pravatar.cc/100?img=12",
-                "https://i.pravatar.cc/100?img=33",
-                "https://i.pravatar.cc/100?img=47",
-                "https://i.pravatar.cc/100?img=50",
-              ].map((src, i) => (
-                <div
-                  key={i}
-                  className="w-10 h-10 rounded-full border-2 border-background overflow-hidden relative shadow-sm"
-                >
-                  <img
-                    src={src}
-                    alt="User avatar"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
             <div className="flex flex-col items-center gap-1.5">
-              <div className="flex items-center gap-1 text-amber-500">
+              <div className="flex items-center gap-1 text-muted-foreground/30">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star key={star} className="w-4 h-4 fill-current" />
                 ))}
               </div>
               <p className="text-sm text-muted-foreground font-medium">
                 Trusted by{" "}
-                <span className="text-foreground font-semibold">2,400+</span>{" "}
-                business owners
+                <span className="text-foreground font-semibold">0</span>{" "}
+                business owners (Be the first!)
               </p>
             </div>
           </motion.div>
