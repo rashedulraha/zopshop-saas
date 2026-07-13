@@ -8,7 +8,7 @@ export default function ThemeSettingsPage() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="max-w-4xl">
+    <div className="w-full">
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-foreground tracking-tight">Appearance & Theme</h1>
         <p className="text-muted-foreground mt-2">Customize the look and feel of your dashboard.</p>
