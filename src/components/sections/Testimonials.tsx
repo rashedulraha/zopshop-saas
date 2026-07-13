@@ -231,7 +231,7 @@ export function Testimonials() {
                     Contact Sales
                   </Link>
                 </Button>
-                <Button className="rounded-full px-6 py-6 bg-gradient-to-r from-primary to-secondary hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 group">
+                <Button className="rounded-full px-6 py-6 transition-all duration-300 group">
                   <Link href="/register" className="flex items-center gap-2">
                     Start Free Trial
                     <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

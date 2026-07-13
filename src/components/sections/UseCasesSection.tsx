@@ -182,11 +182,8 @@ export function UseCasesSection() {
                     />
 
                     <div className="relative bg-card/80 backdrop-blur-xl border border-border/60 rounded-[2rem] overflow-hidden flex flex-col md:flex-row transition-all duration-500 group-hover/card:border-border/80">
-                      {/* Left Side: 16:9 Image Area */}
+                        {/* Left Side: 16:9 Image Area */}
                       <div className="w-full md:w-1/2 lg:w-[55%] relative bg-black/5 aspect-video md:aspect-auto overflow-hidden shrink-0">
-                        {/* Gradient separator to smoothly blend image into content */}
-                        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-card to-transparent z-10 hidden md:block" />
-                        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-card to-transparent z-10 md:hidden block" />
                         <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] [background-size:2rem_2rem] opacity-20" />
                         <div
                           className={cn(
