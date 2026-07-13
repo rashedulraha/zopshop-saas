@@ -52,7 +52,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative z-10 mt-auto pt-14 pb-8 overflow-hidden bg-[#04040f]/80 backdrop-blur-2xl border-t border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] px-4">
+    <footer className="relative z-10 mt-auto pt-14 pb-8 overflow-hidden bg-slate-950 dark:bg-[#04040f]/80 backdrop-blur-2xl border-t border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] px-4">
       {/* Top border glow */}
       <div
         aria-hidden="true"
