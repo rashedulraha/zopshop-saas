@@ -1,9 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  Calendar, FileText, Download, Printer, Table, Search,
-  ArrowUpRight, DollarSign, Receipt, TrendingUp, BarChart3, Filter
+import {
+  Calendar,
+  Download,
+  Printer,
+  Search,
+  DollarSign,
+  Receipt,
+  TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -20,11 +25,61 @@ interface ReportRow {
 }
 
 const mockReportData: ReportRow[] = [
-  { invoice: "INV-1001", date: "13 Oct 2026", customer: "Olivia Martin", itemsCount: 2, subtotal: 280.00, discount: 0.00, vat: 19.00, total: 299.00, paymentMethod: "Bkash" },
-  { invoice: "INV-1002", date: "13 Oct 2026", customer: "Jackson Lee", itemsCount: 1, subtotal: 99.00, discount: 0.00, vat: 0.00, total: 99.00, paymentMethod: "Cash" },
-  { invoice: "INV-1003", date: "12 Oct 2026", customer: "Isabella Nguyen", date: "12 Oct 2026", itemsCount: 3, subtotal: 420.00, discount: 10.00, vat: 40.00, total: 450.00, paymentMethod: "Bank" },
-  { invoice: "INV-1004", date: "12 Oct 2026", customer: "William Kim", itemsCount: 1, subtotal: 15.00, discount: 0.00, vat: 0.00, total: 15.00, paymentMethod: "Cash" },
-  { invoice: "INV-0985", date: "10 Oct 2026", customer: "Sofia Davis", itemsCount: 2, subtotal: 320.00, discount: 15.00, vat: 45.00, total: 350.00, paymentMethod: "Card" }
+  {
+    invoice: "INV-1001",
+    date: "13 Oct 2026",
+    customer: "Olivia Martin",
+    itemsCount: 2,
+    subtotal: 280.0,
+    discount: 0.0,
+    vat: 19.0,
+    total: 299.0,
+    paymentMethod: "Bkash",
+  },
+  {
+    invoice: "INV-1002",
+    date: "13 Oct 2026",
+    customer: "Jackson Lee",
+    itemsCount: 1,
+    subtotal: 99.0,
+    discount: 0.0,
+    vat: 0.0,
+    total: 99.0,
+    paymentMethod: "Cash",
+  },
+  {
+    invoice: "INV-1003",
+    date: "12 Oct 2026",
+    customer: "Isabella Nguyen",
+    itemsCount: 3,
+    subtotal: 420.0,
+    discount: 10.0,
+    vat: 40.0,
+    total: 450.0,
+    paymentMethod: "Bank",
+  },
+  {
+    invoice: "INV-1004",
+    date: "12 Oct 2026",
+    customer: "William Kim",
+    itemsCount: 1,
+    subtotal: 15.0,
+    discount: 0.0,
+    vat: 0.0,
+    total: 15.0,
+    paymentMethod: "Cash",
+  },
+  {
+    invoice: "INV-0985",
+    date: "10 Oct 2026",
+    customer: "Sofia Davis",
+    itemsCount: 2,
+    subtotal: 320.0,
+    discount: 15.0,
+    vat: 45.0,
+    total: 350.0,
+    paymentMethod: "Card",
+  },
 ];
 
 export default function SalesReportPage() {
@@ -47,9 +102,10 @@ export default function SalesReportPage() {
     }, 1000);
   };
 
-  const filteredData = mockReportData.filter(row => 
-    row.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    row.invoice.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredData = mockReportData.filter(
+    (row) =>
+      row.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      row.invoice.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const totalSales = filteredData.reduce((acc, curr) => acc + curr.total, 0);
@@ -61,8 +117,12 @@ export default function SalesReportPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
-          <h1 className="text-3xl font-semibold text-foreground tracking-tight">Sales Report</h1>
-          <p className="text-muted-foreground mt-1 text-sm">Analyze sales conversions, VAT statements, and export tax summaries</p>
+          <h1 className="text-3xl font-semibold text-foreground tracking-tight">
+            Sales Report
+          </h1>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Analyze sales conversions, VAT statements, and export tax summaries
+          </p>
         </div>
       </div>
 
@@ -71,12 +131,14 @@ export default function SalesReportPage() {
         {/* Date Filter selector (8 cols) */}
         <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Date Scope</label>
+            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              Date Scope
+            </label>
             <div className="relative">
               <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <select
                 value={dateFilter}
-                onChange={e => setDateFilter(e.target.value)}
+                onChange={(e) => setDateFilter(e.target.value)}
                 className="w-full h-9 pl-9 pr-4 rounded-md border border-border bg-card text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all text-muted-foreground hover:text-foreground appearance-none"
               >
                 <option value="Today">Today</option>
@@ -93,20 +155,24 @@ export default function SalesReportPage() {
           {dateFilter === "Custom" && (
             <>
               <div className="flex flex-col gap-1.5 animate-in slide-in-from-left duration-200">
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Start Date</label>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  Start Date
+                </label>
                 <input
                   type="date"
                   value={customStart}
-                  onChange={e => setCustomStart(e.target.value)}
+                  onChange={(e) => setCustomStart(e.target.value)}
                   className="w-full h-9 px-3 rounded-md border border-border bg-card text-sm focus:outline-none focus:ring-1 focus:ring-primary transition-all text-muted-foreground"
                 />
               </div>
               <div className="flex flex-col gap-1.5 animate-in slide-in-from-left duration-200">
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">End Date</label>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  End Date
+                </label>
                 <input
                   type="date"
                   value={customEnd}
-                  onChange={e => setCustomEnd(e.target.value)}
+                  onChange={(e) => setCustomEnd(e.target.value)}
                   className="w-full h-9 px-3 rounded-md border border-border bg-card text-sm focus:outline-none focus:ring-1 focus:ring-primary transition-all text-muted-foreground"
                 />
               </div>
@@ -116,7 +182,9 @@ export default function SalesReportPage() {
 
         {/* Exports panel (4 cols) */}
         <div className="lg:col-span-4 flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Export Reports</label>
+          <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            Export Reports
+          </label>
           <div className="grid grid-cols-4 gap-2">
             <button
               onClick={() => triggerExport("PDF")}
@@ -158,8 +226,12 @@ export default function SalesReportPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <div className="border border-border bg-card p-5 rounded-md flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Filtered Revenue</span>
-            <span className="text-2xl font-bold text-foreground mt-1">${totalSales.toFixed(2)}</span>
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+              Filtered Revenue
+            </span>
+            <span className="text-2xl font-bold text-foreground mt-1">
+              ${totalSales.toFixed(2)}
+            </span>
           </div>
           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
             <DollarSign className="w-5 h-5" />
@@ -168,8 +240,12 @@ export default function SalesReportPage() {
 
         <div className="border border-border bg-card p-5 rounded-md flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Total VAT Collected</span>
-            <span className="text-2xl font-bold text-emerald-500 mt-1">${totalVAT.toFixed(2)}</span>
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+              Total VAT Collected
+            </span>
+            <span className="text-2xl font-bold text-emerald-500 mt-1">
+              ${totalVAT.toFixed(2)}
+            </span>
           </div>
           <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0">
             <TrendingUp className="w-5 h-5" />
@@ -178,8 +254,12 @@ export default function SalesReportPage() {
 
         <div className="border border-border bg-card p-5 rounded-md flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Order Volume</span>
-            <span className="text-2xl font-bold text-foreground mt-1">{totalOrders} Invoices</span>
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+              Order Volume
+            </span>
+            <span className="text-2xl font-bold text-foreground mt-1">
+              {totalOrders} Invoices
+            </span>
           </div>
           <div className="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-500 shrink-0">
             <Receipt className="w-5 h-5" />
@@ -195,7 +275,7 @@ export default function SalesReportPage() {
             type="text"
             placeholder="Search invoice or customer..."
             value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full h-9 pl-9 pr-4 rounded-md border border-border bg-card text-sm focus:outline-none focus:ring-1 focus:ring-primary transition-all"
           />
         </div>
@@ -206,10 +286,18 @@ export default function SalesReportPage() {
             <table className="w-full text-sm text-left">
               <thead className="text-xs text-muted-foreground uppercase bg-muted/10 border-b border-border sticky top-0 z-10 bg-muted/95 backdrop-blur-sm shadow-sm">
                 <tr>
-                  <th className="px-4 py-2 font-medium whitespace-nowrap">Invoice</th>
-                  <th className="px-4 py-2 font-medium whitespace-nowrap">Date</th>
-                  <th className="px-4 py-2 font-medium whitespace-nowrap">Customer Name</th>
-                  <th className="px-4 py-2 font-medium w-[12%] text-center">Items Count</th>
+                  <th className="px-4 py-2 font-medium whitespace-nowrap">
+                    Invoice
+                  </th>
+                  <th className="px-4 py-2 font-medium whitespace-nowrap">
+                    Date
+                  </th>
+                  <th className="px-4 py-2 font-medium whitespace-nowrap">
+                    Customer Name
+                  </th>
+                  <th className="px-4 py-2 font-medium w-[12%] text-center">
+                    Items Count
+                  </th>
                   <th className="px-4 py-2 font-medium">Subtotal</th>
                   <th className="px-4 py-2 font-medium">Discount</th>
                   <th className="px-4 py-2 font-medium">VAT</th>
@@ -219,15 +307,34 @@ export default function SalesReportPage() {
               </thead>
               <tbody className="divide-y divide-border/50">
                 {filteredData.map((row) => (
-                  <tr key={row.invoice} className="hover:bg-muted/30 transition-colors">
-                    <td className="px-4 py-1.5 font-semibold text-foreground whitespace-nowrap">{row.invoice}</td>
-                    <td className="px-4 py-1.5 text-muted-foreground whitespace-nowrap">{row.date}</td>
-                    <td className="px-4 py-1.5 font-medium text-foreground whitespace-nowrap">{row.customer}</td>
-                    <td className="px-4 py-1.5 text-center whitespace-nowrap">{row.itemsCount}</td>
-                    <td className="px-4 py-1.5 text-muted-foreground whitespace-nowrap">${row.subtotal.toFixed(2)}</td>
-                    <td className="px-4 py-1.5 text-rose-500 whitespace-nowrap">-${row.discount.toFixed(2)}</td>
-                    <td className="px-4 py-1.5 text-muted-foreground whitespace-nowrap">+${row.vat.toFixed(2)}</td>
-                    <td className="px-4 py-1.5 font-bold text-foreground whitespace-nowrap">${row.total.toFixed(2)}</td>
+                  <tr
+                    key={row.invoice}
+                    className="hover:bg-muted/30 transition-colors"
+                  >
+                    <td className="px-4 py-1.5 font-semibold text-foreground whitespace-nowrap">
+                      {row.invoice}
+                    </td>
+                    <td className="px-4 py-1.5 text-muted-foreground whitespace-nowrap">
+                      {row.date}
+                    </td>
+                    <td className="px-4 py-1.5 font-medium text-foreground whitespace-nowrap">
+                      {row.customer}
+                    </td>
+                    <td className="px-4 py-1.5 text-center whitespace-nowrap">
+                      {row.itemsCount}
+                    </td>
+                    <td className="px-4 py-1.5 text-muted-foreground whitespace-nowrap">
+                      ${row.subtotal.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-1.5 text-rose-500 whitespace-nowrap">
+                      -${row.discount.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-1.5 text-muted-foreground whitespace-nowrap">
+                      +${row.vat.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-1.5 font-bold text-foreground whitespace-nowrap">
+                      ${row.total.toFixed(2)}
+                    </td>
                     <td className="px-4 py-1.5 text-right whitespace-nowrap">
                       <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary">
                         {row.paymentMethod}
@@ -237,7 +344,10 @@ export default function SalesReportPage() {
                 ))}
                 {filteredData.length === 0 && (
                   <tr>
-                    <td colSpan={9} className="px-4 py-8 text-center text-muted-foreground">
+                    <td
+                      colSpan={9}
+                      className="px-4 py-8 text-center text-muted-foreground"
+                    >
                       No report logs matching criteria.
                     </td>
                   </tr>
@@ -246,7 +356,6 @@ export default function SalesReportPage() {
             </table>
           </div>
         </div>
-
       </div>
     </div>
   );
