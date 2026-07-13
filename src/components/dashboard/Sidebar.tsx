@@ -216,6 +216,7 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
       >
         <Link
           href="/dashboard"
+          scroll={false}
           className={cn(
             "flex items-center gap-2",
             isCollapsed && "hidden md:flex",
@@ -269,6 +270,7 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
             </button>
             <Link
               href="/dashboard"
+              scroll={false}
               title="Dashboard Home"
               className="w-9 h-9 rounded-md flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent hover:border-border transition-colors"
             >
@@ -338,6 +340,7 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
               ) : (
                 <Link
                   href={item.href || "#"}
+                  scroll={false}
                   onClick={close}
                   title={isCollapsed ? item.name : undefined}
                   className={cn(
@@ -366,6 +369,7 @@ export function Sidebar({ items = defaultItems, className }: SidebarProps) {
                       <Link
                         key={sub.name}
                         href={sub.href}
+                        scroll={false}
                         onClick={close}
                         className={cn(
                           "px-3 py-2 rounded-md text-sm transition-colors whitespace-nowrap",
