@@ -1,9 +1,10 @@
 "use client";
 
-import { Bell, Search, Menu, Plus } from "lucide-react";
+import { Bell, Search, Menu, Plus, Home } from "lucide-react";
 import { useSidebar } from "@/hooks/useSidebar";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export function Header() {
   const toggleSidebar = useSidebar((state) => state.toggle);
@@ -50,6 +51,13 @@ export function Header() {
           <Plus className="w-4 h-4" />
           <span>New</span>
         </button>
+        <Link 
+          href="/dashboard" 
+          title="Dashboard Home"
+          className="w-9 h-9 rounded-md flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent hover:border-border transition-colors"
+        >
+          <Home className="w-4 h-4" />
+        </Link>
         <button className="w-9 h-9 rounded-md flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent hover:border-border transition-colors">
           <Bell className="w-4 h-4" />
         </button>
