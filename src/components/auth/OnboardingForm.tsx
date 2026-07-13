@@ -127,7 +127,7 @@ export function OnboardingForm() {
 
             <button
               onClick={handleNext}
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-2.5 rounded-lg font-semibold shadow-sm transition-all text-sm"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4 py-2"
             >
               Start Now
               <FiArrowRight className="w-4 h-4" />
@@ -164,7 +164,7 @@ export function OnboardingForm() {
                   value={formData.storeName}
                   onChange={handleChange}
                   placeholder="e.g. Acme SuperMart"
-                  className="w-full px-4 py-3 bg-transparent border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+                  className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-5 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                   required
                 />
               </div>
@@ -184,7 +184,7 @@ export function OnboardingForm() {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-transparent border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm appearance-none cursor-pointer"
+                    className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-1 text-sm shadow-sm transition-colors appearance-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                     required
                   >
                     <option value="" disabled>
@@ -213,7 +213,7 @@ export function OnboardingForm() {
                 type="button"
                 onClick={handleNext}
                 disabled={!formData.storeName || !formData.category}
-                className="inline-flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed px-5 py-2.5 rounded-lg font-semibold shadow-sm transition-all text-sm"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4 py-2"
               >
                 Continue
                 <FiArrowRight className="w-4 h-4" />
@@ -251,7 +251,7 @@ export function OnboardingForm() {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+880 1700 000000"
-                  className="w-full px-4 py-3 bg-transparent border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+                  className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-5 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                   required
                 />
               </div>
@@ -272,7 +272,7 @@ export function OnboardingForm() {
                   onChange={handleChange}
                   placeholder="Full address of your store or office"
                   rows={3}
-                  className="w-full px-4 py-3 bg-transparent border border-border rounded focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm resize-none"
+                  className="flex min-h-[120px] w-full rounded-md border border-border bg-background px-3 py-3 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 resize-none"
                   required
                 />
               </div>
@@ -291,7 +291,7 @@ export function OnboardingForm() {
                 type="button"
                 onClick={handleCreateStore}
                 disabled={!formData.phone || !formData.address}
-                className="inline-flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed px-5 py-2.5 rounded-lg font-semibold shadow-sm transition-all text-sm"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4 py-2"
               >
                 Complete Setup
                 <FiCheck className="w-4 h-4" />
