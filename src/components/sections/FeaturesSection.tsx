@@ -69,7 +69,7 @@ export function FeaturesSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="features" className="py-12 lg:py-20 relative z-10 px-4">
+    <section id="features" className="py-12 lg:py-20 relative z-10">
       {/* Ambient background orb */}
       <div
         aria-hidden="true"
@@ -115,7 +115,7 @@ export function FeaturesSection() {
         </div>
 
         {/* Aceternity Hover Effect Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10 max-w-7xl mx-auto py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10 py-10">
           {FEATURES.map((feature, index) => (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -143,14 +143,31 @@ export function FeaturesSection() {
               </AnimatePresence>
 
               <div className="relative z-10 p-3 rounded-xl bg-card border border-border h-full flex flex-col transition-colors duration-300 group-hover:border-transparent">
-                {/* Inner Image Box (Top) */}
-                <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden border border-border/50 shrink-0">
-                  <Image
-                    src={feature.image}
-                    alt={feature.title}
-                    fill
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
+                {/* Inner Image Box (Top) with Browser Frame */}
+                <div className="relative w-full rounded-lg overflow-hidden border border-border/50 shrink-0 bg-background flex flex-col group/frame shadow-sm">
+                  {/* Browser Frame Header */}
+                  <div className="h-7 border-b border-border/50 bg-muted/40 flex items-center justify-between px-3 shrink-0 backdrop-blur-md transition-colors group-hover/frame:bg-muted/60">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2 h-2 rounded-full bg-[#FF5F56]/80 group-hover/frame:bg-[#FF5F56] transition-colors" />
+                      <div className="w-2 h-2 rounded-full bg-[#FFBD2E]/80 group-hover/frame:bg-[#FFBD2E] transition-colors" />
+                      <div className="w-2 h-2 rounded-full bg-[#27C93F]/80 group-hover/frame:bg-[#27C93F] transition-colors" />
+                    </div>
+                    {/* Subtle aesthetic URL bar line */}
+                    <div className="h-1.5 w-16 bg-foreground/5 rounded-full" />
+                  </div>
+
+                  <div className="relative w-full aspect-[16/9] overflow-hidden">
+                    {/* Dark gradient overlay on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    <Image
+                      src={feature.image}
+                      alt={feature.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                    />
+                  </div>
                 </div>
 
                 {/* Text & Button (Bottom) */}
