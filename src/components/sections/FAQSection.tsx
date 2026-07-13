@@ -35,7 +35,7 @@ export function FAQSection() {
   return (
     <section className="py-12 lg:py-20 relative bg-muted/30 overflow-hidden border-t border-border">
       <ResponsiveComponents>
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 w-full max-w-4xl mx-auto">
           
           <div className="text-center mb-16">
             <motion.div

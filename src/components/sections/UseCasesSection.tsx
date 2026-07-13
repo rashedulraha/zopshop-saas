@@ -114,7 +114,7 @@ export function UseCasesSection() {
       className="py-12 lg:pt-24 lg:pb-12 relative bg-muted/30 overflow-visible border-t border-border"
     >
       <ResponsiveComponents>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 w-full">
           {/* Header */}
           <div className="text-center mb-16 md:mb-24">
             <motion.div
