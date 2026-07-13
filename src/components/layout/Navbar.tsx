@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -14,12 +16,17 @@ const NAV_LINKS = [
   { name: "How It Works", href: "#how-it-works" },
   { name: "Pricing", href: "#pricing" },
   { name: "About", href: "#about" },
+  { name: "contact", href: "contact" },
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const isTransparent = isHome && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -57,12 +64,24 @@ export function Navbar() {
 
   return (
     <>
-      <header
+      <motion.header
+        initial={false}
+        animate={{
+          width: scrolled ? "100%" : "calc(100% - 2rem)",
+          maxWidth: scrolled ? "100%" : "72rem",
+          y: scrolled ? 0 : 16,
+          x: "-50%",
+          borderRadius: scrolled ? 0 : 32,
+        }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        style={{ top: 0 }}
         className={cn(
-          "fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-300",
-          scrolled
-            ? "top-0 w-full bg-background/80 backdrop-blur-xl border-b border-border rounded-none"
-            : "top-4 w-[calc(100%-2rem)] max-w-5xl bg-transparent backdrop-blur-md border border-white/10 dark:border-white/5 rounded-full",
+          "fixed left-1/2 z-50 transition-colors duration-300",
+          isTransparent
+            ? "bg-white/10 dark:bg-black/20 backdrop-blur-2xl border border-white/20 shadow-sm"
+            : scrolled
+              ? "bg-background/80 backdrop-blur-xl border-b border-border"
+              : "bg-background/80 backdrop-blur-xl border border-border/50 shadow-sm"
         )}
       >
         {/* Container */}
@@ -70,12 +89,10 @@ export function Navbar() {
           <div className="relative w-full container mx-auto flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-              <span
-                className={cn(
-                  "font-bold text-lg tracking-tight",
-                  scrolled ? "text-foreground" : "text-white",
-                )}
-              >
+              <span className={cn(
+                "font-bold text-lg tracking-tight",
+                isTransparent ? "text-white" : "text-foreground"
+              )}>
                 Zop<span className="text-primary-light">Shop</span>
               </span>
             </Link>
@@ -101,9 +118,9 @@ export function Navbar() {
                       "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                       isActive
                         ? "text-primary bg-primary/10"
-                        : scrolled
-                          ? "text-foreground/70 hover:text-foreground hover:bg-muted/50"
-                          : "text-white/80 hover:text-white hover:bg-white/10",
+                        : isTransparent
+                          ? "text-white/80 hover:text-white hover:bg-white/10"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
                     )}
                   >
                     {link.name}
@@ -121,9 +138,9 @@ export function Navbar() {
                 render={<Link href="/login" />}
                 nativeButton={false}
                 className={cn(
-                  scrolled
-                    ? ""
-                    : "text-white hover:text-white hover:bg-white/10",
+                  isTransparent
+                    ? "text-white hover:text-white hover:bg-white/10"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
               >
                 Sign In
@@ -132,7 +149,7 @@ export function Navbar() {
                 size="sm"
                 render={<Link href="/register" />}
                 nativeButton={false}
-                className="bg-primary text-primary-foreground"
+                className="bg-primary text-primary-foreground hover:bg-primary-dark"
               >
                 Get Started
               </Button>
@@ -145,9 +162,9 @@ export function Navbar() {
                 variant="outline"
                 size="icon"
                 className={cn(
-                  "border-border bg-muted/50 hover:bg-muted",
-                  !scrolled &&
-                    "border-white/20 bg-white/10 text-white hover:bg-white/20",
+                  isTransparent
+                    ? "border-white/20 bg-white/10 text-white hover:bg-white/20"
+                    : "border-border bg-muted/50 hover:bg-muted text-foreground"
                 )}
                 onClick={() => setIsOpen(true)}
                 aria-label="Open menu"
@@ -157,7 +174,7 @@ export function Navbar() {
             </div>
           </div>
         </ResponsiveComponents>
-      </header>
+      </motion.header>
 
       {/* ═══ MOBILE DRAWER ═══ */}
 
