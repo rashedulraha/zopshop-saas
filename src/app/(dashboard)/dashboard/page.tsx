@@ -155,66 +155,62 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* KPI Section as a True Table Card */}
-      <div className="border border-border bg-card rounded-md overflow-hidden">
-        <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full text-sm text-left table-fixed min-w-[650px] md:min-w-0">
-            <thead className="text-xs text-muted-foreground uppercase bg-muted/10 border-b border-border">
-              <tr className="divide-x divide-border">
-                <th className="px-5 py-3 font-semibold text-center">Today's Sales</th>
-                <th className="px-5 py-3 font-semibold text-center">Net Profit</th>
-                <th className="px-5 py-3 font-semibold text-center">Operating Capital</th>
-                <th className="px-5 py-3 font-semibold text-center">Critical Alerts</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="divide-x divide-border">
-                {/* Today's Sales */}
-                <td className="px-5 py-4 text-center hover:bg-muted/10 transition-colors">
-                  <div className="inline-flex w-7 h-7 rounded-full bg-primary/10 items-center justify-center text-primary mb-2">
-                    <ShoppingCart className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-xl font-bold text-foreground block tracking-tight">$3,240.50</span>
-                  <span className="inline-flex items-center gap-0.5 text-xs font-medium text-emerald-500 mt-1">
-                    <ArrowUpRight className="w-3 h-3" /> +12.5%
-                  </span>
-                </td>
+      {/* KPI Stat Cards - 2x2 mobile, 4x1 desktop */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        {/* Today's Sales */}
+        <div className="flex flex-col p-4 bg-card border border-border rounded-md hover:border-primary/30 transition-colors">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-medium text-muted-foreground leading-tight">Today&apos;s Sales</span>
+            <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+              <ShoppingCart className="w-3.5 h-3.5 text-primary" />
+            </div>
+          </div>
+          <span className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">$3,240</span>
+          <span className="inline-flex items-center gap-0.5 text-xs font-medium text-emerald-500 mt-1.5">
+            <ArrowUpRight className="w-3 h-3" /> +12.5% vs yesterday
+          </span>
+        </div>
 
-                {/* Net Profit */}
-                <td className="px-5 py-4 text-center hover:bg-muted/10 transition-colors">
-                  <div className="inline-flex w-7 h-7 rounded-full bg-emerald-500/10 items-center justify-center text-emerald-500 mb-2">
-                    <TrendingUp className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-xl font-bold text-foreground block tracking-tight">$1,450.20</span>
-                  <span className="inline-flex items-center gap-0.5 text-xs font-medium text-emerald-500 mt-1">
-                    <ArrowUpRight className="w-3 h-3" /> +8.2%
-                  </span>
-                </td>
+        {/* Net Profit */}
+        <div className="flex flex-col p-4 bg-card border border-border rounded-md hover:border-emerald-500/30 transition-colors">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-medium text-muted-foreground leading-tight">Net Profit</span>
+            <div className="w-7 h-7 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
+            </div>
+          </div>
+          <span className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">$1,450</span>
+          <span className="inline-flex items-center gap-0.5 text-xs font-medium text-emerald-500 mt-1.5">
+            <ArrowUpRight className="w-3 h-3" /> +8.2% vs yesterday
+          </span>
+        </div>
 
-                {/* Operating Capital */}
-                <td className="px-5 py-4 text-center hover:bg-muted/10 transition-colors">
-                  <div className="inline-flex w-7 h-7 rounded-full bg-indigo-500/10 items-center justify-center text-indigo-500 mb-2">
-                    <Wallet className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-xl font-bold text-foreground block tracking-tight">$39,340.00</span>
-                  <span className="inline-flex items-center gap-0.5 text-xs font-medium text-rose-500 mt-1">
-                    <ArrowDownRight className="w-3 h-3" /> -1.8%
-                  </span>
-                </td>
+        {/* Operating Capital */}
+        <div className="flex flex-col p-4 bg-card border border-border rounded-md hover:border-indigo-500/30 transition-colors">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-medium text-muted-foreground leading-tight">Capital</span>
+            <div className="w-7 h-7 rounded-full bg-indigo-500/10 flex items-center justify-center shrink-0">
+              <Wallet className="w-3.5 h-3.5 text-indigo-500" />
+            </div>
+          </div>
+          <span className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">$39.3K</span>
+          <span className="inline-flex items-center gap-0.5 text-xs font-medium text-rose-500 mt-1.5">
+            <ArrowDownRight className="w-3 h-3" /> -1.8% vs yesterday
+          </span>
+        </div>
 
-                {/* Critical Alerts */}
-                <td className="px-5 py-4 text-center hover:bg-muted/10 transition-colors bg-rose-500/[0.01]">
-                  <div className="inline-flex w-7 h-7 rounded-full bg-rose-500/10 items-center justify-center text-rose-500 mb-2 animate-pulse">
-                    <AlertTriangle className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-xl font-bold text-foreground block tracking-tight">3 Tasks</span>
-                  <span className="inline-flex items-center text-[10px] font-bold text-rose-500 mt-1.5 uppercase tracking-wide">
-                    Action Req.
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        {/* Critical Alerts */}
+        <div className="flex flex-col p-4 bg-rose-500/[0.03] border border-rose-500/20 rounded-md hover:border-rose-500/40 transition-colors">
+          <div className="flex items-start justify-between mb-3">
+            <span className="text-xs font-medium text-muted-foreground leading-tight">Alerts</span>
+            <div className="w-7 h-7 rounded-full bg-rose-500/10 flex items-center justify-center shrink-0 animate-pulse">
+              <AlertTriangle className="w-3.5 h-3.5 text-rose-500" />
+            </div>
+          </div>
+          <span className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">3 Tasks</span>
+          <span className="inline-flex items-center text-[10px] font-bold text-rose-500 mt-1.5 uppercase tracking-wide">
+            Action Required
+          </span>
         </div>
       </div>
 

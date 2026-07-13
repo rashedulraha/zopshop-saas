@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { Header } from "@/components/dashboard/Header";
+import { BottomNav } from "@/components/dashboard/BottomNav";
 
 export const metadata: Metadata = {
   title: "Dashboard | ZopShop",
@@ -21,10 +22,13 @@ export default function DashboardLayout({
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header />
 
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 custom-scrollbar">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 custom-scrollbar pb-20 md:pb-8">
           <div className="w-full">{children}</div>
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <BottomNav />
     </div>
   );
 }
