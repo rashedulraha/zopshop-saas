@@ -1,37 +1,37 @@
 "use client";
 
 import ResponsiveComponents from "../providers/ResponsiveComponents";
-import { UserPlus, LayoutDashboard, BarChart3, PlayCircle } from "lucide-react";
+import { UserPlus, LayoutDashboard, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const STEPS = [
   {
     id: "step-1",
-    title: "Create Your Account",
+    title: "Sign Up in Seconds",
     description:
-      "Sign up in seconds. No credit card required. Instantly get access to your personalized dashboard.",
+      "Create your free account. Access your dashboard instantly without needing a credit card.",
     icon: <UserPlus className="w-6 h-6" />,
-    color: "text-blue-500",
-    bg: "bg-blue-500/10 border border-blue-500/20",
+    color: "text-primary",
+    bg: "bg-primary/10 border border-primary/20",
   },
   {
     id: "step-2",
-    title: "Configure Your Store",
+    title: "Add Your Products",
     description:
-      "Add your products, organize them into categories, and set your pricing using our beautiful built-in templates.",
+      "Quickly list your stock items, set retail prices, and organize them into clean categories.",
     icon: <LayoutDashboard className="w-6 h-6" />,
-    color: "text-purple-500",
-    bg: "bg-purple-500/10 border border-purple-500/20",
+    color: "text-accent",
+    bg: "bg-accent/10 border border-accent/20",
   },
   {
     id: "step-3",
-    title: "Manage Inventory",
+    title: "Start Selling & Billing",
     description:
-      "Connect your payment gateways and hit publish. Start accepting orders instantly and track revenue in real-time.",
+      "Use our instant POS interface to check out customers, print invoices, and track dues in real-time.",
     icon: <BarChart3 className="w-6 h-6" />,
-    color: "text-emerald-500",
-    bg: "bg-emerald-500/10 border border-emerald-500/20",
+    color: "text-cyan-500",
+    bg: "bg-cyan-500/10 border border-cyan-500/20",
   },
 ];
 
@@ -55,16 +55,16 @@ export function HowItWorks() {
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-6">
                 How It Works
               </div>
-              <h2 className="mb-6 text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-5xl">
-                Three steps to{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">
-                  launch your store
+              <h2 className="mb-5 text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-5xl">
+                Get started with ZopShop in{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-cyan-400">
+                  3 simple steps
                 </span>
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                We've eliminated the complex setup process. Just follow these
-                simple steps and you'll be ready to sell your products to the
-                world in no time.
+                We've simplified the setup process. Just sign up, add your
+                items, and start selling immediately with zero configuration
+                required.
               </p>
             </motion.div>
           </div>
@@ -72,24 +72,24 @@ export function HowItWorks() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Left Column: Video Section */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="lg:col-span-7 w-full relative rounded-2xl overflow-hidden shadow-2xl border border-border flex flex-col bg-card"
+              className="lg:col-span-7 w-full relative rounded-2xl overflow-hidden border border-border flex flex-col bg-card"
             >
               {/* Video Container (Strict 16:9) */}
               <div className="relative w-full aspect-video bg-black">
                 {/* AI Badge to cover Watermark */}
                 <div className="absolute top-0 right-0 z-20">
-                  <div className="flex items-center gap-3 rounded-bl-3xl border-b border-l bg-background/50 px-6 py-4 backdrop-blur-3xl">
-                    <span className="relative flex h-2 w-2">
+                  <div className="flex items-center gap-3.5 rounded-bl-[32px] border-b border-l border-border bg-background/80 px-7 py-4.5 backdrop-blur-3xl">
+                    <span className="relative flex h-2.5 w-2.5">
                       <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-70" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-400" />
+                      <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-cyan-400" />
                     </span>
 
-                    <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-violet-400 bg-clip-text text-xs font-bold tracking-wide text-transparent">
-                      ZopShop AI
+                    <span className="bg-gradient-to-r from-primary via-accent to-cyan-400 bg-clip-text text-xs sm:text-sm font-extrabold tracking-wide text-transparent">
+                      ZopShop Inventory Management System
                     </span>
                   </div>
                 </div>
@@ -118,13 +118,13 @@ export function HowItWorks() {
                 >
                   {/* Connecting Line */}
                   {index !== STEPS.length - 1 && (
-                    <div className="absolute left-6 top-14 bottom-0 w-[2px] bg-border group-hover:bg-primary/30 transition-colors duration-300" />
+                    <div className="absolute left-6 top-14 bottom-0 w-[2px] bg-border" />
                   )}
 
                   {/* Icon */}
                   <div
                     className={cn(
-                      "shrink-0 w-12 h-12 rounded-full flex items-center justify-center relative z-10 transition-transform duration-300 group-hover:scale-110",
+                      "shrink-0 w-12 h-12 rounded-full flex items-center justify-center relative z-10 transition-transform duration-300 group-hover:scale-105",
                       step.bg,
                       step.color,
                     )}
