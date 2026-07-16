@@ -82,7 +82,8 @@ export function Navbar() {
             : scrolled
               ? "bg-background/80 backdrop-blur-xl border-b border-border"
               : "bg-background/80 backdrop-blur-xl border border-border/50 shadow-sm",
-        )}>
+        )}
+      >
         {/* Container */}
         <ResponsiveComponents>
           <div className="relative w-full container mx-auto flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -92,7 +93,8 @@ export function Navbar() {
                 className={cn(
                   "font-bold text-lg tracking-tight",
                   isTransparent ? "text-white" : "text-foreground",
-                )}>
+                )}
+              >
                 Zop<span className="text-primary-light">Shop</span>
               </span>
             </Link>
@@ -121,7 +123,8 @@ export function Navbar() {
                         : isTransparent
                           ? "text-white/80 hover:text-white hover:bg-white/10"
                           : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
-                    )}>
+                    )}
+                  >
                     {link.name}
                   </Link>
                 );
@@ -140,14 +143,16 @@ export function Navbar() {
                   isTransparent
                     ? "text-white hover:text-white hover:bg-white/10"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
-                )}>
+                )}
+              >
                 Sign In
               </Button>
               <Button
                 size="sm"
                 render={<Link href="/register" />}
                 nativeButton={false}
-                className="bg-primary text-primary-foreground hover:bg-primary-dark">
+                className="bg-primary text-primary-foreground hover:bg-primary-dark"
+              >
                 Get Started
               </Button>
             </div>
@@ -164,7 +169,8 @@ export function Navbar() {
                     : "border-border bg-muted/50 hover:bg-muted text-foreground",
                 )}
                 onClick={() => setIsOpen(true)}
-                aria-label="Open menu">
+                aria-label="Open menu"
+              >
                 <Menu className="w-5 h-5" />
               </Button>
             </div>
@@ -189,10 +195,11 @@ export function Navbar() {
       {/* Drawer Panel */}
       <div
         className={cn(
-          "fixed top-0 right-0 bottom-0 z-[61] w-full max-w-xs md:hidden flex flex-col transition-transform duration-300 ease-out",
+          "fixed top-0 right-0 bottom-0 z-[61] w-full max-w-xs md:hidden flex flex-col transition-all duration-300 ease-out",
           "bg-background/95 backdrop-blur-2xl border-l border-border shadow-2xl",
-          isOpen ? "translate-x-0" : "translate-x-full",
-        )}>
+          isOpen ? "translate-x-0 visible" : "translate-x-full invisible",
+        )}
+      >
         {/* Subtle top gradient glow */}
         <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" />
 
@@ -201,12 +208,8 @@ export function Navbar() {
           <Link
             href="/"
             className="flex items-center gap-2"
-            onClick={() => setIsOpen(false)}>
-            <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center shadow-[0_0_10px_var(--primary)]">
-              <span className="text-primary-foreground font-black text-xs">
-                Z
-              </span>
-            </div>
+            onClick={() => setIsOpen(false)}
+          >
             <span className="font-bold text-base text-foreground">
               Zop<span className="text-primary-light">Shop</span>
             </span>
@@ -216,7 +219,8 @@ export function Navbar() {
             size="icon"
             className="border-border bg-muted/50 hover:bg-muted"
             onClick={() => setIsOpen(false)}
-            aria-label="Close menu">
+            aria-label="Close menu"
+          >
             <X className="w-4 h-4" />
           </Button>
         </div>
@@ -246,7 +250,8 @@ export function Navbar() {
                       }
                     }, 300); // Wait for drawer to close
                   }
-                }}>
+                }}
+              >
                 {link.name}
               </Link>
             );
@@ -259,13 +264,15 @@ export function Navbar() {
             variant="outline"
             className="w-full border-border"
             render={<Link href="/login" onClick={() => setIsOpen(false)} />}
-            nativeButton={false}>
+            nativeButton={false}
+          >
             Sign In
           </Button>
           <Button
             className="w-full bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
             render={<Link href="/register" onClick={() => setIsOpen(false)} />}
-            nativeButton={false}>
+            nativeButton={false}
+          >
             Get Started Free
           </Button>
         </div>
