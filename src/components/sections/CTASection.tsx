@@ -30,7 +30,7 @@ export function CTASection() {
           />
 
           {/* Content */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -38,7 +38,6 @@ export function CTASection() {
             className="relative z-10 flex flex-col items-center gap-6"
           >
             <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5" />
               Limited Time Offer
             </span>
 
