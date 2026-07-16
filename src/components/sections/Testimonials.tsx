@@ -15,7 +15,6 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Image from "next/image";
 
 const TESTIMONIALS = [
   {
@@ -180,40 +179,6 @@ export function Testimonials() {
                 effortlessly.
               </motion.p>
 
-              {/* Stats Grid */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="grid grid-cols-3 w-full border-t border-b border-border py-6 mb-10 divide-x divide-border"
-              >
-                <div className="flex flex-col items-center justify-center text-center px-2">
-                  <div className="text-2xl lg:text-3xl font-bold text-foreground">
-                    0
-                  </div>
-                  <div className="text-[10px] uppercase tracking-[0.1em] font-semibold text-muted-foreground mt-1.5">
-                    Happy Clients
-                  </div>
-                </div>
-                <div className="flex flex-col items-center justify-center text-center px-2">
-                  <div className="text-2xl lg:text-3xl font-bold text-foreground">
-                    BDT 0
-                  </div>
-                  <div className="text-[10px] uppercase tracking-[0.1em] font-semibold text-muted-foreground mt-1.5">
-                    Revenue Added
-                  </div>
-                </div>
-                <div className="flex flex-col items-center justify-center text-center px-2">
-                  <div className="text-2xl lg:text-3xl font-bold text-foreground">
-                    0.00
-                  </div>
-                  <div className="text-[10px] uppercase tracking-[0.1em] font-semibold text-muted-foreground mt-1.5">
-                    Avg Rating
-                  </div>
-                </div>
-              </motion.div>
-
               {/* Buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -244,7 +209,7 @@ export function Testimonials() {
             {/* RIGHT COLUMN - Card Stack */}
             {/* =========================================== */}
             <div className="relative w-full flex items-center justify-center mt-12 lg:mt-0">
-              <div className="relative w-full max-w-[500px] h-[440px]">
+              <div className="relative w-full max-w-[500px]">
                 <AnimatePresence mode="popLayout">
                   {cards
                     .slice(0, 3)
