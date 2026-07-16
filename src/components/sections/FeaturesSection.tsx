@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ResponsiveComponents from "../providers/ResponsiveComponents";
@@ -22,6 +23,7 @@ const FEATURES = [
     image: "/Features_img/Inventory Management – Real‑time stock updates.jpg",
     hoverColor: "bg-purple-500/10",
     pillBg: "bg-gradient-to-r from-purple-500 to-indigo-500",
+    slug: "inventory-management",
   },
   {
     icon: <CreditCard className="w-5 h-5" />,
@@ -30,6 +32,7 @@ const FEATURES = [
     image: "/Features_img/Billing System – Fast invoicing.jpg",
     hoverColor: "bg-emerald-400/10",
     pillBg: "bg-gradient-to-r from-emerald-400 to-teal-500",
+    slug: "billing-system",
   },
   {
     icon: <BarChart className="w-5 h-5" />,
@@ -38,6 +41,7 @@ const FEATURES = [
     image: "/Features_img/Reports & Analytics – Data‑driven insights.jpg",
     hoverColor: "bg-blue-400/10",
     pillBg: "bg-gradient-to-r from-blue-400 to-cyan-500",
+    slug: "reports-analytics",
   },
   {
     icon: <Users className="w-5 h-5" />,
@@ -46,6 +50,7 @@ const FEATURES = [
     image: "/Features_img/Team Management – Role‑based access.jpg",
     hoverColor: "bg-violet-500/10",
     pillBg: "bg-gradient-to-r from-violet-400 to-sky-500",
+    slug: "team-management",
   },
   {
     icon: <Shield className="w-5 h-5" />,
@@ -54,6 +59,7 @@ const FEATURES = [
     image: "/Features_img/Secure Data – Encrypted storage.jpg",
     hoverColor: "bg-pink-500/10",
     pillBg: "bg-gradient-to-r from-pink-400 to-rose-500",
+    slug: "secure-data",
   },
   {
     icon: <Smartphone className="w-5 h-5" />,
@@ -62,6 +68,7 @@ const FEATURES = [
     image: "/Features_img/Mobile Friendly – Access from anywhere.jpg",
     hoverColor: "bg-orange-500/10",
     pillBg: "bg-gradient-to-r from-orange-400 to-red-500",
+    slug: "mobile-friendly",
   },
 ];
 
@@ -130,7 +137,7 @@ export function FeaturesSection() {
               <AnimatePresence>
                 {hoveredIndex === index && (
                   <motion.span
-                    className={`absolute inset-0 h-full w-full rounded-2xl block ${feature.hoverColor} dark:bg-slate-800/[0.8]`}
+                    className={`absolute inset-0 h-full w-full rounded-md block ${feature.hoverColor} dark:bg-slate-800/[0.8]`}
                     layoutId="hoverBackground"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1, transition: { duration: 0.15 } }}
@@ -142,9 +149,9 @@ export function FeaturesSection() {
                 )}
               </AnimatePresence>
 
-              <div className="relative z-10 p-3 rounded-xl bg-card border border-border h-full flex flex-col transition-colors duration-300 group-hover:border-transparent">
+              <div className="relative z-10 p-3 rounded-md bg-card border border-border h-full flex flex-col transition-colors duration-300 group-hover:border-transparent">
                 {/* Inner Image Box (Top) with Browser Frame */}
-                <div className="relative w-full rounded-lg overflow-hidden border border-border/50 shrink-0 bg-background flex flex-col group/frame shadow-sm">
+                <div className="relative w-full rounded-md overflow-hidden border border-border/50 shrink-0 bg-background flex flex-col group/frame shadow-sm">
                   {/* Browser Frame Header */}
                   <div className="h-7 border-b border-border/50 bg-muted/40 flex items-center justify-between px-3 shrink-0 backdrop-blur-md transition-colors group-hover/frame:bg-muted/60">
                     <div className="flex items-center gap-1.5">
@@ -174,7 +181,7 @@ export function FeaturesSection() {
                 <div className="flex flex-col flex-1 pt-4 pb-1 px-1.5">
                   <div className="mb-4">
                     <div className="flex items-center gap-2 mb-2">
-                      <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                      <div className="p-2 rounded-md bg-primary/10 text-primary">
                         {feature.icon}
                       </div>
                       <h3 className="font-bold text-lg text-foreground">
@@ -187,7 +194,10 @@ export function FeaturesSection() {
                   </div>
 
                   {/* Footer Pill Button */}
-                  <div className="relative mt-auto p-1.5 pl-5 bg-muted border border-border rounded-xl flex items-center justify-between overflow-hidden group/btn cursor-pointer shadow-sm">
+                  <Link
+                    href={`/features/${feature.slug}`}
+                    className="relative mt-auto p-1.5 pl-5 bg-muted border border-border rounded-md flex items-center justify-between overflow-hidden group/btn cursor-pointer shadow-sm"
+                  >
                     <span className="relative z-10 text-xs font-semibold text-muted-foreground group-hover/btn:text-white transition-colors duration-500">
                       View Details
                     </span>
@@ -199,9 +209,9 @@ export function FeaturesSection() {
 
                     {/* Expanding Background */}
                     <div
-                      className={`absolute right-1.5 top-1.5 bottom-1.5 w-9 rounded-lg transition-all duration-500 ease-out group-hover/btn:w-[calc(100%-12px)] opacity-90 group-hover/btn:opacity-100 ${feature.pillBg}`}
+                      className={`absolute right-1.5 top-1.5 bottom-1.5 w-9 rounded-md transition-all duration-500 ease-out group-hover/btn:w-[calc(100%-12px)] opacity-90 group-hover/btn:opacity-100 ${feature.pillBg}`}
                     />
-                  </div>
+                  </Link>
                 </div>
               </div>
             </motion.div>
