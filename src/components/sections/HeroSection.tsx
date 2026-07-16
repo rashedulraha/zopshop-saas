@@ -49,7 +49,7 @@ export function HeroSection() {
             Smart{" "}
             <span className="bg-gradient-to-r from-primary via-accent to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(99,102,241,0.3)]">
               POS & Inventory
-            </span>
+            </span>{" "}
             <br className="hidden sm:block" />
             for Retail & Businesses.
           </motion.h1>

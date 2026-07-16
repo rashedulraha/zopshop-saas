@@ -69,7 +69,7 @@ export function FeaturesSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="features" className="py-12 lg:py-20 relative z-10">
+    <section id="features" className="py-12 lg:py-20 relative z-10 overflow-hidden">
       {/* Ambient background orb */}
       <div
         aria-hidden="true"
