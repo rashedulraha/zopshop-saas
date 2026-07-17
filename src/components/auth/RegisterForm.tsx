@@ -63,9 +63,17 @@ export function RegisterForm() {
         {/* Social login buttons */}
         <div className="grid grid-cols-3 gap-2">
           {[
-            { icon: <FaApple className="h-5 w-5 text-foreground dark:text-white" /> },
+            {
+              icon: (
+                <FaApple className="h-5 w-5 text-foreground dark:text-white" />
+              ),
+            },
             { icon: <FcGoogle className="h-5 w-5" /> },
-            { icon: <FaXTwitter className="h-4 w-4 text-foreground dark:text-white" /> },
+            {
+              icon: (
+                <FaXTwitter className="h-4 w-4 text-foreground dark:text-white" />
+              ),
+            },
           ].map((item, index) => (
             <button
               key={index}

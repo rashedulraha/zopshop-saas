@@ -9,7 +9,8 @@ export function proxy(request: NextRequest) {
     request.cookies.get("authjs.session-token")?.value ||
     request.cookies.get("__Secure-authjs.session-token")?.value;
 
-  const isAuthPage = pathname.startsWith("/login") || pathname.startsWith("/register");
+  const isAuthPage =
+    pathname.startsWith("/login") || pathname.startsWith("/register");
   const isProtectedRoute =
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/about") ||

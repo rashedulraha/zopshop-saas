@@ -60,7 +60,10 @@ export function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("accessToken")
+        : null;
     setIsLoggedIn(!!token);
   }, []);
 
@@ -367,7 +370,10 @@ export function Navbar() {
                   <Button
                     className="w-full bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
                     render={
-                      <Link href="/dashboard" onClick={() => setIsOpen(false)} />
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setIsOpen(false)}
+                      />
                     }
                     nativeButton={false}
                   >
@@ -388,7 +394,10 @@ export function Navbar() {
                     <Button
                       className="w-full bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
                       render={
-                        <Link href="/register" onClick={() => setIsOpen(false)} />
+                        <Link
+                          href="/register"
+                          onClick={() => setIsOpen(false)}
+                        />
                       }
                       nativeButton={false}
                     >
