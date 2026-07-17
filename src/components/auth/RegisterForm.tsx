@@ -1,6 +1,12 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerSchema, RegisterSchema } from "@/zod/auth.zod.Schema";
+import { authService } from "@/axios/axios.service";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const EyeIcon = () => (
   <svg
@@ -93,13 +99,37 @@ const XIcon = () => (
 );
 
 export function RegisterForm() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const onSubmit = async (data: RegisterSchema) => {
+    try {
+      await authService.register(data);
+      toast.success("Account created successfully!");
+      router.push("/login");
+    } catch (error: any) {
+      const errorMessage =
+        error?.response?.data?.message ||
+        "Something went wrong. Please try again.";
+      toast.error(errorMessage);
+    }
+  };
 
   return (
     <div className="relative w-full flex items-center justify-center font-sans overflow-hidden">
@@ -146,7 +176,7 @@ export function RegisterForm() {
         </div>
 
         {/* Form */}
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-2">
             <label
               htmlFor="name"
@@ -157,12 +187,15 @@ export function RegisterForm() {
             <input
               type="text"
               id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              {...register("name")}
               placeholder="Your full name"
               className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-5 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
-              required
             />
+            {errors.name && (
+              <p className="text-xs font-medium text-destructive mt-1">
+                {errors.name.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -175,12 +208,15 @@ export function RegisterForm() {
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email")}
               placeholder="name@example.com"
               className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-5 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
-              required
             />
+            {errors.email && (
+              <p className="text-xs font-medium text-destructive mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -188,16 +224,23 @@ export function RegisterForm() {
               htmlFor="phone"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground"
             >
-              Phone Number <span className="text-muted-foreground font-normal">(optional)</span>
+              Phone Number{" "}
+              <span className="text-muted-foreground font-normal">
+                (optional)
+              </span>
             </label>
             <input
               type="tel"
               id="phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="+880 1700-000000"
+              {...register("phone")}
+              placeholder="01700000000"
               className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-5 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
             />
+            {errors.phone && (
+              <p className="text-xs font-medium text-destructive mt-1">
+                {errors.phone.message}
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -212,11 +255,9 @@ export function RegisterForm() {
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("password")}
                   placeholder="••••••••"
                   className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-5 pr-8 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
-                  required
                 />
                 <button
                   type="button"
@@ -226,6 +267,11 @@ export function RegisterForm() {
                   {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                 </button>
               </div>
+              {errors.password && (
+                <p className="text-xs font-medium text-destructive mt-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -239,11 +285,9 @@ export function RegisterForm() {
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  {...register("confirmPassword")}
                   placeholder="••••••••"
                   className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-5 pr-8 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
-                  required
                 />
                 <button
                   type="button"
@@ -253,14 +297,20 @@ export function RegisterForm() {
                   {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
                 </button>
               </div>
+              {errors.confirmPassword && (
+                <p className="text-xs font-medium text-destructive mt-1">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
             </div>
           </div>
 
           <button
             type="submit"
+            disabled={isSubmitting}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4 py-2 w-full mt-2"
           >
-            Create Account
+            {isSubmitting ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 
