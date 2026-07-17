@@ -1,24 +1,12 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
-
-const UserIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="h-5 w-5 text-muted-foreground"
-  >
-    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-    <circle cx="12" cy="7" r="4" />
-  </svg>
-);
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, LoginSchema } from "@/zod/auth.zod.Schema";
+import { authService } from "@/axios/axios.service";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const EyeIcon = () => (
   <svg
@@ -115,9 +103,36 @@ const XIcon = () => (
 
 // --- Main App Component ---
 export default function LoginForm() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data: LoginSchema) => {
+    try {
+      const response = await authService.login(data);
+      localStorage.setItem("accessToken", response.token);
+      localStorage.setItem("refreshToken", response.refreshToken);
+      localStorage.setItem("user", JSON.stringify(response.user));
+      toast.success("Logged in successfully!");
+      router.push("/onboarding");
+    } catch (error: any) {
+      const errorMessage =
+        error?.response?.data?.message ||
+        "Something went wrong. Please check your credentials.";
+      toast.error(errorMessage);
+    }
+  };
 
   return (
     // Main container with a custom background pattern and flexbox for centering. This setup is inherently responsive.
@@ -165,7 +180,7 @@ export default function LoginForm() {
         </div>
 
         {/* Form - Shadcn style */}
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-2">
             <label
               htmlFor="email"
@@ -176,11 +191,15 @@ export default function LoginForm() {
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email")}
               placeholder="name@example.com"
               className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-5 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
             />
+            {errors.email && (
+              <p className="text-xs font-medium text-destructive mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <label
@@ -193,8 +212,7 @@ export default function LoginForm() {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                {...register("password")}
                 placeholder="Enter your password"
                 className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-5 pr-10 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
               />
@@ -206,12 +224,18 @@ export default function LoginForm() {
                 {showPassword ? <EyeOffIcon /> : <EyeIcon />}
               </button>
             </div>
+            {errors.password && (
+              <p className="text-xs font-medium text-destructive mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
           <button
             type="submit"
+            disabled={isSubmitting}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4 py-2 w-full mt-2"
           >
-            Sign In
+            {isSubmitting ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
