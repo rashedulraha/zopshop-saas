@@ -17,7 +17,6 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
-import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import ResponsiveComponents from "@/components/providers/ResponsiveComponents";
 
@@ -338,10 +337,8 @@ export default function FeatureDetailPage({
 
   return (
     <div className="min-h-screen flex flex-col font-sans relative bg-background">
-      <Navbar />
-
-      <main className="flex-1 relative z-10 pt-16">
-        <div className="min-h-screen relative overflow-x-hidden pb-16 pt-12">
+      <main className="flex-1 relative z-10 pt-6">
+        <div className="min-h-screen relative overflow-x-hidden pb-16 pt-6">
           {/* Background Orbs */}
 
           <ResponsiveComponents>
@@ -381,11 +378,11 @@ export default function FeatureDetailPage({
                     >
                       <FeatureIcon className="w-6 h-6" />
                     </div>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground bg-muted px-2.5 py-1 rounded-md border border-border">
+                    <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground bg-muted px-2.5 py-1 rounded-md border border-border">
                       ZopShop Core Feature
                     </span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-3 leading-tight">
+                  <h1 className="text-3xl sm:text-4xl font-medium text-foreground mb-3 leading-tight">
                     {feature.title}
                   </h1>
                   <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
@@ -399,10 +396,10 @@ export default function FeatureDetailPage({
                   transition={{ duration: 0.4, delay: 0.1 }}
                   className="flex-shrink-0 md:self-end bg-muted/40 border border-border/85 rounded-md px-5 py-4 backdrop-blur-sm shadow-sm md:max-w-xs"
                 >
-                  <p className="text-xs font-bold text-primary uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                  <p className="text-xs font-medium text-primary uppercase tracking-wider mb-1 flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5" /> Key Advantage
                   </p>
-                  <p className="text-sm font-semibold text-foreground leading-snug">
+                  <p className="text-sm font-medium text-foreground leading-snug">
                     {feature.tagline}
                   </p>
                 </motion.div>
@@ -455,10 +452,10 @@ export default function FeatureDetailPage({
                     className="bg-card hover:bg-muted/10 border border-border/80 rounded-md p-6 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
                   >
                     <div>
-                      <span className="text-3xl font-extrabold text-foreground tracking-tight block mb-1">
+                      <span className="text-3xl font-medium text-foreground tracking-tight block mb-1">
                         {stat.value}
                       </span>
-                      <span className="text-sm font-bold text-foreground block mb-2">
+                      <span className="text-sm font-medium text-foreground block mb-2">
                         {stat.label}
                       </span>
                     </div>
@@ -475,7 +472,7 @@ export default function FeatureDetailPage({
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
-                  className="text-2xl font-bold text-foreground mb-8 text-center"
+                  className="text-2xl font-medium text-foreground mb-8 text-center"
                 >
                   How It Works: Step-by-Step
                 </motion.h2>
@@ -496,7 +493,7 @@ export default function FeatureDetailPage({
                       {/* Step Number Badge */}
                       <div
                         className={cn(
-                          "absolute left-0 top-0.5 w-12 h-12 rounded-md flex items-center justify-center font-bold text-lg text-white shadow-md border-2 border-background z-10 transition-transform duration-300 group-hover/step:scale-110",
+                          "absolute left-0 top-0.5 w-12 h-12 rounded-md flex items-center justify-center font-medium text-lg text-white shadow-md border-2 border-background z-10 transition-transform duration-300 group-hover/step:scale-110",
                           feature.pillBg,
                         )}
                       >
@@ -505,7 +502,7 @@ export default function FeatureDetailPage({
 
                       {/* Step Content */}
                       <div className="flex-1 bg-card border border-border/80 rounded-md p-5 shadow-sm hover:border-foreground/20 transition-all duration-300">
-                        <h3 className="font-bold text-base text-foreground mb-1.5 flex items-center gap-2">
+                        <h3 className="font-medium text-base text-foreground mb-1.5 flex items-center gap-2">
                           {step.title}
                         </h3>
                         <p className="text-sm text-muted-foreground leading-relaxed">
@@ -535,7 +532,7 @@ export default function FeatureDetailPage({
 
                 <div className="relative z-10 max-w-2xl mx-auto">
                   <Zap className="w-8 h-8 text-primary mx-auto mb-4" />
-                  <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
+                  <h2 className="text-2xl sm:text-3xl font-medium text-foreground mb-4">
                     Ready to optimize your {feature.title.toLowerCase()}?
                   </h2>
                   <p className="text-muted-foreground text-sm sm:text-base mb-8 max-w-lg mx-auto">
@@ -546,7 +543,7 @@ export default function FeatureDetailPage({
                     <Link
                       href="/register"
                       className={cn(
-                        "px-6 py-3 rounded-md font-bold text-sm text-white shadow-lg shadow-primary/20 hover:shadow-xl transition-all duration-300",
+                        "px-6 py-3 rounded-md font-medium text-sm text-white shadow-lg shadow-primary/20 hover:shadow-xl transition-all duration-300",
                         feature.pillBg,
                       )}
                     >
@@ -554,7 +551,7 @@ export default function FeatureDetailPage({
                     </Link>
                     <Link
                       href="/#pricing"
-                      className="px-6 py-3 rounded-md font-bold text-sm border border-border bg-card hover:bg-muted text-foreground transition-all duration-300"
+                      className="px-6 py-3 rounded-md font-medium text-sm border border-border bg-card hover:bg-muted text-foreground transition-all duration-300"
                     >
                       View Pricing Plans
                     </Link>

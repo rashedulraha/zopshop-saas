@@ -10,7 +10,7 @@ import { AboutSection } from "@/components/sections/AboutSection";
 import { UseCasesSection } from "@/components/sections/UseCasesSection";
 import { FAQSection } from "@/components/sections/FAQSection";
 
-export default function LandingPage() {
+export default async function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col font-sans relative bg-background">
       <Navbar />
