@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import ResponsiveComponents from "../providers/ResponsiveComponents";
 import { UserPlus, LayoutDashboard, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -36,6 +37,12 @@ const STEPS = [
 ];
 
 export function HowItWorks() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <section
       id="how-it-works"
@@ -94,14 +101,18 @@ export function HowItWorks() {
                   </div>
                 </div>
 
-                <video
-                  src="/hero_video/howitwork.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
+                {isMounted ? (
+                  <video
+                    src="/hero_video/howitwork.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="absolute inset-0 w-full h-full bg-slate-900" />
+                )}
               </div>
             </motion.div>
 
