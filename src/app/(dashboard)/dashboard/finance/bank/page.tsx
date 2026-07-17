@@ -5,11 +5,8 @@ import {
   Plus,
   Search,
   CheckCircle,
-  Clock,
   Landmark,
   DollarSign,
-  Activity,
-  FileText,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";

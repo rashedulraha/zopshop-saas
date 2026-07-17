@@ -16,7 +16,7 @@ import {
   DollarSign,
   UserCheck,
   UserX,
-  X
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -40,7 +40,7 @@ const initialEmployees: Employee[] = [
     email: "john.doe@zopshop.com",
     salary: 1200,
     joinDate: "15 Jan 2025",
-    status: "Active"
+    status: "Active",
   },
   {
     id: "EMP-002",
@@ -50,7 +50,7 @@ const initialEmployees: Employee[] = [
     email: "jane.smith@zopshop.com",
     salary: 800,
     joinDate: "10 Mar 2025",
-    status: "Active"
+    status: "Active",
   },
   {
     id: "EMP-003",
@@ -60,7 +60,7 @@ const initialEmployees: Employee[] = [
     email: "rahat.islam@zopshop.com",
     salary: 1500,
     joinDate: "01 Jun 2024",
-    status: "Active"
+    status: "Active",
   },
   {
     id: "EMP-004",
@@ -70,7 +70,7 @@ const initialEmployees: Employee[] = [
     email: "samantha@zopshop.com",
     salary: 750,
     joinDate: "01 Oct 2025",
-    status: "Active"
+    status: "Active",
   },
   {
     id: "EMP-005",
@@ -80,8 +80,8 @@ const initialEmployees: Employee[] = [
     email: "karim@zopshop.com",
     salary: 600,
     joinDate: "12 Dec 2025",
-    status: "Inactive"
-  }
+    status: "Inactive",
+  },
 ];
 
 export default function EmployeesPage() {
@@ -103,7 +103,10 @@ export default function EmployeesPage() {
   const stats = useMemo(() => {
     const total = employees.length;
     const active = employees.filter((e) => e.status === "Active").length;
-    const monthlyPayroll = employees.reduce((sum, curr) => sum + curr.salary, 0);
+    const monthlyPayroll = employees.reduce(
+      (sum, curr) => sum + curr.salary,
+      0,
+    );
     const avgSalary = total > 0 ? Math.round(monthlyPayroll / total) : 0;
 
     return { total, active, monthlyPayroll, avgSalary };
@@ -120,9 +123,18 @@ export default function EmployeesPage() {
       setEmployees(
         employees.map((emp) =>
           emp.id === editingEmployee.id
-            ? { ...emp, name, role, phone, email, salary: parsedSalary, joinDate, status }
-            : emp
-        )
+            ? {
+                ...emp,
+                name,
+                role,
+                phone,
+                email,
+                salary: parsedSalary,
+                joinDate,
+                status,
+              }
+            : emp,
+        ),
       );
       setEditingEmployee(null);
     } else {
@@ -135,7 +147,7 @@ export default function EmployeesPage() {
         email,
         salary: parsedSalary,
         joinDate,
-        status
+        status,
       };
       setEmployees([newEmployee, ...employees]);
     }
@@ -179,7 +191,7 @@ export default function EmployeesPage() {
       (emp) =>
         emp.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         emp.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        emp.email.toLowerCase().includes(searchQuery.toLowerCase())
+        emp.email.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }, [employees, searchQuery]);
 
@@ -188,16 +200,19 @@ export default function EmployeesPage() {
       {/* Header Panel */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
-          <h1 className="text-3xl font-semibold text-foreground tracking-tight">Employee Directory</h1>
-          <p className="text-muted-foreground mt-1 text-sm">Review staffing roster, salary contracts, and manage profiles</p>
+          <h1 className="text-3xl font-semibold text-foreground tracking-tight">
+            Employee Directory
+          </h1>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Review staffing roster, salary contracts, and manage profiles
+          </p>
         </div>
         <button
           onClick={() => {
             resetForm();
             setIsFormOpen(true);
           }}
-          className="flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm font-medium self-start sm:self-auto"
-        >
+          className="flex items-center gap-2 h-9 px-4 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm font-medium self-start sm:self-auto">
           <Plus className="w-4 h-4" />
           <span>Add Employee</span>
         </button>
@@ -206,13 +221,21 @@ export default function EmployeesPage() {
       {/* KPI Stats Table Card (Unified Single Card) */}
       <div className="border border-border bg-card rounded-md overflow-hidden">
         <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full text-sm text-left table-fixed min-w-[650px] md:min-w-0">
+          <table className="w-full text-sm text-left table-fixed min-w-162.5 md:min-w-0">
             <thead className="text-xs text-muted-foreground uppercase bg-muted/10 border-b border-border">
               <tr className="divide-x divide-border">
-                <th className="px-5 py-3 font-semibold text-center w-[25%]">Total Staff</th>
-                <th className="px-5 py-3 font-semibold text-center w-[25%]">Active Roster</th>
-                <th className="px-5 py-3 font-semibold text-center w-[25%]">Monthly Payroll</th>
-                <th className="px-5 py-3 font-semibold text-center w-[25%]">Avg Salary</th>
+                <th className="px-5 py-3 font-semibold text-center w-[25%]">
+                  Total Staff
+                </th>
+                <th className="px-5 py-3 font-semibold text-center w-[25%]">
+                  Active Roster
+                </th>
+                <th className="px-5 py-3 font-semibold text-center w-[25%]">
+                  Monthly Payroll
+                </th>
+                <th className="px-5 py-3 font-semibold text-center w-[25%]">
+                  Avg Salary
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -288,26 +311,49 @@ export default function EmployeesPage() {
             <table className="w-full text-sm text-left">
               <thead className="text-xs text-muted-foreground bg-muted/10 uppercase border-b border-border sticky top-0 z-10 bg-muted/95 backdrop-blur-sm shadow-sm">
                 <tr>
-                  <th className="px-4 py-2 font-medium w-[22%] whitespace-nowrap">Employee</th>
-                  <th className="px-4 py-2 font-medium w-[18%] whitespace-nowrap">Role / Designation</th>
-                  <th className="px-4 py-2 font-medium w-[22%]">Contact Info</th>
-                  <th className="px-4 py-2 font-medium w-[13%] whitespace-nowrap">Join Date</th>
-                  <th className="px-4 py-2 font-medium w-[12%] whitespace-nowrap">Monthly Salary</th>
-                  <th className="px-4 py-2 font-medium w-[10%] text-center">Status</th>
-                  <th className="px-4 py-2 font-medium w-[10%] text-right">Actions</th>
+                  <th className="px-4 py-2 font-medium w-[22%] whitespace-nowrap">
+                    Employee
+                  </th>
+                  <th className="px-4 py-2 font-medium w-[18%] whitespace-nowrap">
+                    Role / Designation
+                  </th>
+                  <th className="px-4 py-2 font-medium w-[22%]">
+                    Contact Info
+                  </th>
+                  <th className="px-4 py-2 font-medium w-[13%] whitespace-nowrap">
+                    Join Date
+                  </th>
+                  <th className="px-4 py-2 font-medium w-[12%] whitespace-nowrap">
+                    Monthly Salary
+                  </th>
+                  <th className="px-4 py-2 font-medium w-[10%] text-center">
+                    Status
+                  </th>
+                  <th className="px-4 py-2 font-medium w-[10%] text-right">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">
                 {filteredEmployees.map((emp) => (
-                  <tr key={emp.id} className="hover:bg-muted/30 transition-colors">
+                  <tr
+                    key={emp.id}
+                    className="hover:bg-muted/30 transition-colors">
                     <td className="px-4 py-3 font-semibold text-foreground whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center font-bold text-primary text-xs uppercase shrink-0">
-                          {emp.name.split(" ").map((w) => w[0]).join("")}
+                          {emp.name
+                            .split(" ")
+                            .map((w) => w[0])
+                            .join("")}
                         </div>
                         <div className="flex flex-col">
-                          <span className="font-semibold text-sm">{emp.name}</span>
-                          <span className="text-[10px] text-muted-foreground font-mono">{emp.id}</span>
+                          <span className="font-semibold text-sm">
+                            {emp.name}
+                          </span>
+                          <span className="text-[10px] text-muted-foreground font-mono">
+                            {emp.id}
+                          </span>
                         </div>
                       </div>
                     </td>
@@ -317,10 +363,12 @@ export default function EmployeesPage() {
                     <td className="px-4 py-3 text-muted-foreground">
                       <div className="flex flex-col gap-0.5">
                         <span className="text-xs flex items-center gap-1">
-                          <Phone className="w-3 h-3 text-muted-foreground" /> {emp.phone}
+                          <Phone className="w-3 h-3 text-muted-foreground" />{" "}
+                          {emp.phone}
                         </span>
                         <span className="text-[10px] flex items-center gap-1">
-                          <Mail className="w-3 h-3 text-muted-foreground" /> {emp.email}
+                          <Mail className="w-3 h-3 text-muted-foreground" />{" "}
+                          {emp.email}
                         </span>
                       </div>
                     </td>
@@ -331,7 +379,10 @@ export default function EmployeesPage() {
                       </div>
                     </td>
                     <td className="px-4 py-3 font-bold text-foreground whitespace-nowrap font-mono">
-                      ${emp.salary.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                      $
+                      {emp.salary.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                      })}
                     </td>
                     <td className="px-4 py-3 text-center whitespace-nowrap">
                       <span
@@ -339,13 +390,14 @@ export default function EmployeesPage() {
                           "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border",
                           emp.status === "Active"
                             ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
-                            : "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20"
-                        )}
-                      >
+                            : "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20",
+                        )}>
                         <span
                           className={cn(
                             "w-1 h-1 rounded-full",
-                            emp.status === "Active" ? "bg-emerald-500" : "bg-rose-500"
+                            emp.status === "Active"
+                              ? "bg-emerald-500"
+                              : "bg-rose-500",
                           )}
                         />
                         {emp.status}
@@ -356,15 +408,13 @@ export default function EmployeesPage() {
                         <button
                           onClick={() => handleEdit(emp)}
                           className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
-                          title="Edit Profile"
-                        >
+                          title="Edit Profile">
                           <Edit3 className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => handleDelete(emp.id)}
                           className="p-1 rounded hover:bg-rose-500/10 text-muted-foreground hover:text-rose-500 transition-colors"
-                          title="Remove Staff"
-                        >
+                          title="Remove Staff">
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -373,7 +423,9 @@ export default function EmployeesPage() {
                 ))}
                 {filteredEmployees.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">
+                    <td
+                      colSpan={7}
+                      className="px-4 py-8 text-center text-muted-foreground">
                       No staff profiles match search criteria.
                     </td>
                   </tr>
@@ -401,7 +453,9 @@ export default function EmployeesPage() {
             <div className="flex items-center justify-between border-b border-border pb-4 mb-6">
               <div>
                 <h2 className="text-lg font-semibold text-foreground">
-                  {editingEmployee ? "Edit Employee Profile" : "Register New Employee"}
+                  {editingEmployee
+                    ? "Edit Employee Profile"
+                    : "Register New Employee"}
                 </h2>
                 <p className="text-xs text-muted-foreground mt-1">
                   {editingEmployee
@@ -415,8 +469,7 @@ export default function EmployeesPage() {
                   setIsFormOpen(false);
                   resetForm();
                 }}
-                className="text-muted-foreground hover:text-foreground p-1 hover:bg-muted/50 rounded-md transition-colors"
-              >
+                className="text-muted-foreground hover:text-foreground p-1 hover:bg-muted/50 rounded-md transition-colors">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -530,7 +583,8 @@ export default function EmployeesPage() {
                         className="accent-primary"
                       />
                       <span className="flex items-center gap-1">
-                        <UserCheck className="w-3.5 h-3.5 text-emerald-500" /> Active Roster
+                        <UserCheck className="w-3.5 h-3.5 text-emerald-500" />{" "}
+                        Active Roster
                       </span>
                     </label>
                     <label className="flex items-center gap-2 text-sm text-foreground cursor-pointer">
@@ -541,7 +595,8 @@ export default function EmployeesPage() {
                         className="accent-primary"
                       />
                       <span className="flex items-center gap-1">
-                        <UserX className="w-3.5 h-3.5 text-rose-500" /> Inactive / On Leave
+                        <UserX className="w-3.5 h-3.5 text-rose-500" /> Inactive
+                        / On Leave
                       </span>
                     </label>
                   </div>
@@ -555,14 +610,12 @@ export default function EmployeesPage() {
                     setIsFormOpen(false);
                     resetForm();
                   }}
-                  className="px-4 py-1.5 border border-border bg-card rounded-md text-sm font-medium hover:bg-muted/50 transition-colors"
-                >
+                  className="px-4 py-1.5 border border-border bg-card rounded-md text-sm font-medium hover:bg-muted/50 transition-colors">
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md text-sm font-medium transition-colors"
-                >
+                  className="px-4 py-1.5 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md text-sm font-medium transition-colors">
                   {editingEmployee ? "Update Employee" : "Register Employee"}
                 </button>
               </div>
