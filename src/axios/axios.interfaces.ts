@@ -1,4 +1,4 @@
-interface RegisterPayload {
+export interface RegisterPayload {
   name: string;
   email: string;
   phone?: string;
@@ -6,7 +6,7 @@ interface RegisterPayload {
   confirmPassword: string;
 }
 
-interface RegisterResponse {
+export interface RegisterResponse {
   user: {
     id: string;
     fullName: string;
@@ -17,12 +17,12 @@ interface RegisterResponse {
   refreshToken: string;
 }
 
-interface LoginPayload {
+export interface LoginPayload {
   email: string;
   password: string;
 }
 
-interface LoginResponse {
+export interface LoginResponse {
   user: {
     id: string;
     fullName: string;
