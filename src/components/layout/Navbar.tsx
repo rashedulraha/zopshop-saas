@@ -57,6 +57,13 @@ const itemVariants = {
 } as const;
 
 export function Navbar() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+    setIsLoggedIn(!!token);
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -187,27 +194,40 @@ export function Navbar() {
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center gap-2 shrink-0">
               <ThemeToggle />
-              <Button
-                variant="ghost"
-                size="sm"
-                render={<Link href="/login" />}
-                nativeButton={false}
-                className={cn(
-                  isTransparent
-                    ? "text-white hover:text-white hover:bg-white/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
-                )}
-              >
-                Sign In
-              </Button>
-              <Button
-                size="sm"
-                render={<Link href="/register" />}
-                nativeButton={false}
-                className="bg-primary text-primary-foreground hover:bg-primary-dark"
-              >
-                Get Started
-              </Button>
+              {isLoggedIn ? (
+                <Button
+                  size="sm"
+                  render={<Link href="/dashboard" />}
+                  nativeButton={false}
+                  className="bg-primary text-primary-foreground hover:bg-primary-dark"
+                >
+                  Go to Dashboard
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    render={<Link href="/login" />}
+                    nativeButton={false}
+                    className={cn(
+                      isTransparent
+                        ? "text-white hover:text-white hover:bg-white/10"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+                    )}
+                  >
+                    Sign In
+                  </Button>
+                  <Button
+                    size="sm"
+                    render={<Link href="/register" />}
+                    nativeButton={false}
+                    className="bg-primary text-primary-foreground hover:bg-primary-dark"
+                  >
+                    Get Started
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Mobile Actions */}
@@ -343,25 +363,39 @@ export function Navbar() {
 
               {/* Drawer Footer Actions */}
               <div className="relative p-4 border-t border-border bg-muted/30 flex flex-col gap-3">
-                <Button
-                  variant="outline"
-                  className="w-full border-border"
-                  render={
-                    <Link href="/login" onClick={() => setIsOpen(false)} />
-                  }
-                  nativeButton={false}
-                >
-                  Sign In
-                </Button>
-                <Button
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
-                  render={
-                    <Link href="/register" onClick={() => setIsOpen(false)} />
-                  }
-                  nativeButton={false}
-                >
-                  Get Started Free
-                </Button>
+                {isLoggedIn ? (
+                  <Button
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
+                    render={
+                      <Link href="/dashboard" onClick={() => setIsOpen(false)} />
+                    }
+                    nativeButton={false}
+                  >
+                    Go to Dashboard
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      variant="outline"
+                      className="w-full border-border"
+                      render={
+                        <Link href="/login" onClick={() => setIsOpen(false)} />
+                      }
+                      nativeButton={false}
+                    >
+                      Sign In
+                    </Button>
+                    <Button
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
+                      render={
+                        <Link href="/register" onClick={() => setIsOpen(false)} />
+                      }
+                      nativeButton={false}
+                    >
+                      Get Started Free
+                    </Button>
+                  </>
+                )}
               </div>
             </motion.div>
           </>
