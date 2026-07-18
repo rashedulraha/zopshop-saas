@@ -1,7 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { LineChartWidget, AreaChartWidget, BarChartWidget, DonutChartWidget } from "./ChartWidgets";
+import {
+  LineChartWidget,
+  AreaChartWidget,
+  BarChartWidget,
+  DonutChartWidget,
+} from "./ChartWidgets";
 import { cn } from "@/lib/utils";
 import { TrendingUp, Wallet, Package, Users } from "lucide-react";
 
@@ -47,7 +52,7 @@ export function ChartTabs({
                   "flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-all whitespace-nowrap",
                   isActive
                     ? "border-primary text-primary"
-                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
+                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-border",
                 )}
               >
                 <Icon className="w-4 h-4" />
