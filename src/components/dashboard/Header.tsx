@@ -25,6 +25,7 @@ import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 export function Header() {
   const toggleSidebar = useSidebar((state) => state.toggle);
@@ -108,6 +109,7 @@ export function Header() {
   // handle signout user
   const handleSignoutUser = async () => {
     await authClient.signOut();
+    toast.success("Logout successfull");
     router.push("/login");
   };
 
