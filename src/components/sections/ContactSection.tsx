@@ -3,6 +3,20 @@
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 import ResponsiveComponents from "../providers/ResponsiveComponents";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { toast } from "sonner";
+
+const contactSchema = z.object({
+  firstName: z.string().min(2, "First name is required"),
+  lastName: z.string().min(2, "Last name is required"),
+  email: z.string().email("Invalid email address"),
+  subject: z.string().min(1, "Please select a subject"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
+
+type ContactSchema = z.infer<typeof contactSchema>;
 
 const CONTACT_ITEMS = [
   {
@@ -38,6 +52,33 @@ const INPUT_CLASS =
   "w-full glass-sm rounded-xl px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all duration-200 border-white/30 dark:border-white/8";
 
 export function ContactSection() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<ContactSchema>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      subject: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = async (data: ContactSchema) => {
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      toast.success("Message sent successfully!");
+      reset();
+    } catch (error) {
+      toast.error("Failed to send message. Please try again.");
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -174,7 +215,7 @@ export function ContactSection() {
                   Send us a message
                 </h3>
 
-                <form className="space-y-5">
+                <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="space-y-2">
                       <label htmlFor="firstName" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -183,9 +224,15 @@ export function ContactSection() {
                       <input
                         type="text"
                         id="firstName"
+                        {...register("firstName")}
                         className={INPUT_CLASS}
                         placeholder="John"
                       />
+                      {errors.firstName && (
+                        <p className="text-xs font-medium text-destructive mt-1">
+                          {errors.firstName.message}
+                        </p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="lastName" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -194,9 +241,15 @@ export function ContactSection() {
                       <input
                         type="text"
                         id="lastName"
+                        {...register("lastName")}
                         className={INPUT_CLASS}
                         placeholder="Doe"
                       />
+                      {errors.lastName && (
+                        <p className="text-xs font-medium text-destructive mt-1">
+                          {errors.lastName.message}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -207,9 +260,15 @@ export function ContactSection() {
                     <input
                       type="email"
                       id="email"
+                      {...register("email")}
                       className={INPUT_CLASS}
                       placeholder="john@company.com"
                     />
+                    {errors.email && (
+                      <p className="text-xs font-medium text-destructive mt-1">
+                        {errors.email.message}
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -219,7 +278,7 @@ export function ContactSection() {
                     <div className="relative">
                       <select
                         id="subject"
-                        defaultValue=""
+                        {...register("subject")}
                         className={`${INPUT_CLASS} appearance-none`}
                       >
                         <option value="" disabled>How can we help you?</option>
@@ -234,6 +293,11 @@ export function ContactSection() {
                         </svg>
                       </div>
                     </div>
+                    {errors.subject && (
+                      <p className="text-xs font-medium text-destructive mt-1">
+                        {errors.subject.message}
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -243,17 +307,24 @@ export function ContactSection() {
                     <textarea
                       id="message"
                       rows={5}
+                      {...register("message")}
                       className={`${INPUT_CLASS} resize-none`}
                       placeholder="Tell us a little about your project..."
                     />
+                    {errors.message && (
+                      <p className="text-xs font-medium text-destructive mt-1">
+                        {errors.message.message}
+                      </p>
+                    )}
                   </div>
 
                   <button
-                    type="button"
-                    className="w-full bg-primary hover:bg-primary-dark text-primary-foreground font-semibold rounded-xl px-6 py-4 transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_8px_25px_rgba(79,70,229,0.25)] hover:shadow-[0_12px_35px_rgba(79,70,229,0.35)] hover:-translate-y-0.5"
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-primary hover:bg-primary-dark text-primary-foreground font-semibold rounded-xl px-6 py-4 transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_8px_25px_rgba(79,70,229,0.25)] hover:shadow-[0_12px_35px_rgba(79,70,229,0.35)] hover:-translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none"
                   >
-                    <span>Send Message</span>
-                    <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                    <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
+                    {!isSubmitting && <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
                   </button>
                 </form>
               </div>
