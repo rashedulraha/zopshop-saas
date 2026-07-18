@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import ResponsiveComponents from "../providers/ResponsiveComponents";
+import { axiosServics } from "@/axios/axios.service";
 
 const NAV_LINKS = [
   { name: "Home", href: "#home", icon: Home },
@@ -58,6 +59,9 @@ const itemVariants = {
 
 export function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // use session
+  const data = axiosServics.useSession();
 
   useEffect(() => {
     const token =
