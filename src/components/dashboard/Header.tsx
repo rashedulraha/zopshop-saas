@@ -17,12 +17,16 @@ import {
   LogOut,
   User,
   ChevronRight,
+  ChevronDown,
 } from "lucide-react";
 import { useSidebar } from "@/hooks/useSidebar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { api } from "@/lib/axios";
+import { toast } from "sonner";
+import { axiosServics } from "@/axios/axios.service";
 
 export function Header() {
   const toggleSidebar = useSidebar((state) => state.toggle);
@@ -31,6 +35,7 @@ export function Header() {
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showAvatarMenu, setShowAvatarMenu] = useState(false);
   const mobileSearchRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   // Focus input when mobile search opens
   useEffect(() => {
@@ -101,6 +106,11 @@ export function Header() {
       time: "1d ago",
     },
   ];
+
+  // handle signout user
+  const handleSignoutUser = () => {
+    axiosServics.logout();
+  };
 
   return (
     <>
@@ -275,13 +285,15 @@ export function Header() {
                 setShowNotifications(false);
               }}
               className={cn(
-                "w-8 h-8 rounded-full flex items-center justify-center overflow-hidden border transition-all shrink-0",
-                showAvatarMenu
-                  ? "border-primary ring-2 ring-primary/20 bg-primary/10 text-primary"
-                  : "border-border bg-muted text-muted-foreground hover:ring-2 hover:ring-primary/20",
+                "flex items-center gap-2 border border-border bg-card hover:bg-muted/40 rounded-md px-2.5 py-1 text-xs font-semibold text-foreground transition-all duration-200 outline-none select-none",
+                showAvatarMenu && "border-primary/50"
               )}
             >
-              <span className="text-xs font-semibold">AD</span>
+              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary ring-1 ring-primary/20 shrink-0">
+                AD
+              </div>
+              <span className="hidden sm:inline font-medium text-foreground text-xs">Admin User</span>
+              <ChevronDown className="w-3.5 h-3.5 text-muted-foreground transition-transform shrink-0" />
             </button>
 
             {showAvatarMenu && (
@@ -332,7 +344,10 @@ export function Header() {
 
                   {/* Logout */}
                   <div className="border-t border-border py-1">
-                    <button className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-rose-500 hover:bg-rose-500/10 transition-colors">
+                    <button
+                      onClick={handleSignoutUser}
+                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-rose-500 hover:bg-rose-500/10 transition-colors"
+                    >
                       <LogOut className="w-4 h-4" />
                       Sign Out
                     </button>

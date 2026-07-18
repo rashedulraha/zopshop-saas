@@ -480,40 +480,18 @@ export function Sidebar({ className }: SidebarProps) {
         </nav>
 
         {/* Footer Area */}
-        <div
-          className={cn(
-            "p-4 border-t border-border shrink-0 flex flex-col gap-4 transition-all duration-300",
-            isCollapsed && "items-center px-2",
-          )}
-        >
-          {isCollapsed && (
-            <button
-              onClick={toggleCollapse}
-              className="hidden md:flex p-2 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors mx-auto"
-            >
-              <PanelLeftOpen className="w-5 h-5" />
-            </button>
-          )}
-          <div
-            className={cn(
-              "flex items-center rounded-md hover:bg-muted transition-colors cursor-pointer",
-              isCollapsed ? "justify-center p-0" : "gap-3 px-3 py-2",
-            )}
+        <div className="p-3 border-t border-border shrink-0 flex items-center justify-center">
+          <button
+            onClick={toggleCollapse}
+            className="hidden md:flex p-1.5 rounded-md text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
           >
-            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 ring-2 ring-primary/20">
-              <span className="text-sm font-semibold text-primary">AD</span>
-            </div>
-            {!isCollapsed && (
-              <div className="flex flex-col overflow-hidden">
-                <span className="text-sm font-medium text-foreground truncate">
-                  Admin User
-                </span>
-                <span className="text-xs text-muted-foreground truncate">
-                  admin@zopshop.com
-                </span>
-              </div>
+            {isCollapsed ? (
+              <PanelLeftOpen className="w-4.5 h-4.5" />
+            ) : (
+              <PanelLeftClose className="w-4.5 h-4.5" />
             )}
-          </div>
+          </button>
         </div>
       </aside>
     </>
