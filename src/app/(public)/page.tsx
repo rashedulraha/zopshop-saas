@@ -9,6 +9,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ImpactSection } from "@/components/sections/ImpactSection";
 import { FAQSection } from "@/components/sections/FAQSection";
+import { ContactSection } from "@/components/sections/ContactSection";
 
 export default async function LandingPage() {
   return (
@@ -38,7 +39,10 @@ export default async function LandingPage() {
         {/* 7. Brand story / Mission (Good to have before the final push) */}
         <AboutSection />
 
-        {/* 8. Final push to convert */}
+        {/* 8. Contact Us before final CTA */}
+        <ContactSection />
+
+        {/* 9. Final push to convert */}
         <CTASection />
       </main>
       <Footer />

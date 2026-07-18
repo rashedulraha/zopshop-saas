@@ -14,7 +14,6 @@ const PLANS = [
     price: "BDT 250",
     period: "/month",
     description: "Perfect for small shops just getting started.",
-    features: ["Up to 500 products", "1 store location", "Basic reports", "Email support"],
     buttonText: "Start Free Trial",
     isPopular: false,
     iconBg: "bg-cyan-500/10 border border-cyan-500/20 text-cyan-500",
@@ -26,7 +25,6 @@ const PLANS = [
     price: "BDT 300",
     period: "/month",
     description: "For growing businesses that need more power.",
-    features: ["Unlimited products", "3 store locations", "Advanced analytics", "Priority support"],
     buttonText: "Start Free Trial",
     isPopular: true,
     iconBg: "bg-primary/10 border border-primary/20 text-primary",
@@ -38,7 +36,6 @@ const PLANS = [
     price: "BDT 400",
     period: "/month",
     description: "Maximum performance for large scale operations.",
-    features: ["Unlimited everything", "Unlimited locations", "Custom reports", "Dedicated support"],
     buttonText: "Contact Sales",
     isPopular: false,
     iconBg: "bg-purple-500/10 border border-purple-500/20 text-purple-500",
@@ -48,10 +45,7 @@ const PLANS = [
 
 export function PricingSection() {
   return (
-    <section
-      id="pricing"
-      className="relative overflow-hidden py-14 lg:py-20"
-    >
+    <section id="pricing" className="relative overflow-hidden py-14 lg:py-20">
       {/* Ambient background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full bg-primary/5 dark:bg-primary/8 blur-[100px]" />
@@ -106,7 +100,11 @@ export function PricingSection() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.12, ease: "easeOut" }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.12,
+                ease: "easeOut",
+              }}
               key={index}
               className="flex h-full"
             >
@@ -119,12 +117,14 @@ export function PricingSection() {
                 )}
               >
                 {/* Top shimmer accent */}
-                <div className={cn(
-                  "absolute top-0 left-0 right-0 h-px rounded-t-3xl",
-                  plan.isPopular
-                    ? "bg-gradient-to-r from-transparent via-primary/70 to-transparent"
-                    : "bg-gradient-to-r from-transparent via-white/60 dark:via-white/15 to-transparent"
-                )} />
+                <div
+                  className={cn(
+                    "absolute top-0 left-0 right-0 h-px rounded-t-3xl",
+                    plan.isPopular
+                      ? "bg-gradient-to-r from-transparent via-primary/70 to-transparent"
+                      : "bg-gradient-to-r from-transparent via-white/60 dark:via-white/15 to-transparent",
+                  )}
+                />
 
                 {/* Popular gradient top bar */}
                 {plan.isPopular && (
@@ -140,33 +140,35 @@ export function PricingSection() {
 
                 {/* Icon & Name */}
                 <div className="mb-6">
-                  <div className={cn("mb-4 flex h-12 w-12 items-center justify-center rounded-2xl", plan.iconBg)}>
+                  <div
+                    className={cn(
+                      "mb-4 flex h-12 w-12 items-center justify-center rounded-2xl",
+                      plan.iconBg,
+                    )}
+                  >
                     {plan.icon}
                   </div>
-                  <h3 className="text-2xl font-bold text-foreground">{plan.name}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{plan.description}</p>
+                  <h3 className="text-2xl font-bold text-foreground">
+                    {plan.name}
+                  </h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                    {plan.description}
+                  </p>
                 </div>
 
                 {/* Price */}
                 <div className="mb-6 pb-6 border-b border-white/20 dark:border-white/5">
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-4xl lg:text-5xl font-black tracking-tight text-foreground">
+                  <div className="mb-6 flex items-baseline gap-1">
+                    <span className="text-4xl lg:text-5xl font-normal tracking-tight text-foreground">
                       {plan.price}
                     </span>
-                    <span className="text-sm font-medium text-muted-foreground">{plan.period}</span>
+                    <span className="text-sm font-medium text-muted-foreground">
+                      {plan.period}
+                    </span>
                   </div>
                 </div>
 
                 {/* Features list */}
-                <ul className="flex flex-col gap-3 mb-8 flex-1">
-                  {plan.features.map((f, i) => (
-                    <li key={i} className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                      <CheckCircle2 className={cn("w-4 h-4 shrink-0", plan.accentColor)} />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-
                 {/* CTA Button */}
                 <Button
                   size="lg"

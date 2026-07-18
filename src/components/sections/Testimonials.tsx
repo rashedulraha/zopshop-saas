@@ -94,9 +94,21 @@ const BusinessIcons = {
 };
 
 const STATS = [
-  { label: "Active Businesses", value: "1,200+", icon: <Users className="w-4 h-4" /> },
-  { label: "Avg Efficiency Gain", value: "45%", icon: <TrendingUp className="w-4 h-4" /> },
-  { label: "5-Star Reviews", value: "980+", icon: <Star className="w-4 h-4" /> },
+  {
+    label: "Active Businesses",
+    value: "1,200+",
+    icon: <Users className="w-4 h-4" />,
+  },
+  {
+    label: "Avg Efficiency Gain",
+    value: "45%",
+    icon: <TrendingUp className="w-4 h-4" />,
+  },
+  {
+    label: "5-Star Reviews",
+    value: "980+",
+    icon: <Star className="w-4 h-4" />,
+  },
 ];
 
 export function Testimonials() {
@@ -144,7 +156,6 @@ export function Testimonials() {
       <ResponsiveComponents>
         <div className="w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-start">
-
             {/* LEFT: Content + Stats */}
             <div className="flex flex-col items-start text-left">
               {/* Badge */}
@@ -181,30 +192,9 @@ export function Testimonials() {
                 className="text-muted-foreground text-lg mb-10 max-w-xl leading-relaxed"
               >
                 Join thousands of store owners who rely on ZopShop to streamline
-                their inventory, track sales, and grow their revenue effortlessly.
+                their inventory, track sales, and grow their revenue
+                effortlessly.
               </motion.p>
-
-              {/* Stats grid */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="grid grid-cols-3 gap-3 w-full mb-10"
-              >
-                {STATS.map((stat, i) => (
-                  <div
-                    key={i}
-                    className="glass-md rounded-2xl p-4 flex flex-col gap-2 shadow-sm"
-                  >
-                    <div className="flex items-center gap-1.5 text-primary">
-                      {stat.icon}
-                    </div>
-                    <div className="text-xl font-black text-foreground leading-none">{stat.value}</div>
-                    <div className="text-[10px] text-muted-foreground font-medium leading-tight">{stat.label}</div>
-                  </div>
-                ))}
-              </motion.div>
 
               {/* Buttons */}
               <motion.div
@@ -239,7 +229,10 @@ export function Testimonials() {
                 <div className="w-[400px] h-[400px] rounded-full bg-primary/5 dark:bg-primary/8 blur-[80px]" />
               </div>
 
-              <div className="relative w-full max-w-[500px]" style={{ height: "380px" }}>
+              <div
+                className="relative w-full max-w-[500px]"
+                style={{ height: "380px" }}
+              >
                 <AnimatePresence mode="popLayout">
                   {cards
                     .slice(0, 3)
@@ -247,7 +240,9 @@ export function Testimonials() {
                     .reverse()
                     .map(({ card, index }) => {
                       const BusinessIcon =
-                        BusinessIcons[card.businessType as keyof typeof BusinessIcons] || Store;
+                        BusinessIcons[
+                          card.businessType as keyof typeof BusinessIcons
+                        ] || Store;
 
                       return (
                         <motion.div
@@ -296,7 +291,11 @@ export function Testimonials() {
                                       stroke="currentColor"
                                       strokeWidth={3}
                                     >
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M5 13l4 4L19 7"
+                                      />
                                     </svg>
                                   </div>
                                 )}
