@@ -10,8 +10,6 @@ export const metadata: Metadata = {
 export default function OnboardingPage() {
   return (
     <div className="min-h-screen w-full flex flex-col bg-background text-foreground overflow-hidden relative">
-      <Navbar />
-
       {/* Form Container */}
       <main className="flex-1 w-full flex items-center justify-center relative z-10 p-6 pt-32 pb-20">
         <OnboardingForm />

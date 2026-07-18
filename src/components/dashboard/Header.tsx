@@ -24,9 +24,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { api } from "@/lib/axios";
-import { toast } from "sonner";
-import { axiosServics } from "@/axios/axios.service";
+import { authClient } from "@/lib/auth-client";
 
 export function Header() {
   const toggleSidebar = useSidebar((state) => state.toggle);
@@ -108,8 +106,9 @@ export function Header() {
   ];
 
   // handle signout user
-  const handleSignoutUser = () => {
-    axiosServics.logout();
+  const handleSignoutUser = async () => {
+    await authClient.signOut();
+    router.push("/login");
   };
 
   return (
@@ -286,13 +285,15 @@ export function Header() {
               }}
               className={cn(
                 "flex items-center gap-2 border border-border bg-card hover:bg-muted/40 rounded-md px-2.5 py-1 text-xs font-semibold text-foreground transition-all duration-200 outline-none select-none",
-                showAvatarMenu && "border-primary/50"
+                showAvatarMenu && "border-primary/50",
               )}
             >
               <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary ring-1 ring-primary/20 shrink-0">
                 AD
               </div>
-              <span className="hidden sm:inline font-medium text-foreground text-xs">Admin User</span>
+              <span className="hidden sm:inline font-medium text-foreground text-xs">
+                Admin User
+              </span>
               <ChevronDown className="w-3.5 h-3.5 text-muted-foreground transition-transform shrink-0" />
             </button>
 

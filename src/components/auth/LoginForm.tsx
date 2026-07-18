@@ -10,7 +10,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { axiosServics } from "@/axios/axios.service";
+import { authClient } from "@/lib/auth-client";
 // --- Main App Component ---
 export default function LoginForm() {
   const router = useRouter();
@@ -30,17 +30,23 @@ export default function LoginForm() {
 
   const onSubmit = async (data: LoginSchema) => {
     try {
-      const response = await axiosServics.login(data);
-      localStorage.setItem("accessToken", response.token);
-      localStorage.setItem("refreshToken", response.refreshToken);
-      localStorage.setItem("user", JSON.stringify(response.user));
+      const { data: response, error } = await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (error) {
+        toast.error(
+          error.message ||
+            "Something went wrong. Please check your credentials.",
+        );
+        return;
+      }
+
       toast.success("Logged in successfully!");
       router.push("/onboarding");
     } catch (error: any) {
-      const errorMessage =
-        error?.response?.data?.message ||
-        "Something went wrong. Please check your credentials.";
-      toast.error(errorMessage);
+      toast.error("An unexpected error occurred. Please try again.");
     }
   };
 

@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import ResponsiveComponents from "../providers/ResponsiveComponents";
-import { axiosServics } from "@/axios/axios.service";
+import { authClient } from "@/lib/auth-client";
 
 const NAV_LINKS = [
   { name: "Home", href: "#home", icon: Home },
@@ -57,19 +57,10 @@ const itemVariants = {
   },
 } as const;
 
-export function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // use session
-  const data = axiosServics.useSession();
-
-  useEffect(() => {
-    const token =
-      typeof window !== "undefined"
-        ? localStorage.getItem("accessToken")
-        : null;
-    setIsLoggedIn(!!token);
-  }, []);
+export function Navbar({ hideDashboardLink }: { hideDashboardLink?: boolean } = {}) {
+  const { data: session } = authClient.useSession();
+  const isLoggedIn = !!session;
+  const userData = session?.user;
 
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -78,6 +69,24 @@ export function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isTransparent = isHome && !scrolled;
+
+  const [showGreeting, setShowGreeting] = useState(() => pathname === "/");
+  const [greetingText, setGreetingText] = useState("");
+
+  useEffect(() => {
+    if (isHome) {
+      const hour = new Date().getHours();
+      if (hour >= 5 && hour < 12) setGreetingText("Good Morning");
+      else if (hour >= 12 && hour < 17) setGreetingText("Good Afternoon");
+      else if (hour >= 17 && hour < 21) setGreetingText("Good Evening");
+      else setGreetingText("Good Night");
+
+      const timer = setTimeout(() => setShowGreeting(false), 2500);
+      return () => clearTimeout(timer);
+    } else {
+      setShowGreeting(false);
+    }
+  }, [isHome]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -118,11 +127,11 @@ export function Navbar() {
       <motion.header
         initial={false}
         animate={{
-          width: scrolled ? "100%" : "calc(100% - 2rem)",
-          maxWidth: scrolled ? "100%" : "72rem",
-          y: scrolled ? 0 : 16,
+          width: showGreeting ? "260px" : scrolled ? "100%" : "calc(100% - 2rem)",
+          maxWidth: showGreeting ? "260px" : scrolled ? "100%" : "72rem",
+          y: (scrolled && !showGreeting) ? 0 : 16,
           x: "-50%",
-          borderRadius: scrolled ? 0 : 32,
+          borderRadius: (scrolled && !showGreeting) ? 0 : 32,
         }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         style={{ top: 0 }}
@@ -138,12 +147,36 @@ export function Navbar() {
         {/* Container */}
         <ResponsiveComponents>
           <div className="relative w-full container mx-auto flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
-            {/* Logo */}
+            <AnimatePresence mode="wait">
+              {showGreeting ? (
+                <motion.div
+                  key="greeting"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                >
+                  <span className="font-medium text-lg tracking-wide text-foreground" suppressHydrationWarning>
+                    {greetingText}
+                  </span>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="nav-content"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full flex items-center justify-between"
+                >
+                  {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
               <span
                 className={cn(
                   "font-bold text-lg tracking-tight",
-                  isTransparent ? "text-slate-900 dark:text-white" : "text-foreground",
+                  isTransparent
+                    ? "text-slate-900 dark:text-white"
+                    : "text-foreground",
                 )}
               >
                 Zop<span className="text-primary">Shop</span>
@@ -151,8 +184,9 @@ export function Navbar() {
             </Link>
 
             {/* Desktop Nav - Centered */}
-            <nav className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
-              {NAV_LINKS.map((link) => {
+            {isHome && (
+              <nav className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
+                {NAV_LINKS.map((link) => {
                 const isActive = activeSection === link.href.substring(1);
                 return (
                   <Link
@@ -183,7 +217,9 @@ export function Navbar() {
                         layoutId="activeNavBackground"
                         className={cn(
                           "absolute inset-0 rounded-lg -z-10",
-                          isTransparent ? "bg-slate-200/50 dark:bg-slate-800/50" : "bg-primary/10",
+                          isTransparent
+                            ? "bg-slate-200/50 dark:bg-slate-800/50"
+                            : "bg-primary/10",
                         )}
                         transition={{
                           type: "spring",
@@ -196,20 +232,23 @@ export function Navbar() {
                   </Link>
                 );
               })}
-            </nav>
+              </nav>
+            )}
 
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center gap-2 shrink-0">
               <ThemeToggle />
               {isLoggedIn ? (
-                <Button
-                  size="sm"
-                  render={<Link href="/dashboard" />}
-                  nativeButton={false}
-                  className="bg-primary text-primary-foreground hover:bg-primary-dark"
-                >
-                  Go to Dashboard
-                </Button>
+                !hideDashboardLink && (
+                  <Button
+                    size="sm"
+                    render={<Link href="/dashboard" />}
+                    nativeButton={false}
+                    className="bg-primary text-primary-foreground hover:bg-primary-dark"
+                  >
+                    Go to Dashboard
+                  </Button>
+                )
               ) : (
                 <>
                   <Button
@@ -254,6 +293,9 @@ export function Navbar() {
                 <Menu className="w-5 h-5" />
               </Button>
             </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </ResponsiveComponents>
       </motion.header>
@@ -316,8 +358,9 @@ export function Navbar() {
               </div>
 
               {/* Drawer Nav */}
-              <motion.nav
-                variants={containerVariants}
+              {isHome && (
+                <motion.nav
+                  variants={containerVariants}
                 initial="closed"
                 animate="open"
                 exit="closed"
@@ -366,23 +409,26 @@ export function Navbar() {
                     </motion.div>
                   );
                 })}
-              </motion.nav>
+                </motion.nav>
+              )}
 
               {/* Drawer Footer Actions */}
               <div className="relative p-4 border-t border-border bg-muted/30 flex flex-col gap-3">
                 {isLoggedIn ? (
-                  <Button
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
-                    render={
-                      <Link
-                        href="/dashboard"
-                        onClick={() => setIsOpen(false)}
-                      />
-                    }
-                    nativeButton={false}
-                  >
-                    Go to Dashboard
-                  </Button>
+                  !hideDashboardLink && (
+                    <Button
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
+                      render={
+                        <Link
+                          href="/dashboard"
+                          onClick={() => setIsOpen(false)}
+                        />
+                      }
+                      nativeButton={false}
+                    >
+                      Go to Dashboard
+                    </Button>
+                  )
                 ) : (
                   <>
                     <Button

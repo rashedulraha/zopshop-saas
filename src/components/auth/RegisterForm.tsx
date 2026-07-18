@@ -10,7 +10,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { axiosServics } from "@/axios/axios.service";
+import { authClient } from "@/lib/auth-client";
 export function RegisterForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -33,14 +33,21 @@ export function RegisterForm() {
 
   const onSubmit = async (data: RegisterSchema) => {
     try {
-      await axiosServics.register(data);
+      const { data: response, error } = await authClient.signUp.email({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+      });
+
+      if (error) {
+        toast.error(error.message || "Something went wrong. Please try again.");
+        return;
+      }
+
       toast.success("Account created successfully!");
       router.push("/login");
     } catch (error: any) {
-      const errorMessage =
-        error?.response?.data?.message ||
-        "Something went wrong. Please try again.";
-      toast.error(errorMessage);
+      toast.error("An unexpected error occurred. Please try again.");
     }
   };
 

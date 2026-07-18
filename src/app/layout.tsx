@@ -3,9 +3,10 @@ import { Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 
-const plusJakartaSans = Plus_Jakarta_Sans({ 
-  subsets: ["latin"], 
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
   variable: "--font-sans",
   weight: ["300", "400", "500", "600", "700", "800"],
 });
@@ -17,7 +18,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Zopshop SaaS | Modern Business Platform",
-  description: "The ultimate minimalist project management and billing platform.",
+  description:
+    "The ultimate minimalist project management and billing platform.",
 };
 
 export default function RootLayout({
@@ -36,11 +38,18 @@ export default function RootLayout({
         geistMono.variable,
         plusJakartaSans.variable,
         "font-sans",
-      )}>
+      )}
+    >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

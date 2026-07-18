@@ -3,7 +3,7 @@ import { api } from "@/lib/axios";
 export const useSession = async () => {
   try {
     //   console.log(userData);
-    const { data } = await api.post("/api/me");
+    const { data } = await api.get("/api/me");
     //   console.log(data);
     return data;
   } catch (error: any) {
