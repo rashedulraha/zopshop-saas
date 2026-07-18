@@ -7,7 +7,7 @@ import { HowItWorks } from "@/components/sections/HowItWorks";
 import { PricingSection } from "@/components/sections/PricingSection";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { AboutSection } from "@/components/sections/AboutSection";
-import { UseCasesSection } from "@/components/sections/UseCasesSection";
+import { ImpactSection } from "@/components/sections/ImpactSection";
 import { FAQSection } from "@/components/sections/FAQSection";
 
 export default async function LandingPage() {
@@ -23,8 +23,8 @@ export default async function LandingPage() {
         {/* 2. Deep dive into the capabilities */}
         <FeaturesSection />
 
-        {/* 3. Show them it's built for their specific industry */}
-        <UseCasesSection />
+        {/* 3. Show them the real results — numbers + before/after */}
+        <ImpactSection />
 
         {/* 4. Massive social proof right before pricing to build trust */}
         <Testimonials />
