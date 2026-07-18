@@ -4,13 +4,13 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginSchema } from "@/zod/auth.zod.Schema";
-import { authService } from "@/axios/axios.service";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { axiosServics } from "@/axios/axios.service";
 // --- Main App Component ---
 export default function LoginForm() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function LoginForm() {
 
   const onSubmit = async (data: LoginSchema) => {
     try {
-      const response = await authService.login(data);
+      const response = await axiosServics.login(data);
       localStorage.setItem("accessToken", response.token);
       localStorage.setItem("refreshToken", response.refreshToken);
       localStorage.setItem("user", JSON.stringify(response.user));
@@ -64,9 +64,17 @@ export default function LoginForm() {
         {/* Social login buttons - More compact shadcn style */}
         <div className="grid grid-cols-3 gap-2">
           {[
-            { icon: <FaApple className="h-5 w-5 text-foreground dark:text-white" /> },
+            {
+              icon: (
+                <FaApple className="h-5 w-5 text-foreground dark:text-white" />
+              ),
+            },
             { icon: <FcGoogle className="h-5 w-5" /> },
-            { icon: <FaXTwitter className="h-4 w-4 text-foreground dark:text-white" /> },
+            {
+              icon: (
+                <FaXTwitter className="h-4 w-4 text-foreground dark:text-white" />
+              ),
+            },
           ].map((item, index) => (
             <button
               key={index}

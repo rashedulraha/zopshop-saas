@@ -4,13 +4,13 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, RegisterSchema } from "@/zod/auth.zod.Schema";
-import { authService } from "@/axios/axios.service";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { axiosServics } from "@/axios/axios.service";
 export function RegisterForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +33,7 @@ export function RegisterForm() {
 
   const onSubmit = async (data: RegisterSchema) => {
     try {
-      await authService.register(data);
+      await axiosServics.register(data);
       toast.success("Account created successfully!");
       router.push("/login");
     } catch (error: any) {
