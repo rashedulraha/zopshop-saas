@@ -129,7 +129,7 @@ export function Navbar() {
         className={cn(
           "fixed left-1/2 z-50 transition-colors duration-300",
           isTransparent
-            ? "bg-white/5 hover:bg-white/10 backdrop-blur-2xl border border-white/10 text-white/90 hover:text-white transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.1)] shadow-sm"
+            ? "bg-white/30 dark:bg-slate-950/20 hover:bg-white/50 dark:hover:bg-slate-950/40 backdrop-blur-2xl border border-white/40 dark:border-slate-800/40 text-slate-800 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-all duration-300 shadow-sm"
             : scrolled
               ? "bg-background/80 backdrop-blur-xl border-b border-border"
               : "bg-background/80 backdrop-blur-xl border border-border/50 shadow-sm",
@@ -143,10 +143,10 @@ export function Navbar() {
               <span
                 className={cn(
                   "font-bold text-lg tracking-tight",
-                  isTransparent ? "text-white" : "text-foreground",
+                  isTransparent ? "text-slate-900 dark:text-white" : "text-foreground",
                 )}
               >
-                Zop<span className="text-primary-light">Shop</span>
+                Zop<span className="text-primary">Shop</span>
               </span>
             </Link>
 
@@ -171,10 +171,10 @@ export function Navbar() {
                       "relative px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-300",
                       isActive
                         ? isTransparent
-                          ? "text-white"
+                          ? "text-primary dark:text-primary-light"
                           : "text-primary"
                         : isTransparent
-                          ? "text-white/80 hover:text-white"
+                          ? "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                           : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
                     )}
                   >
@@ -183,7 +183,7 @@ export function Navbar() {
                         layoutId="activeNavBackground"
                         className={cn(
                           "absolute inset-0 rounded-lg -z-10",
-                          isTransparent ? "bg-white/20" : "bg-primary/10",
+                          isTransparent ? "bg-slate-200/50 dark:bg-slate-800/50" : "bg-primary/10",
                         )}
                         transition={{
                           type: "spring",
@@ -219,7 +219,7 @@ export function Navbar() {
                     nativeButton={false}
                     className={cn(
                       isTransparent
-                        ? "text-white hover:text-white hover:bg-white/10"
+                        ? "text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
                         : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
                     )}
                   >
@@ -245,7 +245,7 @@ export function Navbar() {
                 size="icon"
                 className={cn(
                   isTransparent
-                    ? "border-white/20 bg-white/10 text-white hover:bg-white/20"
+                    ? "border-slate-200 dark:border-slate-800 bg-white/40 dark:bg-slate-950/40 text-slate-700 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-950/60"
                     : "border-border bg-muted/50 hover:bg-muted text-foreground",
                 )}
                 onClick={() => setIsOpen(true)}
