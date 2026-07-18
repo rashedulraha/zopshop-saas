@@ -121,7 +121,10 @@ const sidebarGroups: SidebarGroup[] = [
         icon: Send,
         subItems: [
           { name: "Pending Deliveries", href: "/dashboard/delivery/pending" },
-          { name: "Completed Deliveries", href: "/dashboard/delivery/completed" },
+          {
+            name: "Completed Deliveries",
+            href: "/dashboard/delivery/completed",
+          },
           { name: "Delivery Vehicles", href: "/dashboard/delivery/vehicles" },
         ],
       },
@@ -183,7 +186,10 @@ const sidebarGroups: SidebarGroup[] = [
         icon: Settings,
         subItems: [
           { name: "Appearance & Theme", href: "/dashboard/settings/theme" },
-          { name: "Business Information", href: "/dashboard/settings/business" },
+          {
+            name: "Business Information",
+            href: "/dashboard/settings/business",
+          },
           { name: "Invoice Settings", href: "/dashboard/settings/invoice" },
           { name: "Tax & VAT", href: "/dashboard/settings/tax" },
           { name: "Backup", href: "/dashboard/settings/backup" },
@@ -267,9 +273,7 @@ export function Sidebar({ className }: SidebarProps) {
               isCollapsed
                 ? "justify-center py-2.5 px-0"
                 : "justify-between px-3 py-2",
-              isActiveVisual &&
-                isCollapsed &&
-                "bg-primary/10 text-primary",
+              isActiveVisual && isCollapsed && "bg-primary/10 text-primary",
             )}
           >
             <div
@@ -300,9 +304,7 @@ export function Sidebar({ className }: SidebarProps) {
             title={isCollapsed ? item.name : undefined}
             className={cn(
               "flex items-center rounded-md text-sm font-medium transition-colors",
-              isCollapsed
-                ? "justify-center py-2.5 px-0"
-                : "gap-3 px-3 py-2",
+              isCollapsed ? "justify-center py-2.5 px-0" : "gap-3 px-3 py-2",
               isSingleActive
                 ? "bg-primary/10 text-primary"
                 : "text-muted-foreground hover:bg-muted hover:text-foreground",
@@ -379,7 +381,9 @@ export function Sidebar({ className }: SidebarProps) {
             onClick={close}
           >
             <div className="w-6 h-6 rounded bg-primary flex items-center justify-center shrink-0">
-              <span className="text-primary-foreground font-bold text-xs">Z</span>
+              <span className="text-primary-foreground font-bold text-xs">
+                Z
+              </span>
             </div>
             {!isCollapsed && (
               <span className="font-semibold text-foreground tracking-tight whitespace-nowrap">
@@ -453,7 +457,10 @@ export function Sidebar({ className }: SidebarProps) {
           }}
         >
           {sidebarGroups.map((group, groupIdx) => (
-            <div key={group.label} className={cn("flex flex-col", groupIdx > 0 && "mt-4")}>
+            <div
+              key={group.label}
+              className={cn("flex flex-col", groupIdx > 0 && "mt-4")}
+            >
               {/* Group label — hidden when collapsed */}
               {!isCollapsed && (
                 <div className="px-3 mb-1.5">
@@ -494,9 +501,7 @@ export function Sidebar({ className }: SidebarProps) {
             )}
           >
             <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 ring-2 ring-primary/20">
-              <span className="text-sm font-semibold text-primary">
-                AD
-              </span>
+              <span className="text-sm font-semibold text-primary">AD</span>
             </div>
             {!isCollapsed && (
               <div className="flex flex-col overflow-hidden">

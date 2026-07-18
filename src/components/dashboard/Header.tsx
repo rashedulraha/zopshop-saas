@@ -1,9 +1,22 @@
 "use client";
 
-import { 
-  Bell, Search, Menu, Plus, AlertTriangle, ShoppingBag, 
-  ShoppingCart, DollarSign, UserMinus, Truck, Clock,
-  X, Settings, LogOut, User, ChevronRight
+import {
+  Bell,
+  Search,
+  Menu,
+  Plus,
+  AlertTriangle,
+  ShoppingBag,
+  ShoppingCart,
+  DollarSign,
+  UserMinus,
+  Truck,
+  Clock,
+  X,
+  Settings,
+  LogOut,
+  User,
+  ChevronRight,
 } from "lucide-react";
 import { useSidebar } from "@/hooks/useSidebar";
 import { usePathname } from "next/navigation";
@@ -37,7 +50,7 @@ export function Header() {
       message: "iPhone 15 Case has reached critical stock level (5 remaining).",
       icon: AlertTriangle,
       color: "text-rose-500 bg-rose-500/10",
-      time: "5m ago"
+      time: "5m ago",
     },
     {
       id: 2,
@@ -45,7 +58,7 @@ export function Header() {
       message: "Purchase order PO-501 has been received from TechCorp Inc.",
       icon: ShoppingBag,
       color: "text-blue-500 bg-blue-500/10",
-      time: "15m ago"
+      time: "15m ago",
     },
     {
       id: 3,
@@ -53,7 +66,7 @@ export function Header() {
       message: "Sales Invoice INV-1001 recorded for Olivia Martin ($299.00).",
       icon: ShoppingCart,
       color: "text-primary bg-primary/10",
-      time: "32m ago"
+      time: "32m ago",
     },
     {
       id: 4,
@@ -61,7 +74,7 @@ export function Header() {
       message: "Payment of $1,200 received via bKash from Olivia Martin.",
       icon: DollarSign,
       color: "text-emerald-500 bg-emerald-500/10",
-      time: "1h ago"
+      time: "1h ago",
     },
     {
       id: 5,
@@ -69,7 +82,7 @@ export function Header() {
       message: "Customer Jackson Lee has pending dues of $99.00.",
       icon: UserMinus,
       color: "text-amber-500 bg-amber-500/10",
-      time: "3h ago"
+      time: "3h ago",
     },
     {
       id: 6,
@@ -77,7 +90,7 @@ export function Header() {
       message: "Supplier Payable of $5,400 is due for TechCorp Inc.",
       icon: Truck,
       color: "text-indigo-500 bg-indigo-500/10",
-      time: "5h ago"
+      time: "5h ago",
     },
     {
       id: 7,
@@ -85,8 +98,8 @@ export function Header() {
       message: "Delivery Invoice INV-1002 is ready for dispatch.",
       icon: Clock,
       color: "text-teal-500 bg-teal-500/10",
-      time: "1d ago"
-    }
+      time: "1d ago",
+    },
   ];
 
   return (
@@ -186,13 +199,16 @@ export function Header() {
           </button>
 
           {/* Notifications */}
-          <button 
-            onClick={() => { setShowNotifications(!showNotifications); setShowAvatarMenu(false); }}
+          <button
+            onClick={() => {
+              setShowNotifications(!showNotifications);
+              setShowAvatarMenu(false);
+            }}
             className={cn(
               "w-9 h-9 rounded-md flex items-center justify-center border border-transparent transition-colors relative",
-              showNotifications 
-                ? "bg-muted text-foreground border-border" 
-                : "text-muted-foreground hover:bg-muted hover:text-foreground hover:border-border"
+              showNotifications
+                ? "bg-muted text-foreground border-border"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground hover:border-border",
             )}
           >
             <Bell className="w-4 h-4" />
@@ -201,26 +217,47 @@ export function Header() {
 
           {showNotifications && (
             <>
-              <div className="fixed inset-0 z-40" onClick={() => setShowNotifications(false)} />
+              <div
+                className="fixed inset-0 z-40"
+                onClick={() => setShowNotifications(false)}
+              />
               <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 bg-card border border-border rounded-md shadow-lg z-50 overflow-hidden divide-y divide-border/50 max-h-[420px] overflow-y-auto custom-scrollbar animate-in slide-in-from-top-2 duration-150">
                 <div className="px-4 py-3 bg-muted/20 flex items-center justify-between">
-                  <span className="font-semibold text-sm text-foreground">Notifications</span>
-                  <span className="text-[11px] text-primary font-medium hover:underline cursor-pointer">Mark all read</span>
+                  <span className="font-semibold text-sm text-foreground">
+                    Notifications
+                  </span>
+                  <span className="text-[11px] text-primary font-medium hover:underline cursor-pointer">
+                    Mark all read
+                  </span>
                 </div>
                 <div className="divide-y divide-border/50">
                   {notifications.map((notif) => {
                     const Icon = notif.icon;
                     return (
-                      <div key={notif.id} className="p-4 flex gap-3 hover:bg-muted/30 transition-colors cursor-pointer">
-                        <div className={cn("w-8 h-8 rounded-full flex items-center justify-center shrink-0", notif.color)}>
+                      <div
+                        key={notif.id}
+                        className="p-4 flex gap-3 hover:bg-muted/30 transition-colors cursor-pointer"
+                      >
+                        <div
+                          className={cn(
+                            "w-8 h-8 rounded-full flex items-center justify-center shrink-0",
+                            notif.color,
+                          )}
+                        >
                           <Icon className="w-4 h-4" />
                         </div>
                         <div className="flex flex-col gap-0.5">
                           <div className="flex items-center justify-between gap-2">
-                            <span className="font-semibold text-xs text-foreground uppercase tracking-wider">{notif.type}</span>
-                            <span className="text-[10px] text-muted-foreground">{notif.time}</span>
+                            <span className="font-semibold text-xs text-foreground uppercase tracking-wider">
+                              {notif.type}
+                            </span>
+                            <span className="text-[10px] text-muted-foreground">
+                              {notif.time}
+                            </span>
                           </div>
-                          <p className="text-xs text-muted-foreground leading-relaxed mt-1">{notif.message}</p>
+                          <p className="text-xs text-muted-foreground leading-relaxed mt-1">
+                            {notif.message}
+                          </p>
                         </div>
                       </div>
                     );
@@ -233,12 +270,15 @@ export function Header() {
           {/* Avatar + Dropdown */}
           <div className="relative">
             <button
-              onClick={() => { setShowAvatarMenu(!showAvatarMenu); setShowNotifications(false); }}
+              onClick={() => {
+                setShowAvatarMenu(!showAvatarMenu);
+                setShowNotifications(false);
+              }}
               className={cn(
                 "w-8 h-8 rounded-full flex items-center justify-center overflow-hidden border transition-all shrink-0",
                 showAvatarMenu
                   ? "border-primary ring-2 ring-primary/20 bg-primary/10 text-primary"
-                  : "border-border bg-muted text-muted-foreground hover:ring-2 hover:ring-primary/20"
+                  : "border-border bg-muted text-muted-foreground hover:ring-2 hover:ring-primary/20",
               )}
             >
               <span className="text-xs font-semibold">AD</span>
@@ -246,17 +286,26 @@ export function Header() {
 
             {showAvatarMenu && (
               <>
-                <div className="fixed inset-0 z-40" onClick={() => setShowAvatarMenu(false)} />
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setShowAvatarMenu(false)}
+                />
                 <div className="absolute right-0 top-full mt-2 w-56 bg-card border border-border rounded-md shadow-lg z-50 overflow-hidden animate-in slide-in-from-top-2 duration-150">
                   {/* User Info */}
                   <div className="px-4 py-3 border-b border-border bg-muted/20">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center ring-2 ring-primary/20 shrink-0">
-                        <span className="text-sm font-semibold text-primary">AD</span>
+                        <span className="text-sm font-semibold text-primary">
+                          AD
+                        </span>
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-foreground">Admin User</p>
-                        <p className="text-xs text-muted-foreground">admin@zopshop.com</p>
+                        <p className="text-sm font-semibold text-foreground">
+                          Admin User
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          admin@zopshop.com
+                        </p>
                       </div>
                     </div>
                   </div>
