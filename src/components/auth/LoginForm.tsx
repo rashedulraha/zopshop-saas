@@ -117,7 +117,7 @@ export default function LoginForm() {
               id="email"
               {...register("email")}
               placeholder="name@example.com"
-              className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-5 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-12 w-full rounded-lg border border-border bg-background/50 px-4 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 hover:bg-background"
             />
             {errors.email && (
               <p className="text-xs font-medium text-destructive mt-1">
@@ -138,7 +138,7 @@ export default function LoginForm() {
                 id="password"
                 {...register("password")}
                 placeholder="Enter your password"
-                className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-5 pr-10 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-12 w-full rounded-lg border border-border bg-background/50 px-4 pr-10 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 hover:bg-background"
               />
               <button
                 type="button"
@@ -161,7 +161,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4 py-2 w-full mt-2"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow-md hover:bg-primary/90 h-12 px-8 w-full mt-4 active:scale-[0.98]"
           >
             {isSubmitting ? "Signing In..." : "Sign In"}
           </button>
