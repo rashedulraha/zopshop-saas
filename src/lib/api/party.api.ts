@@ -46,8 +46,8 @@ export const partyApi = {
    * GET /api/parties/:id
    */
   getPartyById: async (id: string): Promise<Party> => {
-    const { data } = await api.get<Party>(`/parties/${id}`);
-    return data;
+    const { data } = await api.get<{ party: Party }>(`/parties/${id}`);
+    return data.party;
   },
 
   /**
@@ -78,8 +78,8 @@ export const partyApi = {
    * POST /api/parties
    */
   createParty: async (partyData: CreatePartyPayload): Promise<Party> => {
-    const { data } = await api.post<Party>("/parties", partyData);
-    return data;
+    const { data } = await api.post<{ party: Party }>("/parties", partyData);
+    return data.party;
   },
 
   /**
@@ -87,8 +87,8 @@ export const partyApi = {
    * PUT /api/parties/:id
    */
   updateParty: async (id: string, partyData: Partial<CreatePartyPayload>): Promise<Party> => {
-    const { data } = await api.put<Party>(`/parties/${id}`, partyData);
-    return data;
+    const { data } = await api.put<{ party: Party }>(`/parties/${id}`, partyData);
+    return data.party;
   },
 
   /**

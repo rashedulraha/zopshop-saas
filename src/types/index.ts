@@ -112,10 +112,12 @@ export interface Party {
   id: string;
   name: string;
   email?: string;
-  phone: string;
+  mobile?: string;
   address?: string;
   type: PartyType;
-  balance: number; // Positive means receivable for customer / payable for supplier
+  openingBalance: number;
+  balance?: number; // Positive means receivable for customer / payable for supplier
+  customData?: Record<string, unknown>;
   storeId: string;
   createdAt?: string;
   updatedAt?: string;
@@ -124,10 +126,11 @@ export interface Party {
 export interface CreatePartyPayload {
   name: string;
   email?: string;
-  phone: string;
+  mobile?: string;
   address?: string;
   type: PartyType;
-  balance?: number;
+  openingBalance?: number;
+  customData?: Record<string, unknown>;
 }
 
 export interface PartyListResponse {
