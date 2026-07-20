@@ -2,49 +2,37 @@
 
 import { useState, useEffect } from "react";
 import { 
-  ShoppingCart, Calendar, FileText, User, Plus, Trash2,
+  Calendar, FileText, User, Plus, Trash2,
   DollarSign, Percent, Calculator, CheckCircle2, ArrowLeft,
-  Truck, CreditCard, Wallet
+  Truck, CreditCard
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-
-interface SalesItem {
-  id: string;
-  productId: string;
-  productName: string;
-  quantity: number;
-  unitPrice: number;
-  discount: number; // in percentage
-  vat: number; // in percentage
-  total: number;
-}
-
-const mockProducts = [
-  { id: "PROD-001", name: "iPhone 15 Pro", price: 1199 },
-  { id: "PROD-002", name: "Wireless Charger Pad", price: 29.99 },
-  { id: "PROD-003", name: "Ergonomic Office Chair", price: 499 },
-  { id: "PROD-004", name: "USB-C Cable 2M", price: 15 }
-];
-
-const mockCustomers = [
-  { id: "CUST-001", name: "Olivia Martin" },
-  { id: "CUST-002", name: "Jackson Lee" },
-  { id: "CUST-003", name: "Isabella Nguyen" }
-];
+import { useProductStore } from "@/store/product.store";
+import { usePartyStore } from "@/store/party.store";
+import { useTransactionStore } from "@/store/transaction.store";
+import { TransactionItem, TransactionMode } from "@/types";
+import { toast } from "sonner";
 
 export default function NewSalePage() {
+  const router = useRouter();
+  const { products, fetchProducts } = useProductStore();
+  const { parties, fetchParties } = usePartyStore();
+  const { createTransaction, isLoading: isSubmitting } = useTransactionStore();
+
   const [customerId, setCustomerId] = useState("");
-  const [invoiceNumber, setInvoiceNumber] = useState("");
+  const [invoiceNo, setInvoiceNo] = useState("");
   const [salesDate, setSalesDate] = useState(new Date().toISOString().split("T")[0]);
   
   // Transport Cost, Payment Method, Paid Amount, Due Amount
   const [transportCost, setTransportCost] = useState<number>(0);
-  const [paymentMethod, setPaymentMethod] = useState("Cash");
+  const [mode, setMode] = useState<TransactionMode>("CASH");
   const [paidAmount, setPaidAmount] = useState<number>(0);
   const [dueAmount, setDueAmount] = useState<number>(0);
+  const [note, setNote] = useState("");
 
-  const [items, setItems] = useState<SalesItem[]>([
+  const [items, setItems] = useState<(Omit<TransactionItem, 'id'|'transactionId'|'productId'> & { id: string; productId: string; productName: string; discount: number; vat: number })[]>([
     {
       id: "item-1",
       productId: "",
@@ -53,7 +41,7 @@ export default function NewSalePage() {
       unitPrice: 0,
       discount: 0,
       vat: 0,
-      total: 0
+      totalPrice: 0
     }
   ]);
 
@@ -66,9 +54,15 @@ export default function NewSalePage() {
 
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Fetch initial data
+  useEffect(() => {
+    fetchProducts({ limit: 500 });
+    fetchParties({ type: "CUSTOMER", limit: 500 });
+  }, [fetchProducts, fetchParties]);
+
   // Add a new product row
   const addRow = () => {
-    const newItem: SalesItem = {
+    setItems([...items, {
       id: `item-${Date.now()}`,
       productId: "",
       productName: "",
@@ -76,9 +70,8 @@ export default function NewSalePage() {
       unitPrice: 0,
       discount: 0,
       vat: 0,
-      total: 0
-    };
-    setItems([...items, newItem]);
+      totalPrice: 0
+    }]);
   };
 
   // Remove a product row
@@ -89,7 +82,7 @@ export default function NewSalePage() {
 
   // Handle product selection & autofill default selling price
   const handleProductChange = (rowId: string, prodId: string) => {
-    const selectedProd = mockProducts.find(p => p.id === prodId);
+    const selectedProd = products.find(p => p.id === prodId);
     setItems(items.map(item => {
       if (item.id === rowId) {
         return {
@@ -135,11 +128,11 @@ export default function NewSalePage() {
 
       return {
         ...item,
-        total: finalRowTotal
+        totalPrice: finalRowTotal
       };
     });
 
-    const rowTotalsChanged = updatedItems.some((item, idx) => item.total !== items[idx].total);
+    const rowTotalsChanged = updatedItems.some((item, idx) => (item.totalPrice || 0) !== (items[idx].totalPrice || 0));
     if (rowTotalsChanged) {
       setItems(updatedItems);
     }
@@ -156,31 +149,60 @@ export default function NewSalePage() {
     setDueAmount(Math.max(0, calculatedGrandTotal - (Number(paidAmount) || 0)));
   }, [items, transportCost, paidAmount]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Set mode to credit automatically if not fully paid
+  useEffect(() => {
+    if (dueAmount > 0) {
+      setMode("CREDIT");
+    } else if (mode === "CREDIT" && dueAmount === 0 && summary.grandTotal > 0) {
+      setMode("CASH");
+    }
+  }, [dueAmount, summary.grandTotal, mode]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customerId || !invoiceNumber || items.some(item => !item.productId)) return;
+    if (!invoiceNo || items.some(item => !item.productId)) {
+      toast.error("Please fill in all required fields and ensure items have products selected.");
+      return;
+    }
+
+    if (dueAmount > 0 && !customerId) {
+      toast.error("A customer must be selected for credit sales (unpaid balance).");
+      return;
+    }
     
-    setIsSuccess(true);
-    setTimeout(() => {
-      setIsSuccess(false);
-      // Reset form
-      setCustomerId("");
-      setInvoiceNumber("");
-      setTransportCost(0);
-      setPaidAmount(0);
-      setItems([
-        {
-          id: "item-1",
-          productId: "",
-          productName: "",
-          quantity: 1,
-          unitPrice: 0,
-          discount: 0,
-          vat: 0,
-          total: 0
-        }
-      ]);
-    }, 3000);
+    try {
+      await createTransaction({
+        type: "SALE",
+        mode,
+        amount: summary.grandTotal,
+        netAmount: summary.subtotal,
+        discount: summary.totalDiscount,
+        tax: summary.totalVat,
+        paidAmount,
+        partyId: customerId || null,
+        transactionDate: salesDate,
+        note,
+        customData: {
+          transportCost,
+          invoiceNo
+        },
+        items: items.map(item => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          totalPrice: item.totalPrice
+        }))
+      });
+      
+      setIsSuccess(true);
+      toast.success("Sale recorded successfully!");
+      
+      setTimeout(() => {
+        router.push("/dashboard/sales");
+      }, 1500);
+    } catch (err) {
+      toast.error("Failed to create sale");
+    }
   };
 
   return (
@@ -201,7 +223,7 @@ export default function NewSalePage() {
       {isSuccess && (
         <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 rounded-md flex items-center gap-3 text-sm animate-in fade-in duration-300">
           <CheckCircle2 className="w-5 h-5 shrink-0" />
-          <span>Sales Invoice recorded successfully! Redirecting or clearing form...</span>
+          <span>Sales Invoice recorded successfully! Redirecting...</span>
         </div>
       )}
 
@@ -210,7 +232,7 @@ export default function NewSalePage() {
         
         {/* Invoice Metadata Box */}
         <div className="border border-border bg-card p-5 rounded-md">
-          <div className="border-b border-border pb-3 mb-4">
+          <div className="border-b border-border pb-3 mb-4 flex justify-between items-center">
             <h3 className="text-sm font-semibold text-foreground tracking-tight">Invoice Details</h3>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -220,13 +242,12 @@ export default function NewSalePage() {
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <select
-                  required
                   value={customerId}
                   onChange={e => setCustomerId(e.target.value)}
                   className="w-full h-9 pl-9 pr-4 rounded-md border border-border bg-muted/20 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all appearance-none"
                 >
-                  <option value="">Select Customer</option>
-                  {mockCustomers.map(c => (
+                  <option value="">Walk-in Customer</option>
+                  {parties.map(c => (
                     <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
                 </select>
@@ -241,8 +262,8 @@ export default function NewSalePage() {
                 <input
                   type="text"
                   required
-                  value={invoiceNumber}
-                  onChange={e => setInvoiceNumber(e.target.value)}
+                  value={invoiceNo}
+                  onChange={e => setInvoiceNo(e.target.value)}
                   placeholder="e.g. INV-2026-1001"
                   className="w-full h-9 pl-9 pr-4 rounded-md border border-border bg-muted/20 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
                 />
@@ -305,8 +326,8 @@ export default function NewSalePage() {
                         className="w-full h-8 px-2 rounded-md border border-border bg-background text-xs focus:outline-none focus:ring-1 focus:ring-primary transition-all"
                       >
                         <option value="">Select Product</option>
-                        {mockProducts.map(p => (
-                          <option key={p.id} value={p.id}>{p.name}</option>
+                        {products.map(p => (
+                          <option key={p.id} value={p.id}>{p.name} (Stock: {p.stock})</option>
                         ))}
                       </select>
                     </td>
@@ -370,7 +391,7 @@ export default function NewSalePage() {
 
                     {/* Total */}
                     <td className="px-4 py-2 font-semibold text-foreground text-right">
-                      ${item.total.toFixed(2)}
+                      ${(item.totalPrice || 0).toFixed(2)}
                     </td>
 
                     {/* Delete Row Action */}
@@ -405,19 +426,17 @@ export default function NewSalePage() {
             
             {/* Payment Method */}
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Payment Method</label>
+              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Payment Mode</label>
               <div className="relative">
                 <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <select
-                  value={paymentMethod}
-                  onChange={e => setPaymentMethod(e.target.value)}
+                  value={mode}
+                  onChange={e => setMode(e.target.value as TransactionMode)}
                   className="w-full h-9 pl-9 pr-4 rounded-md border border-border bg-muted/20 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all appearance-none"
                 >
-                  <option value="Cash">Cash</option>
-                  <option value="Bkash">bKash</option>
-                  <option value="Nagad">Nagad</option>
-                  <option value="Card">Credit/Debit Card</option>
-                  <option value="Bank">Bank Transfer</option>
+                  <option value="CASH">Cash</option>
+                  <option value="CREDIT">Credit / Unpaid</option>
+                  <option value="BANK">Bank / Mobile</option>
                 </select>
               </div>
             </div>
@@ -449,6 +468,19 @@ export default function NewSalePage() {
                   readOnly
                   value={dueAmount.toFixed(2)}
                   className="w-full h-9 pl-9 pr-4 rounded-md border border-border bg-muted/10 text-sm font-semibold text-amber-500 cursor-not-allowed"
+                />
+              </div>
+            </div>
+            
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Order Note</label>
+              <div className="relative">
+                <FileText className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+                <textarea
+                  value={note}
+                  onChange={e => setNote(e.target.value)}
+                  placeholder="Optional notes or references"
+                  className="w-full h-20 pt-2.5 pl-9 pr-4 rounded-md border border-border bg-muted/20 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all resize-none"
                 />
               </div>
             </div>
@@ -499,10 +531,11 @@ export default function NewSalePage() {
 
               <button
                 type="submit"
-                className="w-full py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md text-sm font-semibold transition-colors flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="w-full py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md text-sm font-semibold transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Calculator className="w-4 h-4" />
-                <span>Submit Sales Invoice</span>
+                <span>{isSubmitting ? "Submitting..." : "Submit Sales Invoice"}</span>
               </button>
             </div>
           </div>
