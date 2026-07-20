@@ -141,7 +141,7 @@ export function TransactionForm({
               {parties.map((party) => (
                 <SelectItem key={party.id} value={party.id}>
                   {party.name}{" "}
-                  {party.balance > 0 ? `(Bal: $${party.balance})` : ""}
+                  {(party.balance ?? 0) > 0 ? `(Bal: $${party.balance})` : ""}
                 </SelectItem>
               ))}
             </SelectContent>
