@@ -136,7 +136,7 @@ const DemoDashboard = () => {
                   </div>
                 </div>
 
-                <div className="bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-white/10 rounded-md px-14 py-0.5 text-[10px] text-slate-500 dark:text-slate-400 text-center select-none font-medium backdrop-blur-sm">
+                <div className="bg-white/80 dark:bg-slate-800/80 border border-slate-200 dark:border-white/10 rounded-md px-4 md:px-14 py-0.5 text-[10px] text-slate-500 dark:text-slate-400 text-center select-none font-medium backdrop-blur-sm truncate max-w-[120px] md:max-w-none">
                   {shopName.toLowerCase()}.com
                 </div>
 
@@ -151,13 +151,13 @@ const DemoDashboard = () => {
               </div>
 
               {/* Browser Content Area */}
-              <div className="flex h-[530px] overflow-hidden">
+              <div className="flex h-[650px] overflow-hidden">
                 {/* Sidebar - Enhanced with Glass Effect */}
-                <div className="w-48 border-r border-slate-200 dark:border-white/8 flex flex-col p-3.5 bg-white/80 dark:bg-[#1a2444]/80 backdrop-blur-sm overflow-y-auto custom-scrollbar">
+                <div className="w-16 md:w-48 border-r border-slate-200 dark:border-white/8 flex flex-col p-2 md:p-3.5 bg-white/80 dark:bg-[#1a2444]/80 backdrop-blur-sm overflow-y-auto custom-scrollbar">
                   <div className="flex flex-col gap-4">
                     {/* Logo with Animation */}
-                    <div className="flex items-center gap-2 px-2 pb-1 group/logo">
-                      <span className="font-bold text-slate-800 dark:text-white text-sm tracking-tight group-hover/logo:text-blue-600 transition-colors">
+                    <div className="flex items-center justify-center md:justify-start gap-2 px-0 md:px-2 pb-1 group/logo">
+                      <span className="hidden md:inline font-bold text-slate-800 dark:text-white text-sm tracking-tight group-hover/logo:text-blue-600 transition-colors">
                         {shopName}
                       </span>
                     </div>
@@ -166,7 +166,7 @@ const DemoDashboard = () => {
                     <div className="flex flex-col gap-3.5 text-xs font-semibold text-slate-500 dark:text-slate-400">
                       {/* Group: Main */}
                       <div className="flex flex-col gap-1">
-                        <span className="text-[9px] uppercase tracking-wider text-slate-400/80 dark:text-slate-500 font-bold px-2.5 mb-1 select-none flex items-center gap-1">
+                        <span className="hidden md:flex text-[9px] uppercase tracking-wider text-slate-400/80 dark:text-slate-500 font-bold px-2.5 mb-1 select-none items-center gap-1">
                           <span className="w-1 h-1 rounded-full bg-blue-400/50" />
                           Main
                         </span>
@@ -188,7 +188,7 @@ const DemoDashboard = () => {
 
                       {/* Group: Operations */}
                       <div className="flex flex-col gap-1">
-                        <span className="text-[9px] uppercase tracking-wider text-slate-400/80 dark:text-slate-500 font-bold px-2.5 mb-1 select-none flex items-center gap-1">
+                        <span className="hidden md:flex text-[9px] uppercase tracking-wider text-slate-400/80 dark:text-slate-500 font-bold px-2.5 mb-1 select-none items-center gap-1">
                           <span className="w-1 h-1 rounded-full bg-emerald-400/50" />
                           Operations
                         </span>
@@ -216,7 +216,7 @@ const DemoDashboard = () => {
 
                       {/* Group: Finance & Reports */}
                       <div className="flex flex-col gap-1">
-                        <span className="text-[9px] uppercase tracking-wider text-slate-400/80 dark:text-slate-500 font-bold px-2.5 mb-1 select-none flex items-center gap-1">
+                        <span className="hidden md:flex text-[9px] uppercase tracking-wider text-slate-400/80 dark:text-slate-500 font-bold px-2.5 mb-1 select-none items-center gap-1">
                           <span className="w-1 h-1 rounded-full bg-purple-400/50" />
                           Finance & Reports
                         </span>
@@ -236,7 +236,7 @@ const DemoDashboard = () => {
 
                       {/* Group: Admin */}
                       <div className="flex flex-col gap-1">
-                        <span className="text-[9px] uppercase tracking-wider text-slate-400/80 dark:text-slate-500 font-bold px-2.5 mb-1 select-none flex items-center gap-1">
+                        <span className="hidden md:flex text-[9px] uppercase tracking-wider text-slate-400/80 dark:text-slate-500 font-bold px-2.5 mb-1 select-none items-center gap-1">
                           <span className="w-1 h-1 rounded-full bg-rose-400/50" />
                           Admin
                         </span>
@@ -263,12 +263,12 @@ const DemoDashboard = () => {
 
                     {/* Sidebar Footer - Status */}
                     <div className="mt-auto pt-4 border-t border-slate-200 dark:border-white/8">
-                      <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-md bg-emerald-50/50 dark:bg-emerald-950/20">
+                      <div className="flex items-center justify-center md:justify-start gap-2 px-1 md:px-2.5 py-1.5 rounded-md bg-emerald-50/50 dark:bg-emerald-950/20">
                         <span className="relative flex h-2 w-2">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
-                        <span className="text-[9px] font-medium text-emerald-600 dark:text-emerald-400">
+                        <span className="hidden md:inline text-[9px] font-medium text-emerald-600 dark:text-emerald-400">
                           System Online
                         </span>
                       </div>
@@ -300,12 +300,12 @@ const DemoDashboard = () => {
                         <Bell className="w-4 h-4 text-slate-400 cursor-pointer hover:text-blue-500 transition-colors" />
                         <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" />
                       </div>
-                      <div className="flex items-center gap-1.5 border border-white/20 dark:border-white/5 bg-white/30 dark:bg-slate-950/20 rounded-md px-2 py-1 text-[10px] font-semibold text-slate-700 dark:text-slate-300 backdrop-blur-sm hover:bg-white/50 transition-all cursor-pointer group">
+                      <div className="flex items-center gap-1.5 border border-white/20 dark:border-white/5 bg-white/30 dark:bg-slate-950/20 rounded-md px-1.5 md:px-2 py-1 text-[10px] font-semibold text-slate-700 dark:text-slate-300 backdrop-blur-sm hover:bg-white/50 transition-all cursor-pointer group">
                         <div className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-[8px] font-bold text-white shadow-md group-hover:scale-110 transition-transform">
                           JD
                         </div>
-                        <span>Alex</span>
-                        <ChevronDown className="w-3 h-3 group-hover:rotate-180 transition-transform" />
+                        <span className="hidden md:inline">Alex</span>
+                        <ChevronDown className="hidden md:block w-3 h-3 group-hover:rotate-180 transition-transform" />
                       </div>
                     </div>
                   </div>
@@ -370,7 +370,7 @@ const SidebarButton = ({
 }) => (
   <button
     onClick={onClick}
-    className={`flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all duration-200 cursor-pointer group ${
+    className={`flex items-center justify-center md:justify-between px-2.5 py-1.5 rounded-md transition-all duration-200 cursor-pointer group relative md:static ${
       active
         ? "bg-[#0066ff]/10 text-[#0066ff] dark:text-blue-400 shadow-sm"
         : "hover:bg-white/10 dark:hover:bg-white/05 text-slate-500 dark:text-slate-400"
@@ -382,18 +382,18 @@ const SidebarButton = ({
       >
         {icon}
       </span>
-      <span>{label}</span>
+      <span className="hidden md:inline">{label}</span>
     </div>
     {badge !== null && badge !== undefined && (
       <span
-        className={`w-4 h-4 bg-rose-500 text-white rounded-full flex items-center justify-center text-[9px] font-bold transition-all ${active ? "scale-110" : ""}`}
+        className={`absolute md:static -top-1 -right-1 md:top-auto md:right-auto w-3.5 h-3.5 md:w-4 md:h-4 bg-rose-500 text-white rounded-full flex items-center justify-center text-[8px] md:text-[9px] font-bold transition-all ${active ? "scale-110" : ""}`}
       >
         {badge}
       </span>
     )}
-    {!badge && active && <ChevronRight className="w-3 h-3 text-blue-500" />}
+    {!badge && active && <ChevronRight className="hidden md:block w-3 h-3 text-blue-500" />}
     {!badge && !active && (
-      <ChevronRight className="w-3 h-3 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <ChevronRight className="hidden md:block w-3 h-3 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity" />
     )}
   </button>
 );
@@ -466,7 +466,8 @@ const OverviewTab = () => (
           View All
         </button>
       </div>
-      <table className="w-full text-left border-collapse text-[10px]">
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse text-[10px] min-w-[500px]">
         <thead>
           <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
             <th className="py-2.5 px-3">No</th>
@@ -504,6 +505,7 @@ const OverviewTab = () => (
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 );
@@ -527,7 +529,7 @@ const ProductTab = () => (
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse text-[10px]">
+        <table className="w-full text-left border-collapse text-[10px] min-w-[500px]">
           <thead>
             <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
               <th className="py-2 px-3">SKU</th>
@@ -730,7 +732,7 @@ const CheckoutTab = ({
 
 const FinanceTab = () => (
   <div className="flex flex-col gap-4 animate-fade-in text-xs">
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
       {financeStats.map((stat, index) => (
         <div
           key={index}
@@ -760,7 +762,8 @@ const FinanceTab = () => (
           View All
         </button>
       </div>
-      <table className="w-full text-left border-collapse text-[10px]">
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse text-[10px] min-w-[400px]">
         <thead>
           <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
             <th className="py-2 px-3">Category</th>
@@ -787,6 +790,7 @@ const FinanceTab = () => (
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 );
@@ -934,7 +938,8 @@ const EmployeesTab = () => (
       </button>
     </div>
 
-    <table className="w-full text-left border-collapse text-[10px]">
+    <div className="overflow-x-auto">
+      <table className="w-full text-left border-collapse text-[10px] min-w-[450px]">
       <thead>
         <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
           <th className="py-2 px-3">Name</th>
@@ -973,6 +978,7 @@ const EmployeesTab = () => (
         ))}
       </tbody>
     </table>
+    </div>
   </div>
 );
 
@@ -987,7 +993,8 @@ const RolesTab = () => (
       </button>
     </div>
 
-    <table className="w-full text-left border-collapse text-[10px]">
+    <div className="overflow-x-auto">
+      <table className="w-full text-left border-collapse text-[10px] min-w-[500px]">
       <thead>
         <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
           <th className="py-2 px-3">Name</th>
@@ -1025,6 +1032,7 @@ const RolesTab = () => (
         ))}
       </tbody>
     </table>
+    </div>
   </div>
 );
 
@@ -1039,7 +1047,7 @@ const SettingsTab = ({
   setReceiptHeader,
 }: any) => (
   <div className="bg-white/60 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-white/8 p-4 flex flex-col gap-4 animate-fade-in text-xs backdrop-blur-sm">
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="flex flex-col gap-1.5">
         <label className="font-bold text-slate-600 dark:text-slate-400 text-[10px] flex items-center gap-1">
           <span className="text-blue-500">🏪</span> Shop Name
