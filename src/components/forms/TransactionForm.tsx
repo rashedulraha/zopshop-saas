@@ -114,7 +114,7 @@ export function TransactionForm({
     if (product) {
       form.setValue(
         `items.${index}.price`,
-        defaultType === "sale" ? product.price : product.costPrice,
+        defaultType === "sale" ? product.price : (product.purchasePrice ?? 0),
       );
     }
   };
