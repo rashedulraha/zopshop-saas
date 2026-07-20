@@ -1,60 +1,88 @@
 import { api } from "../axios";
-import { Product, Category } from "@/types";
+import { Product, CreateProductPayload, ProductListResponse } from "@/types";
+
+export interface ProductListParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  categoryId?: string | null;
+  sortBy?: string;
+  sortOrder?: string;
+}
 
 export const productApi = {
-  // ==========================================
-  // CATEGORIES
-  // ==========================================
-
-  getCategories: async (): Promise<Category[]> => {
-    const { data } = await api.get<Category[]>("/categories");
+  /**
+   * Fetches products with pagination, search, sorting and category filtering.
+   * GET /api/products
+   */
+  getAllProducts: async (
+    params?: ProductListParams,
+  ): Promise<ProductListResponse> => {
+    const { data } = await api.get<ProductListResponse>("/products", {
+      params,
+    });
     return data;
   },
 
-  getCategory: async (id: string): Promise<Category> => {
-    const { data } = await api.get<Category>(`/categories/${id}`);
-    return data;
-  },
-
-  createCategory: async (categoryData: Partial<Category>): Promise<Category> => {
-    const { data } = await api.post<Category>("/categories", categoryData);
-    return data;
-  },
-
-  updateCategory: async (id: string, categoryData: Partial<Category>): Promise<Category> => {
-    const { data } = await api.put<Category>(`/categories/${id}`, categoryData);
-    return data;
-  },
-
-  deleteCategory: async (id: string): Promise<void> => {
-    await api.delete(`/categories/${id}`);
-  },
-
-  // ==========================================
-  // PRODUCTS
-  // ==========================================
-
-  getProducts: async (params?: { categoryId?: string; search?: string }): Promise<Product[]> => {
-    const { data } = await api.get<Product[]>("/products", { params });
-    return data;
-  },
-
-  getProduct: async (id: string): Promise<Product> => {
+  /**
+   * Fetches a single product by ID.
+   * GET /api/products/:id
+   */
+  getProductById: async (id: string): Promise<Product> => {
     const { data } = await api.get<Product>(`/products/${id}`);
     return data;
   },
 
-  createProduct: async (productData: Partial<Product>): Promise<Product> => {
+  /**
+   * Creates a new product.
+   * POST /api/products
+   */
+  createProduct: async (
+    productData: CreateProductPayload,
+  ): Promise<Product> => {
     const { data } = await api.post<Product>("/products", productData);
     return data;
   },
 
-  updateProduct: async (id: string, productData: Partial<Product>): Promise<Product> => {
+  /**
+   * Updates an existing product.
+   * PUT /api/products/:id
+   */
+  updateProduct: async (
+    id: string,
+    productData: Partial<CreateProductPayload>,
+  ): Promise<Product> => {
     const { data } = await api.put<Product>(`/products/${id}`, productData);
     return data;
   },
 
+  /**
+   * Deletes a product by ID.
+   * DELETE /api/products/:id
+   */
   deleteProduct: async (id: string): Promise<void> => {
     await api.delete(`/products/${id}`);
+  },
+
+  /**
+   * Fetches all products belonging to a specific category.
+   * GET /api/products/category/:categoryId
+   */
+  getProductsByCategory: async (categoryId: string): Promise<Product[]> => {
+    const { data } = await api.get<Product[]>(
+      `/products/category/${categoryId}`,
+    );
+    return data;
+  },
+
+  /**
+   * Searches products by keyword.
+   * GET /api/products/search?q=keyword
+   */
+  searchProducts: async (query: string): Promise<Product[]> => {
+    const { data } = await api.get<Product[]>("/products/search", {
+      params: { q: query },
+    });
+    return data;
   },
 };
