@@ -69,12 +69,13 @@ export interface Category {
 export interface Product {
   id: string;
   name: string;
+  unit: string;
+  price: number; // Selling price
+  purchasePrice?: number;
+  stock: number;
   sku?: string;
   barcode?: string;
-  description?: string;
-  costPrice: number;
-  price: number; // Selling price
-  stock: number;
+  attributes?: Record<string, unknown>;
   storeId: string;
   categoryId?: string | null;
   category?: Category | null;
@@ -84,12 +85,13 @@ export interface Product {
 
 export interface CreateProductPayload {
   name: string;
+  unit: string;
+  price: number;
+  purchasePrice?: number;
+  stock?: number;
   sku?: string;
   barcode?: string;
-  description?: string;
-  costPrice: number;
-  price: number;
-  stock: number;
+  attributes?: Record<string, unknown>;
   categoryId?: string | null;
 }
 
