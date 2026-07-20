@@ -144,9 +144,8 @@ export interface PartyListResponse {
 // TRANSACTION TYPES
 // ==========================================
 
-export type TransactionType = "sale" | "purchase" | "expense" | "cash_in" | "cash_out";
-export type PaymentMethod = "cash" | "bank" | "mobile_banking" | "other";
-export type PaymentStatus = "paid" | "partial" | "due";
+export type TransactionType = "SALE" | "PURCHASE" | "EXPENSE" | "PAYMENT_RECEIVED" | "PAYMENT_SENT";
+export type TransactionMode = "CASH" | "CREDIT" | "BANK";
 
 export interface TransactionItem {
   id: string;
@@ -154,49 +153,52 @@ export interface TransactionItem {
   productId: string;
   product?: Product;
   quantity: number;
-  price: number; // Price at which item was sold/purchased
-  costPrice?: number; // Cost price of item at time of transaction
-  subtotal: number;
+  price?: number; // legacy alias
+  unitPrice: number;
+  costPrice?: number;
+  subtotal?: number; // legacy alias
+  totalPrice?: number;
 }
 
 export interface Transaction {
   id: string;
-  invoiceNumber: string;
+  invoiceNo: string;
+  invoiceNumber?: string; // legacy alias
   type: TransactionType;
+  mode: TransactionMode;
   partyId?: string | null;
   party?: Party | null;
-  items: TransactionItem[];
-  totalAmount: number;
+  items?: TransactionItem[];
+  amount: number;
+  totalAmount?: number; // legacy alias
   discount: number;
   tax: number;
+  netAmount: number;
   paidAmount: number;
   dueAmount: number;
-  paymentMethod: PaymentMethod;
-  paymentStatus: PaymentStatus;
-  notes?: string;
-  createdBy: string; // User ID of creator
-  storeId: string;
+  note?: string;
+  notes?: string; // legacy alias
+  transactionDate: string;
+  customData?: Record<string, any>;
+  createdBy?: string;
+  storeId?: string;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface CreateTransactionPayload {
-  type: TransactionType;
   partyId?: string | null;
-  items?: Array<{
-    productId: string;
-    quantity: number;
-    price: number;
-    costPrice?: number;
-  }>;
-  totalAmount: number;
+  type: TransactionType;
+  mode: TransactionMode;
+  amount: number;
+  netAmount: number;
   discount?: number;
   tax?: number;
-  paidAmount: number;
-  paymentMethod: PaymentMethod;
-  paymentStatus?: PaymentStatus;
-  notes?: string;
-  date?: string;
+  paidAmount?: number;
+  note?: string;
+  transactionDate?: string;
+  customData?: Record<string, any>;
+  items?: Array<Omit<TransactionItem, 'id' | 'transactionId'>>;
 }
 
 export interface TransactionListResponse {
@@ -211,8 +213,8 @@ export interface DailySummary {
   totalSales: number;
   totalPurchases: number;
   totalExpenses: number;
-  totalCashIn: number;
-  totalCashOut: number;
+  paymentsReceived: number;
+  paymentsSent: number;
   netCashFlow: number;
 }
 
