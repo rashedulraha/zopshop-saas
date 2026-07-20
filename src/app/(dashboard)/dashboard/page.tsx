@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useReportStore } from "@/store/report.store";
 import { useTransactionStore } from "@/store/transaction.store";
+import { usePartyStore } from "@/store/party.store";
+import { getPaymentStatus } from "@/lib/utils/transaction.utils";
 import {
   RecentSalesTable,
   RecentPurchasesTable,
@@ -402,10 +404,10 @@ export default function DashboardPage() {
           ) : (
             <RecentSalesTable
               data={transactions.map((t) => ({
-                invoice: t.invoiceNumber || "INV",
+                invoice: t.invoiceNo || "INV",
                 customer: t.party?.name || "Cash Customer",
-                amount: `$${t.totalAmount}`,
-                status: t.paymentStatus === "paid" ? "Paid" : "Due",
+                amount: `$${t.amount}`,
+                status: getPaymentStatus(t.dueAmount, t.amount) === "paid" ? "Paid" : "Due",
                 date: new Date(t.createdAt || Date.now()).toLocaleDateString(),
               }))}
             />
