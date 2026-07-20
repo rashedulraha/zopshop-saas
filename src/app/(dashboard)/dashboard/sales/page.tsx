@@ -1,49 +1,52 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
-import { Plus, Search, Filter, Tags, CheckCircle, Clock, AlertTriangle, FileText, Download } from "lucide-react";
+import { Plus, Search, Tags, CheckCircle, Clock, FileText, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface SaleInvoice {
-  id: string;
-  invoice: string;
-  date: string;
-  customer: string;
-  totalAmount: number;
-  paidAmount: number;
-  status: "Paid" | "Due" | "Cancelled";
-}
-
-const initialSales: SaleInvoice[] = [
-  { id: "S-1", invoice: "INV-1001", date: "13 Oct 2026", customer: "Olivia Martin", totalAmount: 299, paidAmount: 299, status: "Paid" },
-  { id: "S-2", invoice: "INV-1002", date: "13 Oct 2026", customer: "Jackson Lee", totalAmount: 99, paidAmount: 0, status: "Due" },
-  { id: "S-3", invoice: "INV-1003", date: "12 Oct 2026", customer: "Isabella Nguyen", totalAmount: 450, paidAmount: 450, status: "Paid" }
-];
+import { useTransactionStore } from "@/store/transaction.store";
+import { Transaction } from "@/types";
 
 export default function SalesListPage() {
-  const [sales] = useState<SaleInvoice[]>(initialSales);
+  const { transactions, fetchTransactions, isLoading } = useTransactionStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  // Debounce search
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    fetchTransactions({ type: "SALE", limit: 100 });
+  }, [fetchTransactions]);
 
   const stats = useMemo(() => {
-    const total = sales.length;
-    const paid = sales.filter((s) => s.status === "Paid").length;
-    const due = sales.filter((s) => s.status === "Due").length;
-    const totalRevenue = sales.reduce((sum, curr) => sum + curr.totalAmount, 0);
+    const total = transactions.length;
+    const paid = transactions.filter((s) => s.paymentStatus === "paid").length;
+    const due = transactions.filter((s) => s.paymentStatus === "due" || s.paymentStatus === "partial").length;
+    const totalRevenue = transactions.reduce((sum, curr) => sum + curr.totalAmount, 0);
 
     return { total, paid, due, totalRevenue };
-  }, [sales]);
+  }, [transactions]);
 
   const filteredSales = useMemo(() => {
-    return sales.filter((s) => {
+    return transactions.filter((s) => {
       const matchesSearch =
-        s.invoice.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.customer.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesStatus = filterStatus === "All" || s.status === filterStatus;
+        s.invoiceNumber?.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        s.party?.name?.toLowerCase().includes(debouncedSearch.toLowerCase());
+      
+      const matchesStatus = filterStatus === "All" || 
+        (filterStatus === "Paid" && s.paymentStatus === "paid") ||
+        (filterStatus === "Due" && (s.paymentStatus === "due" || s.paymentStatus === "partial"));
+      
       return matchesSearch && matchesStatus;
     });
-  }, [sales, searchQuery, filterStatus]);
+  }, [transactions, debouncedSearch, filterStatus]);
 
   return (
     <div className="flex flex-col gap-6 pb-12">
@@ -62,7 +65,6 @@ export default function SalesListPage() {
         </Link>
       </div>
 
-      {/* KPI Stats Table Card (Unified Single Card) */}
       <div className="border border-border bg-card rounded-md overflow-hidden">
         <div className="overflow-x-auto custom-scrollbar">
           <table className="w-full text-sm text-left table-fixed min-w-[700px] md:min-w-0">
@@ -151,35 +153,44 @@ export default function SalesListPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border/50">
-              {filteredSales.map((s) => (
-                <tr key={s.id} className="hover:bg-muted/20 transition-colors">
-                  <td className="px-4 py-3 font-semibold text-foreground font-mono">{s.invoice}</td>
-                  <td className="px-4 py-3 text-muted-foreground">{s.date}</td>
-                  <td className="px-4 py-3 font-semibold text-foreground">{s.customer}</td>
-                  <td className="px-4 py-3 font-bold text-foreground font-mono">${s.totalAmount.toFixed(2)}</td>
-                  <td className="px-4 py-3 text-emerald-500 font-bold font-mono">${s.paidAmount.toFixed(2)}</td>
-                  <td className="px-4 py-3 text-center">
-                    <span className={cn(
-                      "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border",
-                      s.status === "Paid" && "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
-                      s.status === "Due" && "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-                      s.status === "Cancelled" && "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20"
-                    )}>
-                      <span className={cn(
-                        "w-1.5 h-1.5 rounded-full",
-                        s.status === "Paid" ? "bg-emerald-500" : s.status === "Due" ? "bg-amber-500" : "bg-rose-500"
-                      )} />
-                      {s.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <button className="h-7 px-2.5 rounded bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground font-medium text-[10px] inline-flex items-center gap-1">
-                      <Download className="w-3 h-3" />
-                      <span>PDF invoice</span>
-                    </button>
-                  </td>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">Loading sales...</td>
                 </tr>
-              ))}
+              ) : filteredSales.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">No sales found.</td>
+                </tr>
+              ) : (
+                filteredSales.map((s) => (
+                  <tr key={s.id} className="hover:bg-muted/20 transition-colors">
+                    <td className="px-4 py-3 font-semibold text-foreground font-mono">{s.invoiceNumber || "-"}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{new Date(s.createdAt || Date.now()).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 font-semibold text-foreground">{s.party?.name || "Cash Customer"}</td>
+                    <td className="px-4 py-3 font-bold text-foreground font-mono">${s.totalAmount.toFixed(2)}</td>
+                    <td className="px-4 py-3 text-emerald-500 font-bold font-mono">${s.paidAmount.toFixed(2)}</td>
+                    <td className="px-4 py-3 text-center">
+                      <span className={cn(
+                        "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border",
+                        s.paymentStatus === "paid" && "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+                        (s.paymentStatus === "due" || s.paymentStatus === "partial") && "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
+                      )}>
+                        <span className={cn(
+                          "w-1.5 h-1.5 rounded-full",
+                          s.paymentStatus === "paid" ? "bg-emerald-500" : "bg-amber-500"
+                        )} />
+                        {s.paymentStatus === "paid" ? "Paid" : "Due"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <button className="h-7 px-2.5 rounded bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground font-medium text-[10px] inline-flex items-center gap-1">
+                        <Download className="w-3 h-3" />
+                        <span>PDF invoice</span>
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

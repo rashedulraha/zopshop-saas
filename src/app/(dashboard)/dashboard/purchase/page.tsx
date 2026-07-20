@@ -1,99 +1,59 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
-import {
-  Plus,
-  Search,
-  Filter,
-  ShoppingCart,
-  CheckCircle,
-  Clock,
-  AlertTriangle,
-  FileText,
-  Download,
-  DollarSign,
-} from "lucide-react";
+import { Plus, Search, CheckCircle, Clock, FileText, Download, DollarSign } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface PurchaseInvoice {
-  id: string;
-  poNumber: string;
-  date: string;
-  supplier: string;
-  totalAmount: number;
-  paidAmount: number;
-  status: "Received" | "Pending" | "Cancelled";
-}
-
-const initialPurchases: PurchaseInvoice[] = [
-  {
-    id: "P-1",
-    poNumber: "PO-501",
-    date: "12 Oct 2026",
-    supplier: "TechCorp Inc.",
-    totalAmount: 5400,
-    paidAmount: 5400,
-    status: "Received",
-  },
-  {
-    id: "P-2",
-    poNumber: "PO-502",
-    date: "10 Oct 2026",
-    supplier: "Global Supply",
-    totalAmount: 1200,
-    paidAmount: 0,
-    status: "Pending",
-  },
-  {
-    id: "P-3",
-    poNumber: "PO-503",
-    date: "08 Oct 2026",
-    supplier: "Smart Devices Ltd",
-    totalAmount: 3800,
-    paidAmount: 3800,
-    status: "Received",
-  },
-];
+import { useTransactionStore } from "@/store/transaction.store";
+import { Transaction } from "@/types";
 
 export default function PurchaseListPage() {
-  const [purchases] = useState<PurchaseInvoice[]>(initialPurchases);
+  const { transactions, fetchTransactions, isLoading } = useTransactionStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  // Debounce search
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    fetchTransactions({ type: "PURCHASE", limit: 100 });
+  }, [fetchTransactions]);
 
   const stats = useMemo(() => {
-    const total = purchases.length;
-    const received = purchases.filter((p) => p.status === "Received").length;
-    const pending = purchases.filter((p) => p.status === "Pending").length;
-    const totalSpent = purchases.reduce(
-      (sum, curr) => sum + curr.totalAmount,
-      0,
-    );
+    const total = transactions.length;
+    const paid = transactions.filter((s) => s.paymentStatus === "paid").length;
+    const due = transactions.filter((s) => s.paymentStatus === "due" || s.paymentStatus === "partial").length;
+    const totalSpent = transactions.reduce((sum, curr) => sum + curr.totalAmount, 0);
 
-    return { total, received, pending, totalSpent };
-  }, [purchases]);
+    return { total, paid, due, totalSpent };
+  }, [transactions]);
 
   const filteredPurchases = useMemo(() => {
-    return purchases.filter((p) => {
+    return transactions.filter((p) => {
       const matchesSearch =
-        p.poNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.supplier.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesStatus = filterStatus === "All" || p.status === filterStatus;
+        p.invoiceNumber?.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        p.party?.name?.toLowerCase().includes(debouncedSearch.toLowerCase());
+      
+      const matchesStatus = filterStatus === "All" || 
+        (filterStatus === "Paid" && p.paymentStatus === "paid") ||
+        (filterStatus === "Due" && (p.paymentStatus === "due" || p.paymentStatus === "partial"));
+      
       return matchesSearch && matchesStatus;
     });
-  }, [purchases, searchQuery, filterStatus]);
+  }, [transactions, debouncedSearch, filterStatus]);
 
   return (
     <div className="flex flex-col gap-6 pb-12">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
-          <h1 className="text-3xl font-semibold text-foreground tracking-tight">
-            Purchase Orders
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Track purchase statements, bulk supplier imports, and invoice
-            payments
-          </p>
+          <h1 className="text-3xl font-semibold text-foreground tracking-tight">Purchase Orders</h1>
+          <p className="text-muted-foreground mt-1 text-sm">Track purchase statements, bulk supplier imports, and invoice payments</p>
         </div>
         <Link
           href="/dashboard/purchase/create"
@@ -111,18 +71,10 @@ export default function PurchaseListPage() {
           <table className="w-full text-sm text-left table-fixed min-w-[700px] md:min-w-0">
             <thead className="text-xs text-muted-foreground uppercase bg-muted/10 border-b border-border">
               <tr className="divide-x divide-border">
-                <th className="px-5 py-3 font-semibold text-center w-[25%]">
-                  Purchase Invoices
-                </th>
-                <th className="px-5 py-3 font-semibold text-center w-[25%]">
-                  Total Disbursed
-                </th>
-                <th className="px-5 py-3 font-semibold text-center w-[25%]">
-                  Received Orders
-                </th>
-                <th className="px-5 py-3 font-semibold text-center w-[25%]">
-                  Pending Deliveries
-                </th>
+                <th className="px-5 py-3 font-semibold text-center w-[25%]">Purchase Invoices</th>
+                <th className="px-5 py-3 font-semibold text-center w-[25%]">Total Disbursed</th>
+                <th className="px-5 py-3 font-semibold text-center w-[25%]">Fully Paid</th>
+                <th className="px-5 py-3 font-semibold text-center w-[25%]">Pending Balances</th>
               </tr>
             </thead>
             <tbody>
@@ -148,7 +100,7 @@ export default function PurchaseListPage() {
                     <CheckCircle className="w-3.5 h-3.5" />
                   </div>
                   <span className="text-xl font-bold text-foreground block tracking-tight font-mono">
-                    {stats.received} Items
+                    {stats.paid} Orders
                   </span>
                 </td>
                 <td className="px-5 py-5 text-center hover:bg-muted/10 transition-colors bg-amber-500/[0.005]">
@@ -156,7 +108,7 @@ export default function PurchaseListPage() {
                     <Clock className="w-3.5 h-3.5" />
                   </div>
                   <span className="text-xl font-bold text-foreground block tracking-tight font-mono">
-                    {stats.pending} Orders
+                    {stats.due} Orders
                   </span>
                 </td>
               </tr>
@@ -183,8 +135,8 @@ export default function PurchaseListPage() {
             className="h-8 px-3 rounded-md border border-border bg-card text-xs text-muted-foreground focus:outline-none"
           >
             <option value="All">All Statuses</option>
-            <option value="Received">Received</option>
-            <option value="Pending">Pending</option>
+            <option value="Paid">Paid</option>
+            <option value="Due">Due</option>
           </select>
         </div>
 
@@ -202,54 +154,44 @@ export default function PurchaseListPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border/50">
-              {filteredPurchases.map((p) => (
-                <tr key={p.id} className="hover:bg-muted/20 transition-colors">
-                  <td className="px-4 py-3 font-semibold text-foreground font-mono">
-                    {p.poNumber}
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground">{p.date}</td>
-                  <td className="px-4 py-3 font-semibold text-foreground">
-                    {p.supplier}
-                  </td>
-                  <td className="px-4 py-3 font-bold text-foreground font-mono">
-                    ${p.totalAmount.toFixed(2)}
-                  </td>
-                  <td className="px-4 py-3 text-emerald-500 font-bold font-mono">
-                    ${p.paidAmount.toFixed(2)}
-                  </td>
-                  <td className="px-4 py-3 text-center">
-                    <span
-                      className={cn(
-                        "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border",
-                        p.status === "Received" &&
-                          "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
-                        p.status === "Pending" &&
-                          "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-                        p.status === "Cancelled" &&
-                          "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "w-1 h-1 rounded-full",
-                          p.status === "Received"
-                            ? "bg-emerald-500"
-                            : p.status === "Pending"
-                              ? "bg-amber-500"
-                              : "bg-rose-500",
-                        )}
-                      />
-                      {p.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <button className="h-7 px-2.5 rounded bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground font-medium text-[10px] inline-flex items-center gap-1">
-                      <Download className="w-3 h-3" />
-                      <span>PDF Invoice</span>
-                    </button>
-                  </td>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">Loading purchases...</td>
                 </tr>
-              ))}
+              ) : filteredPurchases.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">No purchases found.</td>
+                </tr>
+              ) : (
+                filteredPurchases.map((p) => (
+                  <tr key={p.id} className="hover:bg-muted/20 transition-colors">
+                    <td className="px-4 py-3 font-semibold text-foreground font-mono">{p.invoiceNumber || "-"}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{new Date(p.createdAt || Date.now()).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 font-semibold text-foreground">{p.party?.name || "Cash Supplier"}</td>
+                    <td className="px-4 py-3 font-bold text-foreground font-mono">${p.totalAmount.toFixed(2)}</td>
+                    <td className="px-4 py-3 text-emerald-500 font-bold font-mono">${p.paidAmount.toFixed(2)}</td>
+                    <td className="px-4 py-3 text-center">
+                      <span className={cn(
+                        "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border",
+                        p.paymentStatus === "paid" && "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+                        (p.paymentStatus === "due" || p.paymentStatus === "partial") && "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
+                      )}>
+                        <span className={cn(
+                          "w-1.5 h-1.5 rounded-full",
+                          p.paymentStatus === "paid" ? "bg-emerald-500" : "bg-amber-500"
+                        )} />
+                        {p.paymentStatus === "paid" ? "Paid" : "Due"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <button className="h-7 px-2.5 rounded bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground font-medium text-[10px] inline-flex items-center gap-1">
+                        <Download className="w-3 h-3" />
+                        <span>PDF invoice</span>
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
