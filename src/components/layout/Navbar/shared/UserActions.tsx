@@ -16,7 +16,7 @@ export function UserActions({
     if (hideDashboardLink) return null;
     return (
       <Button
-        className="w-full bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
+        className="w-full md:w-auto bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
         render={<Link href="/dashboard" onClick={onClose} />}
         nativeButton={false}
       >
@@ -29,14 +29,14 @@ export function UserActions({
     <>
       <Button
         variant="outline"
-        className="w-full border-border"
+        className="w-full md:w-auto border-border"
         render={<Link href="/login" onClick={onClose} />}
         nativeButton={false}
       >
         Sign In
       </Button>
       <Button
-        className="w-full bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
+        className="w-full md:w-auto bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
         render={<Link href="/register" onClick={onClose} />}
         nativeButton={false}
       >
