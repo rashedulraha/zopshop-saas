@@ -52,21 +52,16 @@ export function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="py-14 lg:py-20 relative overflow-hidden"
+      className="py-20 lg:py-32 relative overflow-hidden bg-white dark:bg-slate-950"
     >
-      {/* Ambient background orbs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-primary/5 dark:bg-primary/8 blur-[100px] opacity-80" />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[300px] rounded-full bg-cyan-400/5 dark:bg-cyan-400/8 blur-[80px]" />
-      </div>
-
-      {/* Top glass border separator */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-blue-50/50 dark:bg-blue-900/10 blur-[120px] rounded-full pointer-events-none" />
 
       <ResponsiveComponents>
-        <div className="w-full relative z-10">
+        <div className="w-full relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          
           {/* Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 md:mb-24">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -74,128 +69,129 @@ export function HowItWorks() {
               transition={{ duration: 0.5 }}
               className="flex flex-col items-center"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-sm border-white/30 dark:border-white/8 text-primary text-sm font-semibold mb-6 shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              <h2 className="mb-4 text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
                 How It Works
-              </div>
-              <h2 className="mb-5 text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-5xl">
-                Get started with ZopShop in{" "}
-                <span className="text-gradient">3 simple steps</span>
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                We&apos;ve simplified the setup process. Just sign up, add your
-                items, and start selling immediately with zero configuration
-                required.
+              <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
+                We've simplified the setup process. Just sign up, add your
+                items, and start selling immediately with zero configuration required.
               </p>
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            {/* Left Column: Video */}
+          {/* Bento Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            
+            {/* Step 1: Tall Card (Left) */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.97 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="lg:col-span-7 w-full relative rounded-3xl overflow-hidden glass-xl shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="lg:col-span-1 lg:row-span-2 relative group rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-black/20 overflow-hidden flex flex-col"
             >
-              {/* Top accent shimmer line */}
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent z-20" />
-
-              {/* Video Container */}
-              <div className="relative w-full aspect-video bg-black">
-                {/* AI Badge */}
-                <div className="absolute top-0 right-0 z-20">
-                  <div className="flex items-center gap-3 rounded-bl-3xl glass-sm border-t-0 border-r-0 px-5 py-3 backdrop-blur-xl">
-                    <span className="relative flex h-2 w-2">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-70" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-400" />
-                    </span>
-                    <span className="bg-gradient-to-r from-primary via-accent to-cyan-400 bg-clip-text text-xs font-bold tracking-wide text-transparent">
-                      ZopShop Live System
-                    </span>
+              <div className="p-8 sm:p-10 flex-1 flex flex-col">
+                <div className="mb-4">
+                  <span className="inline-block px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold tracking-wide mb-4">
+                    Step 1
+                  </span>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                    Sign Up in Seconds
+                  </h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Create your free account. Access your dashboard instantly without needing a credit card. Everything is ready out of the box.
+                  </p>
+                </div>
+                
+                {/* Visual Area */}
+                <div className="mt-auto pt-8 relative flex items-center justify-center">
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-50 to-transparent dark:from-blue-900/20 rounded-2xl" />
+                  <div className="relative w-48 h-48 bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-700 flex items-center justify-center transform group-hover:-translate-y-2 transition-transform duration-500">
+                    <div className="absolute inset-0 bg-blue-500/10 blur-xl rounded-full" />
+                    <UserPlus className="w-16 h-16 text-blue-500" strokeWidth={1.5} />
                   </div>
                 </div>
-
-                {isMounted ? (
-                  <video
-                    src="/hero_video/howitwork.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="absolute inset-0 w-full h-full bg-slate-900 animate-pulse" />
-                )}
               </div>
             </motion.div>
 
-            {/* Right Column: Steps */}
-            <div className="lg:col-span-5 flex flex-col gap-4">
-              {STEPS.map((step, index) => (
-                <motion.div
-                  key={step.id}
-                  initial={{ opacity: 0, x: 24 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.12 }}
-                  className="group"
-                >
-                  <div className="relative glass-md rounded-2xl p-5 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
-                    {/* Inner glow on hover */}
-                    <div
-                      className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                      style={{
-                        background: `radial-gradient(ellipse at top left, ${step.glow}, transparent 70%)`,
-                      }}
-                    />
-
-                    <div className="relative z-10 flex items-start gap-4">
-                      {/* Step number + icon */}
-                      <div className="shrink-0 flex flex-col items-center gap-1.5">
-                        <div
-                          className={cn(
-                            "w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110",
-                            step.bg,
-                            step.color,
-                          )}
-                        >
-                          {step.icon}
-                        </div>
-                        <span className="text-[10px] font-black text-muted-foreground/50 tracking-widest">
-                          {step.num}
-                        </span>
-                      </div>
-
-                      {/* Text */}
-                      <div className="pt-1">
-                        <h3 className="text-base font-bold text-foreground mb-1.5 group-hover:text-primary transition-colors duration-200">
-                          {step.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {step.description}
-                        </p>
+            {/* Step 2: Wide Card (Top Right) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="lg:col-span-2 relative group rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-black/20 overflow-hidden"
+            >
+              <div className="flex flex-col sm:flex-row h-full">
+                <div className="p-8 sm:p-10 flex-1 flex flex-col justify-center">
+                  <span className="inline-block px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-bold tracking-wide mb-4 w-fit">
+                    Step 2
+                  </span>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                    Add Your Products
+                  </h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-sm">
+                    Quickly list your stock items, set retail prices, and organize them into clean categories with bulk import tools.
+                  </p>
+                </div>
+                {/* Visual Area */}
+                <div className="p-8 sm:p-10 sm:pl-0 flex items-center justify-center relative min-h-[240px] sm:w-1/2">
+                  <div className="absolute inset-4 bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 rounded-2xl" />
+                  <div className="relative w-full max-w-[200px] aspect-video bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-100 dark:border-slate-700 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-500">
+                    <LayoutDashboard className="w-10 h-10 text-indigo-500" strokeWidth={1.5} />
+                    {/* Mock UI lines */}
+                    <div className="absolute left-4 top-4 right-4 flex gap-2">
+                      <div className="w-8 h-8 rounded bg-slate-100 dark:bg-slate-700" />
+                      <div className="flex-1 space-y-2 py-1">
+                        <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded w-full" />
+                        <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded w-2/3" />
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </motion.div>
 
-                  {/* Connector */}
-                  {index !== STEPS.length - 1 && (
-                    <div className="flex justify-start pl-[22px] py-1">
-                      <div className="w-px h-4 bg-gradient-to-b from-border/60 to-transparent" />
+            {/* Step 3: Wide Card (Bottom Right) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="lg:col-span-2 relative group rounded-3xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-black/20 overflow-hidden"
+            >
+              <div className="flex flex-col sm:flex-row-reverse h-full">
+                <div className="p-8 sm:p-10 flex-1 flex flex-col justify-center">
+                  <span className="inline-block px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-xs font-bold tracking-wide mb-4 w-fit">
+                    Step 3
+                  </span>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
+                    Start Selling & Billing
+                  </h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-sm">
+                    Use our instant POS interface to check out customers, print invoices, and track dues in real-time.
+                  </p>
+                </div>
+                {/* Visual Area */}
+                <div className="p-8 sm:p-10 sm:pr-0 flex items-center justify-center relative min-h-[240px] sm:w-1/2">
+                  <div className="absolute inset-4 bg-gradient-to-tr from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl" />
+                  <div className="relative w-full max-w-[200px] aspect-video bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-100 dark:border-slate-700 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-500">
+                    <BarChart3 className="w-12 h-12 text-purple-500" strokeWidth={1.5} />
+                    {/* Mock chart bars */}
+                    <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between px-2 h-12">
+                      <div className="w-3 bg-purple-200 dark:bg-purple-900/50 rounded-t h-4" />
+                      <div className="w-3 bg-purple-300 dark:bg-purple-800/50 rounded-t h-8" />
+                      <div className="w-3 bg-purple-400 dark:bg-purple-700/50 rounded-t h-6" />
+                      <div className="w-3 bg-purple-500 rounded-t h-12" />
                     </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
           </div>
         </div>
       </ResponsiveComponents>
-
-      {/* Bottom glass border separator */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
     </section>
   );
 }
