@@ -143,19 +143,16 @@ export function Testimonials() {
   );
 
   return (
-    <section className="py-14 lg:py-20 relative overflow-hidden">
+    <section className="py-20 lg:py-32 relative overflow-hidden bg-slate-50/50 dark:bg-slate-950/50">
       {/* Ambient orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[400px] rounded-full bg-primary/5 dark:bg-primary/8 blur-[100px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[350px] rounded-full bg-cyan-400/4 dark:bg-cyan-400/7 blur-[90px]" />
+        <div className="absolute top-0 right-0 w-[500px] h-[400px] rounded-full bg-blue-500/5 dark:bg-blue-500/10 blur-[100px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[350px] rounded-full bg-indigo-500/5 dark:bg-indigo-500/10 blur-[90px]" />
       </div>
 
-      {/* Top separator */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
-
       <ResponsiveComponents>
-        <div className="w-full relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-start">
+        <div className="w-full relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
             {/* LEFT: Content + Stats */}
             <div className="flex flex-col items-start text-left">
               {/* Badge */}
@@ -164,9 +161,9 @@ export function Testimonials() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-sm text-primary text-xs font-semibold mb-8 shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-slate-700 dark:text-slate-300 text-xs font-semibold mb-8"
               >
-                <Quote className="w-3 h-3" />
+                <Quote className="w-3.5 h-3.5 text-blue-500" />
                 Trusted by 1,000+ businesses
               </motion.div>
 
@@ -176,11 +173,13 @@ export function Testimonials() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="mb-5 text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-5xl"
+                className="mb-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1]"
               >
                 Loved by growing
                 <br />
-                <span className="text-gradient">businesses.</span>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
+                  businesses.
+                </span>
               </motion.h2>
 
               {/* Subtext */}
@@ -189,7 +188,7 @@ export function Testimonials() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-muted-foreground text-lg mb-10 max-w-xl leading-relaxed"
+                className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium mb-10 max-w-xl"
               >
                 Join thousands of store owners who rely on ZopShop to streamline
                 their inventory, track sales, and grow their revenue
@@ -206,14 +205,14 @@ export function Testimonials() {
               >
                 <Button
                   variant="outline"
-                  className="rounded-full px-6 py-6 glass-sm text-foreground hover:bg-white/30 transition-all duration-300 group"
+                  className="rounded-full px-8 py-6 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 group font-medium"
                 >
                   <Link href="/contact" className="flex items-center gap-2">
                     <MessageSquare className="w-4 h-4 group-hover:rotate-12 transition-transform" />
                     Contact Sales
                   </Link>
                 </Button>
-                <Button className="rounded-full px-6 py-6 bg-primary hover:bg-primary-dark transition-all duration-300 group shadow-[0_8px_25px_rgba(79,70,229,0.25)]">
+                <Button className="rounded-full px-8 py-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white transition-all duration-300 group shadow-lg shadow-blue-500/25 font-semibold">
                   <Link href="/register" className="flex items-center gap-2">
                     Start Free Trial
                     <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -223,10 +222,10 @@ export function Testimonials() {
             </div>
 
             {/* RIGHT: Card Stack */}
-            <div className="relative w-full flex items-center justify-center mt-8 lg:mt-0">
+            <div className="relative w-full flex items-center justify-center mt-12 lg:mt-0">
               {/* Background glow for the stack */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-[400px] h-[400px] rounded-full bg-primary/5 dark:bg-primary/8 blur-[80px]" />
+                <div className="w-[400px] h-[400px] rounded-full bg-blue-500/10 dark:bg-blue-500/10 blur-[100px]" />
               </div>
 
               <div
@@ -264,14 +263,14 @@ export function Testimonials() {
                           transition={{ duration: 0.7, ease: "easeInOut" }}
                           onMouseEnter={() => setHoveredIndex(card.id)}
                           onMouseLeave={() => setHoveredIndex(null)}
-                          className={`absolute top-0 left-0 right-0 p-7 rounded-3xl glass-xl flex flex-col transition-all duration-300 shadow-[0_15px_50px_rgba(0,0,0,0.06)] dark:shadow-[0_15px_50px_rgba(0,0,0,0.35)] ${
+                          className={`absolute top-0 left-0 right-0 p-8 rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/50 dark:border-slate-800/50 flex flex-col transition-all duration-300 shadow-xl shadow-slate-200/50 dark:shadow-black/20 ${
                             hoveredIndex === card.id
-                              ? "ring-1 ring-primary/25 shadow-[0_25px_60px_rgba(0,0,0,0.12)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.5)]"
+                              ? "ring-1 ring-blue-500/25 shadow-2xl shadow-blue-500/10"
                               : ""
                           }`}
                         >
                           {/* Top accent */}
-                          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/70 dark:via-white/20 to-transparent rounded-t-3xl" />
+                          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-t-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
 
                           {/* Top row */}
                           <div className="flex items-start justify-between mb-5">
@@ -280,12 +279,12 @@ export function Testimonials() {
                                 <img
                                   src={card.avatar}
                                   alt={card.name}
-                                  className="w-11 h-11 rounded-full object-cover border-2 border-white/40 dark:border-white/10 bg-muted"
+                                  className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-slate-800 shadow-sm"
                                 />
                                 {card.verified && (
-                                  <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-primary rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">
+                                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-800">
                                     <svg
-                                      className="w-2.5 h-2.5 text-white"
+                                      className="w-3 h-3 text-white"
                                       fill="none"
                                       viewBox="0 0 24 24"
                                       stroke="currentColor"
@@ -301,18 +300,18 @@ export function Testimonials() {
                                 )}
                               </div>
                               <div>
-                                <div className="font-semibold text-foreground text-sm leading-tight">
+                                <div className="font-bold text-slate-900 dark:text-white text-base leading-tight">
                                   {card.name}
                                 </div>
-                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-0.5">
+                                <div className="flex items-center gap-2 text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">
                                   <span>{card.role}</span>
-                                  <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
+                                  <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600" />
                                   <span>{card.company}</span>
                                 </div>
                               </div>
                             </div>
-                            <div className="glass-sm p-1.5 rounded-full">
-                              <BusinessIcon className="w-3.5 h-3.5 text-muted-foreground" />
+                            <div className="bg-slate-50 dark:bg-slate-800 p-2 rounded-full border border-slate-100 dark:border-slate-700">
+                              <BusinessIcon className="w-4 h-4 text-slate-500 dark:text-slate-400" />
                             </div>
                           </div>
 
@@ -322,16 +321,16 @@ export function Testimonials() {
                           </div>
 
                           {/* Quote */}
-                          <p className="text-muted-foreground text-sm leading-relaxed flex-1 line-clamp-4">
+                          <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed flex-1 line-clamp-4 font-medium italic">
                             &ldquo;{card.body}&rdquo;
                           </p>
 
                           {/* Footer */}
-                          <div className="mt-5 pt-4 border-t border-white/20 dark:border-white/5 flex items-center justify-between">
-                            <span className="text-xs text-muted-foreground/70">
+                          <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800/50 flex items-center justify-between">
+                            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
                               📍 {card.location}
                             </span>
-                            <span className="text-[10px] uppercase tracking-wider text-primary/70 font-bold glass-sm px-2 py-0.5 rounded-full">
+                            <span className="text-[10px] uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 px-3 py-1 rounded-full">
                               {card.businessType}
                             </span>
                           </div>
@@ -344,9 +343,6 @@ export function Testimonials() {
           </div>
         </div>
       </ResponsiveComponents>
-
-      {/* Bottom separator */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
     </section>
   );
 }

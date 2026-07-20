@@ -45,29 +45,31 @@ const PLANS = [
 
 export function PricingSection() {
   return (
-    <section id="pricing" className="relative overflow-hidden py-14 lg:py-20">
+    <section id="pricing" className="relative overflow-hidden py-20 lg:py-32 bg-slate-50/50 dark:bg-slate-950/50">
       {/* Ambient background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full bg-primary/5 dark:bg-primary/8 blur-[100px]" />
-        <div className="absolute bottom-0 left-0 w-[350px] h-[350px] rounded-full bg-cyan-400/4 blur-[80px]" />
-        <div className="absolute bottom-0 right-0 w-[350px] h-[350px] rounded-full bg-purple-500/4 blur-[80px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-blue-500/5 dark:bg-blue-500/10 blur-[120px]" />
       </div>
-
-      {/* Top separator */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
 
       <ResponsiveComponents>
         {/* Header */}
-        <div className="relative z-10 mb-16 flex flex-col items-center text-center max-w-3xl mx-auto">
+        <div className="relative z-10 mb-16 md:mb-24 flex flex-col items-center text-center max-w-3xl mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-sm text-primary text-xs font-semibold mb-8 shadow-sm"
+            className="flex justify-center mb-6"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            Pricing Plans
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50/80 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 shadow-sm backdrop-blur-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              </span>
+              <span className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wide">
+                Pricing Plans
+              </span>
+            </div>
           </motion.div>
 
           <motion.h2
@@ -75,10 +77,12 @@ export function PricingSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mb-5 text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-5xl"
+            className="mb-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1]"
           >
             Simple pricing for{" "}
-            <span className="text-gradient">every stage.</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
+              every stage.
+            </span>
           </motion.h2>
 
           <motion.p
@@ -86,7 +90,7 @@ export function PricingSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg leading-relaxed text-muted-foreground"
+            className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium"
           >
             Start with our 30-day free trial. No credit card required. Upgrade
             or downgrade at any time as your business grows.
@@ -94,7 +98,7 @@ export function PricingSection() {
         </div>
 
         {/* Plans Grid */}
-        <div className="relative z-10 mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3 md:items-stretch">
+        <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-6 lg:gap-8 md:grid-cols-3 md:items-stretch px-4 sm:px-6">
           {PLANS.map((plan, index) => (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -110,30 +114,15 @@ export function PricingSection() {
             >
               <div
                 className={cn(
-                  "relative flex flex-col w-full rounded-3xl p-8 text-foreground transition-all duration-300",
+                  "relative flex flex-col w-full rounded-3xl p-8 sm:p-10 transition-all duration-300",
                   plan.isPopular
-                    ? "glass-xl shadow-[0_25px_60px_rgba(79,70,229,0.18)] dark:shadow-[0_25px_60px_rgba(79,70,229,0.25)] md:-mt-5 md:mb-5 ring-1 ring-primary/30"
-                    : "bg-white/95 dark:bg-slate-800/80 border border-slate-100 dark:border-white/10 shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.35)] hover:-translate-y-1",
+                    ? "bg-white dark:bg-slate-900 shadow-2xl shadow-blue-500/10 border-2 border-blue-500 dark:border-blue-400 md:-mt-5 md:mb-5 z-20"
+                    : "bg-white/95 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-black/20 hover:shadow-2xl hover:-translate-y-1 z-10",
                 )}
               >
-                {/* Top shimmer accent */}
-                <div
-                  className={cn(
-                    "absolute top-0 left-0 right-0 h-px rounded-t-3xl",
-                    plan.isPopular
-                      ? "bg-gradient-to-r from-transparent via-primary/70 to-transparent"
-                      : "bg-gradient-to-r from-transparent via-white/60 dark:via-white/15 to-transparent",
-                  )}
-                />
-
-                {/* Popular gradient top bar */}
-                {plan.isPopular && (
-                  <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-primary via-indigo-400 to-cyan-400 rounded-t-3xl" />
-                )}
-
                 {/* Popular badge */}
                 {plan.isPopular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-primary to-indigo-500 px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-lg">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-lg shadow-blue-500/25">
                     Most Popular
                   </div>
                 )}
@@ -142,27 +131,27 @@ export function PricingSection() {
                 <div className="mb-6">
                   <div
                     className={cn(
-                      "mb-4 flex h-12 w-12 items-center justify-center rounded-2xl",
+                      "mb-5 flex h-14 w-14 items-center justify-center rounded-2xl shadow-sm border",
                       plan.iconBg,
                     )}
                   >
                     {plan.icon}
                   </div>
-                  <h3 className="text-2xl font-bold text-foreground">
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                     {plan.name}
                   </h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                  <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                     {plan.description}
                   </p>
                 </div>
 
                 {/* Price */}
-                <div className="mb-6 pb-6 border-b border-white/20 dark:border-white/5">
-                  <div className="mb-6 flex items-baseline gap-1">
-                    <span className="text-4xl lg:text-5xl font-normal tracking-tight text-foreground">
+                <div className="mb-8 pb-8 border-b border-slate-100 dark:border-slate-800">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
                       {plan.price}
                     </span>
-                    <span className="text-sm font-medium text-muted-foreground">
+                    <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
                       {plan.period}
                     </span>
                   </div>
@@ -173,13 +162,13 @@ export function PricingSection() {
                 <Button
                   size="lg"
                   className={cn(
-                    "w-full rounded-xl font-semibold h-12 transition-all duration-300",
+                    "w-full rounded-xl font-semibold h-12 transition-all duration-300 mt-auto",
                     plan.isPopular
-                      ? "bg-primary hover:bg-primary-dark text-white shadow-[0_8px_25px_rgba(79,70,229,0.3)]"
-                      : "glass-sm hover:bg-white/30 dark:hover:bg-slate-950/25 text-foreground border-white/30 dark:border-white/8",
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/25"
+                      : "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white border-0",
                   )}
                 >
-                  <Link href="/register">{plan.buttonText}</Link>
+                  <Link href="/register" className="w-full h-full flex items-center justify-center">{plan.buttonText}</Link>
                 </Button>
               </div>
             </motion.div>
@@ -192,20 +181,17 @@ export function PricingSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-12 flex justify-center"
+          className="mt-16 flex justify-center"
         >
-          <div className="flex items-center gap-3 rounded-full glass-sm px-6 py-2.5 text-sm text-muted-foreground shadow-sm">
-            <span className="relative flex h-2.5 w-2.5">
+          <div className="flex items-center gap-3 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-6 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-400 shadow-sm">
+            <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
             No credit card required for trial · Cancel anytime
           </div>
         </motion.div>
       </ResponsiveComponents>
-
-      {/* Bottom separator */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
     </section>
   );
 }
