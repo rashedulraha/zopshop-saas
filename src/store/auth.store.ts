@@ -1,18 +1,17 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { User, LoginPayload, RegisterPayload } from "@/types";
-import { authApi } from "@/lib/api/auth.api";
+import { User } from "@/types";
+import { authClient } from "@/lib/auth-client";
 
 interface AuthState {
   user: User | null;
-  token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   isCheckingAuth: boolean;
   error: string | null;
 
-  login: (credentials: LoginPayload) => Promise<void>;
-  register: (payload: RegisterPayload) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
   clearError: () => void;
@@ -20,122 +19,101 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       user: null,
-      token: null,
       isAuthenticated: false,
       isLoading: false,
       isCheckingAuth: false,
       error: null,
 
-      login: async (credentials) => {
+      /**
+       * Sign in using better-auth email/password flow.
+       * better-auth sets an HTTP-only cookie automatically on success.
+       */
+      login: async (email, password) => {
         set({ isLoading: true, error: null });
         try {
-          const res = await authApi.login(credentials);
+          const { data, error } = await authClient.signIn.email({ email, password });
+
+          if (error) {
+            const errMsg = error.message || "Login failed. Please check your credentials.";
+            set({ isLoading: false, error: errMsg });
+            throw new Error(errMsg);
+          }
+
           set({
-            user: res.user,
-            token: res.token,
+            user: data?.user as unknown as User || null,
             isAuthenticated: true,
             isLoading: false,
           });
-          if (typeof window !== "undefined") {
-            localStorage.setItem("accessToken", res.token);
-          }
         } catch (err: any) {
-          const errMsg =
-            err.response?.data?.message || err.message || "Login failed";
+          const errMsg = err.message || "Login failed";
           set({ isLoading: false, error: errMsg });
           throw err;
         }
       },
 
-      register: async (payload) => {
+      /**
+       * Register a new user using better-auth sign-up flow.
+       */
+      register: async (name, email, password) => {
         set({ isLoading: true, error: null });
         try {
-          const res = await authApi.register(payload);
-          set({
-            user: res.user,
-            token: res.token,
-            isAuthenticated: true,
-            isLoading: false,
-          });
-          if (typeof window !== "undefined") {
-            localStorage.setItem("accessToken", res.token);
+          const { data, error } = await authClient.signUp.email({ name, email, password });
+
+          if (error) {
+            const errMsg = error.message || "Registration failed. Please try again.";
+            set({ isLoading: false, error: errMsg });
+            throw new Error(errMsg);
           }
+
+          // After registration, user may need to verify email or go directly to login
+          set({ isLoading: false });
         } catch (err: any) {
-          const errMsg =
-            err.response?.data?.message || err.message || "Registration failed";
+          const errMsg = err.message || "Registration failed";
           set({ isLoading: false, error: errMsg });
           throw err;
         }
       },
 
+      /**
+       * Sign out the user - better-auth clears the session cookie on the server.
+       */
       logout: async () => {
-        set({ isLoading: true, error: null });
+        set({ isLoading: true });
         try {
-          await authApi.logout();
+          await authClient.signOut();
         } catch (err) {
-          console.error(
-            "Logout API call failed, proceeding with local logout",
-            err,
-          );
+          console.error("Logout API call failed, proceeding with local logout", err);
         } finally {
           set({
             user: null,
-            token: null,
             isAuthenticated: false,
             isLoading: false,
           });
-          if (typeof window !== "undefined") {
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("token");
-          }
         }
       },
 
+      /**
+       * Check the current session on app load via better-auth.
+       * Uses the HTTP-only session cookie to verify with the server.
+       */
       checkAuth: async () => {
-        const storedToken =
-          typeof window !== "undefined"
-            ? localStorage.getItem("accessToken")
-            : null;
-        const currentToken = get().token || storedToken;
-
-        if (!currentToken) {
-          set({
-            isAuthenticated: false,
-            user: null,
-            token: null,
-            isCheckingAuth: false,
-          });
-          return;
-        }
-
         set({ isCheckingAuth: true, error: null });
         try {
-          const res = await authApi.getSession();
-          // If the backend returns a new token in the response, we store it. Otherwise, keep current token.
-          const tokenToUse = res.token || currentToken;
-          set({
-            user: res.user,
-            token: tokenToUse,
-            isAuthenticated: true,
-            isCheckingAuth: false,
-          });
-          if (typeof window !== "undefined" && tokenToUse) {
-            localStorage.setItem("accessToken", tokenToUse);
+          const { data } = await authClient.getSession();
+
+          if (data?.user) {
+            set({
+              user: data.user as unknown as User,
+              isAuthenticated: true,
+              isCheckingAuth: false,
+            });
+          } else {
+            set({ user: null, isAuthenticated: false, isCheckingAuth: false });
           }
         } catch (err) {
-          // If the session check fails (expired token etc.), clear the local auth state
-          set({
-            user: null,
-            token: null,
-            isAuthenticated: false,
-            isCheckingAuth: false,
-          });
-          if (typeof window !== "undefined") {
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("token");
-          }
+          set({ user: null, isAuthenticated: false, isCheckingAuth: false });
         }
       },
 
@@ -147,17 +125,16 @@ export const useAuthStore = create<AuthState>()(
         if (typeof window !== "undefined") {
           return localStorage;
         }
-        // Dummy storage object during SSR
+        // SSR-safe dummy storage
         return {
           getItem: () => null,
           setItem: () => {},
           removeItem: () => {},
         };
       }),
-      // Select fields to persist in localStorage
+      // Only persist user data (session is managed via HTTP-only cookie by better-auth)
       partialize: (state) => ({
         user: state.user,
-        token: state.token,
         isAuthenticated: state.isAuthenticated,
       }),
     },
