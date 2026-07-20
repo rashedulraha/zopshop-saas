@@ -88,48 +88,48 @@ export function FeaturesSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="features" className="py-14 lg:py-20 relative overflow-hidden">
-      {/* Ambient background orbs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full bg-indigo-500/5 dark:bg-indigo-500/8 blur-[90px]" />
-        <div className="absolute bottom-1/3 left-0 w-[350px] h-[350px] rounded-full bg-cyan-400/4 dark:bg-cyan-400/7 blur-[80px]" />
-        <div className="absolute top-1/3 right-0 w-[350px] h-[350px] rounded-full bg-violet-500/4 dark:bg-violet-500/7 blur-[80px]" />
-      </div>
-
-      {/* Top glass separator */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
+    <section id="features" className="py-20 lg:py-32 relative overflow-hidden bg-white dark:bg-slate-950">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-indigo-50/50 dark:bg-indigo-900/10 blur-[120px] rounded-full pointer-events-none" />
 
       <ResponsiveComponents>
         {/* Header */}
-        <div className="text-center mb-16 relative z-10 flex flex-col items-center">
+        <div className="text-center mb-16 md:mb-24 relative z-10 flex flex-col items-center max-w-3xl mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="flex justify-center mb-4"
+            className="flex justify-center mb-6"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-sm text-indigo-500 dark:text-indigo-400 text-xs font-semibold uppercase tracking-wider shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-indigo-400 animate-pulse" />
-              Features
-            </span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50/80 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800 shadow-sm backdrop-blur-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+              </span>
+              <span className="text-xs font-semibold text-indigo-700 dark:text-indigo-300 uppercase tracking-wide">
+                Features
+              </span>
+            </div>
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mb-5 text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-5xl"
+            className="mb-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1]"
           >
             Why Choose{" "}
-            <span className="text-gradient">ZopShop?</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
+              ZopShop?
+            </span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium"
           >
             Everything you need to manage your inventory efficiently, wrapped in
             a beautiful, intuitive experience.
@@ -137,7 +137,7 @@ export function FeaturesSection() {
         </div>
 
         {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
           {FEATURES.map((feature, index) => (
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -145,37 +145,24 @@ export function FeaturesSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
               key={index}
-              className="relative group"
+              className="relative group h-full"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div className="relative glass-md rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.10)] dark:group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.40)] group-hover:-translate-y-1">
-                {/* Inner hover glow */}
-                <div
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background: `radial-gradient(ellipse at top left, ${feature.glow}, transparent 65%)`,
-                  }}
-                />
-
-                {/* Top accent line */}
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/60 dark:via-white/15 to-transparent" />
-
+              <div className="relative bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl overflow-hidden h-full flex flex-col shadow-xl shadow-slate-200/50 dark:shadow-black/20 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl">
+                
                 {/* Browser-framed image */}
-                <div className="relative w-full rounded-t-2xl overflow-hidden shrink-0 bg-black/5 dark:bg-black/20 flex flex-col">
+                <div className="relative w-full overflow-hidden shrink-0 bg-slate-50 dark:bg-slate-950 flex flex-col border-b border-slate-100 dark:border-slate-800">
                   {/* Chrome bar */}
-                  <div className="h-8 flex items-center justify-between px-4 shrink-0 border-b border-white/20 dark:border-white/5 bg-white/30 dark:bg-slate-950/30 backdrop-blur-sm">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
+                  <div className="h-10 flex items-center justify-between px-5 shrink-0 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-400" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                      <div className="w-3 h-3 rounded-full bg-green-400" />
                     </div>
-                    <div className="h-1.5 w-20 bg-foreground/8 rounded-full" />
-                    <div className="w-10" />
                   </div>
 
-                  <div className="relative w-full aspect-[16/9] overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative w-full aspect-[16/10] overflow-hidden">
                     <Image
                       src={feature.image}
                       alt={feature.title}
@@ -187,34 +174,26 @@ export function FeaturesSection() {
                 </div>
 
                 {/* Card body */}
-                <div className="relative z-10 flex flex-col flex-1 p-5">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className={`p-2 rounded-xl border ${feature.iconBg} ${feature.color}`}>
+                <div className="relative z-10 flex flex-col flex-1 p-8 sm:p-10">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className={`p-3 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 ${feature.color}`}>
                       {feature.icon}
                     </div>
-                    <h3 className="font-bold text-base text-foreground group-hover:text-primary transition-colors duration-200">
+                    <h3 className="font-bold text-xl text-slate-900 dark:text-white transition-colors duration-200">
                       {feature.title}
                     </h3>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                  <p className="text-slate-500 dark:text-slate-400 leading-relaxed mb-6 flex-1">
                     {feature.description}
                   </p>
 
                   {/* Footer button */}
                   <Link
                     href={`/features/${feature.slug}`}
-                    className="mt-4 relative p-1.5 pl-4 glass-sm rounded-xl flex items-center justify-between overflow-hidden group/btn cursor-pointer transition-all duration-300 hover:shadow-sm"
+                    className="mt-auto group/btn flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white transition-colors hover:text-indigo-600 dark:hover:text-indigo-400"
                   >
-                    <span className="relative z-10 text-xs font-semibold text-muted-foreground group-hover/btn:text-white transition-colors duration-500">
-                      View Details
-                    </span>
-                    <div className="relative z-10 w-8 h-8 flex items-center justify-center text-white transition-transform duration-300 group-hover/btn:translate-x-0.5">
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
-                    {/* Expanding gradient fill */}
-                    <div
-                      className={`absolute right-1.5 top-1.5 bottom-1.5 w-8 rounded-lg transition-all duration-500 ease-out group-hover/btn:w-[calc(100%-12px)] ${feature.pillBg}`}
-                    />
+                    View Details
+                    <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </div>
@@ -222,9 +201,6 @@ export function FeaturesSection() {
           ))}
         </div>
       </ResponsiveComponents>
-
-      {/* Bottom glass separator */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
     </section>
   );
 }
