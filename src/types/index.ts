@@ -62,8 +62,36 @@ export interface Category {
   slug?: string;
   description?: string;
   storeId: string;
+  _count?: { products: number };
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface Config {
+  id: string;
+  storeId: string;
+  enableCredit: boolean;
+  enableStock: boolean;
+  enableExpense: boolean;
+  currency: string;
+  dateFormat: string;
+  businessType?: string;
+  customFields: {
+    product?: string[];
+    party?: string[];
+    transaction?: string[];
+    [key: string]: any;
+  };
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface StoreInfo {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  userId: string;
 }
 
 export interface Product {
@@ -106,7 +134,12 @@ export interface ProductListResponse {
 // PARTY (CUSTOMER / SUPPLIER) TYPES
 // ==========================================
 
-export type PartyType = "customer" | "supplier" | "CUSTOMER" | "SUPPLIER" | "BOTH";
+export type PartyType =
+  | "customer"
+  | "supplier"
+  | "CUSTOMER"
+  | "SUPPLIER"
+  | "BOTH";
 
 export interface Party {
   id: string;
@@ -144,7 +177,12 @@ export interface PartyListResponse {
 // TRANSACTION TYPES
 // ==========================================
 
-export type TransactionType = "SALE" | "PURCHASE" | "EXPENSE" | "PAYMENT_RECEIVED" | "PAYMENT_SENT";
+export type TransactionType =
+  | "SALE"
+  | "PURCHASE"
+  | "EXPENSE"
+  | "PAYMENT_RECEIVED"
+  | "PAYMENT_SENT";
 export type TransactionMode = "CASH" | "CREDIT" | "BANK";
 
 export interface TransactionItem {
@@ -186,6 +224,8 @@ export interface Transaction {
   updatedAt: string;
 }
 
+
+
 export interface CreateTransactionPayload {
   partyId?: string | null;
   type: TransactionType;
@@ -198,7 +238,7 @@ export interface CreateTransactionPayload {
   note?: string;
   transactionDate?: string;
   customData?: Record<string, any>;
-  items?: Array<Omit<TransactionItem, 'id' | 'transactionId'>>;
+  items?: Array<Omit<TransactionItem, "id" | "transactionId">>;
 }
 
 export interface TransactionListResponse {
