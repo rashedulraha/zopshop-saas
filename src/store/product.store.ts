@@ -28,7 +28,10 @@ interface ProductState {
   fetchProducts: (params?: Partial<ProductFilters>) => Promise<void>;
   fetchProductById: (id: string) => Promise<void>;
   createProduct: (data: CreateProductPayload) => Promise<Product>;
-  updateProduct: (id: string, data: Partial<CreateProductPayload>) => Promise<Product>;
+  updateProduct: (
+    id: string,
+    data: Partial<CreateProductPayload>,
+  ) => Promise<Product>;
   deleteProduct: (id: string) => Promise<void>;
   setFilters: (filters: Partial<ProductFilters>) => void;
   reset: () => void;
@@ -61,9 +64,11 @@ export const useProductStore = create<ProductState>((set, get) => ({
     const page = params?.page !== undefined ? params.page : state.page;
     const limit = params?.limit !== undefined ? params.limit : state.limit;
     const search = params?.search !== undefined ? params.search : state.search;
-    const categoryId = params?.categoryId !== undefined ? params.categoryId : state.categoryId;
+    const categoryId =
+      params?.categoryId !== undefined ? params.categoryId : state.categoryId;
     const sortBy = params?.sortBy !== undefined ? params.sortBy : state.sortBy;
-    const sortOrder = params?.sortOrder !== undefined ? params.sortOrder : state.sortOrder;
+    const sortOrder =
+      params?.sortOrder !== undefined ? params.sortOrder : state.sortOrder;
 
     try {
       const response = await productApi.getAllProducts({
