@@ -6,6 +6,7 @@ import { Plus, Search, CheckCircle, Clock, FileText, Download, DollarSign } from
 import { cn } from "@/lib/utils";
 import { useTransactionStore } from "@/store/transaction.store";
 import { Transaction } from "@/types";
+import { getPaymentStatus } from "@/lib/utils/transaction.utils";
 
 export default function PurchaseListPage() {
   const { transactions, fetchTransactions, isLoading } = useTransactionStore();
@@ -27,22 +28,23 @@ export default function PurchaseListPage() {
 
   const stats = useMemo(() => {
     const total = transactions.length;
-    const paid = transactions.filter((s) => s.paymentStatus === "paid").length;
-    const due = transactions.filter((s) => s.paymentStatus === "due" || s.paymentStatus === "partial").length;
-    const totalSpent = transactions.reduce((sum, curr) => sum + curr.totalAmount, 0);
+    const paid = transactions.filter((s) => getPaymentStatus(s.dueAmount, s.amount) === "paid").length;
+    const due = transactions.filter((s) => getPaymentStatus(s.dueAmount, s.amount) === "due" || getPaymentStatus(s.dueAmount, s.amount) === "partial").length;
+    const totalSpent = transactions.reduce((sum, curr) => sum + curr.amount, 0);
 
     return { total, paid, due, totalSpent };
   }, [transactions]);
 
   const filteredPurchases = useMemo(() => {
     return transactions.filter((p) => {
+      const pStatus = getPaymentStatus(p.dueAmount, p.amount);
       const matchesSearch =
-        p.invoiceNumber?.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        p.invoiceNo?.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
         p.party?.name?.toLowerCase().includes(debouncedSearch.toLowerCase());
       
       const matchesStatus = filterStatus === "All" || 
-        (filterStatus === "Paid" && p.paymentStatus === "paid") ||
-        (filterStatus === "Due" && (p.paymentStatus === "due" || p.paymentStatus === "partial"));
+        (filterStatus === "Paid" && pStatus === "paid") ||
+        (filterStatus === "Due" && (pStatus === "due" || pStatus === "partial"));
       
       return matchesSearch && matchesStatus;
     });
@@ -165,22 +167,22 @@ export default function PurchaseListPage() {
               ) : (
                 filteredPurchases.map((p) => (
                   <tr key={p.id} className="hover:bg-muted/20 transition-colors">
-                    <td className="px-4 py-3 font-semibold text-foreground font-mono">{p.invoiceNumber || "-"}</td>
+                    <td className="px-4 py-3 font-semibold text-foreground font-mono">{p.invoiceNo || "-"}</td>
                     <td className="px-4 py-3 text-muted-foreground">{new Date(p.createdAt || Date.now()).toLocaleDateString()}</td>
                     <td className="px-4 py-3 font-semibold text-foreground">{p.party?.name || "Cash Supplier"}</td>
-                    <td className="px-4 py-3 font-bold text-foreground font-mono">${p.totalAmount.toFixed(2)}</td>
+                    <td className="px-4 py-3 font-bold text-foreground font-mono">${p.amount.toFixed(2)}</td>
                     <td className="px-4 py-3 text-emerald-500 font-bold font-mono">${p.paidAmount.toFixed(2)}</td>
                     <td className="px-4 py-3 text-center">
                       <span className={cn(
                         "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border",
-                        p.paymentStatus === "paid" && "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
-                        (p.paymentStatus === "due" || p.paymentStatus === "partial") && "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
+                        getPaymentStatus(p.dueAmount, p.amount) === "paid" && "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+                        (getPaymentStatus(p.dueAmount, p.amount) === "due" || getPaymentStatus(p.dueAmount, p.amount) === "partial") && "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20"
                       )}>
                         <span className={cn(
                           "w-1.5 h-1.5 rounded-full",
-                          p.paymentStatus === "paid" ? "bg-emerald-500" : "bg-amber-500"
+                          getPaymentStatus(p.dueAmount, p.amount) === "paid" ? "bg-emerald-500" : "bg-amber-500"
                         )} />
-                        {p.paymentStatus === "paid" ? "Paid" : "Due"}
+                        {getPaymentStatus(p.dueAmount, p.amount) === "paid" ? "Paid" : "Due"}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right">
