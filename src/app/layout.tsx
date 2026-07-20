@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/components/providers/AuthProvider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -47,7 +48,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </ThemeProvider>
         <Toaster />
       </body>
