@@ -10,11 +10,13 @@ import { Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { authClient } from "@/lib/auth-client";
+import { useAuthStore } from "@/store/auth.store";
+
 // --- Main App Component ---
 export default function LoginForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const { login, isLoading, error, clearError } = useAuthStore();
 
   const {
     register,
@@ -29,24 +31,13 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: LoginSchema) => {
+    clearError();
     try {
-      const { data: response, error } = await authClient.signIn.email({
-        email: data.email,
-        password: data.password,
-      });
-
-      if (error) {
-        toast.error(
-          error.message ||
-            "Something went wrong. Please check your credentials.",
-        );
-        return;
-      }
-
+      await login(data.email, data.password);
       toast.success("Logged in successfully!");
-      router.push("/onboarding");
-    } catch (error: any) {
-      toast.error("An unexpected error occurred. Please try again.");
+      router.push("/dashboard");
+    } catch (err: any) {
+      toast.error(err.message || "Login failed. Please check your credentials.");
     }
   };
 
@@ -160,10 +151,10 @@ export default function LoginForm() {
           </div>
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLoading}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow-md hover:bg-primary/90 h-12 px-8 w-full mt-4 active:scale-[0.98]"
           >
-            {isSubmitting ? "Signing In..." : "Sign In"}
+            {isSubmitting || isLoading ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
