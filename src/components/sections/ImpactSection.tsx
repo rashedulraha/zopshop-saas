@@ -58,7 +58,8 @@ const STATS = [
     suffix: "%",
     label: "Average revenue growth reported by our users in 6 months",
     color: "text-emerald-500",
-    iconBg: "bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-100 dark:border-emerald-900/50",
+    iconBg:
+      "bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-100 dark:border-emerald-900/50",
     glow: "rgba(16,185,129,0.08)",
   },
   {
@@ -67,7 +68,8 @@ const STATS = [
     suffix: "+ hrs",
     label: "Saved per week on inventory counting and manual billing",
     color: "text-blue-500",
-    iconBg: "bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900/50",
+    iconBg:
+      "bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900/50",
     glow: "rgba(59,130,246,0.08)",
   },
   {
@@ -76,7 +78,8 @@ const STATS = [
     suffix: "+",
     label: "Active businesses across Bangladesh managing stock with ZopShop",
     color: "text-violet-500",
-    iconBg: "bg-violet-50 dark:bg-violet-950/50 border border-violet-100 dark:border-violet-900/50",
+    iconBg:
+      "bg-violet-50 dark:bg-violet-950/50 border border-violet-100 dark:border-violet-900/50",
     glow: "rgba(139,92,246,0.08)",
   },
   {
@@ -85,7 +88,8 @@ const STATS = [
     suffix: ".9%",
     label: "Inventory accuracy — vs. 60–70% with manual tracking",
     color: "text-amber-500",
-    iconBg: "bg-amber-50 dark:bg-amber-950/50 border border-amber-100 dark:border-amber-900/50",
+    iconBg:
+      "bg-amber-50 dark:bg-amber-950/50 border border-amber-100 dark:border-amber-900/50",
     glow: "rgba(245,158,11,0.08)",
   },
 ];
@@ -110,7 +114,10 @@ const NEW_WAY = [
 
 export function ImpactSection() {
   return (
-    <section id="impact" className="py-20 lg:py-32 relative overflow-hidden bg-white dark:bg-slate-950">
+    <section
+      id="impact"
+      className="py-20 lg:py-32 relative overflow-hidden bg-white dark:bg-slate-950"
+    >
       {/* Ambient orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-emerald-50/50 dark:bg-emerald-900/10 blur-[110px]" />
@@ -118,7 +125,6 @@ export function ImpactSection() {
 
       <ResponsiveComponents>
         <div className="relative z-10 w-full">
-
           {/* ── Section Header ── */}
           <div className="text-center mb-16 md:mb-24 flex flex-col items-center max-w-3xl mx-auto px-4 sm:px-6">
             <motion.div
@@ -144,7 +150,10 @@ export function ImpactSection() {
               transition={{ delay: 0.1 }}
               className="mb-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1]"
             >
-              Numbers that <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-400 dark:to-teal-400">speak for themselves</span>
+              Numbers that{" "}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-400 dark:to-teal-400">
+                speak for themselves
+              </span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -169,11 +178,21 @@ export function ImpactSection() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="group relative bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl shadow-slate-200/50 dark:shadow-black/20 overflow-hidden flex flex-col items-center text-center"
               >
-
-                <div className={cn("w-14 h-14 rounded-full flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110", stat.iconBg, stat.color)}>
+                <div
+                  className={cn(
+                    "w-14 h-14 rounded-full flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110",
+                    stat.iconBg,
+                    stat.color,
+                  )}
+                >
                   {stat.icon}
                 </div>
-                <div className={cn("text-5xl font-black tracking-tight mb-4", stat.color)}>
+                <div
+                  className={cn(
+                    "text-5xl font-black tracking-tight mb-4",
+                    stat.color,
+                  )}
+                >
                   <AnimatedCounter target={stat.target} suffix={stat.suffix} />
                 </div>
                 <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed">
@@ -260,7 +279,6 @@ export function ImpactSection() {
               </div>
             </div>
           </motion.div>
-
         </div>
       </ResponsiveComponents>
     </section>

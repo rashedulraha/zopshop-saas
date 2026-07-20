@@ -1,19 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  BarChart3,
-  ShoppingBag,
-  Check,
-  Settings2,
-  Play,
-  ArrowRight,
-  DollarSign,
-  TrendingUp,
-  Lock,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
-import { motion, AnimatePresence } from "framer-motion";
 import DemoDashboard from "../dmeoDashboard/DemoDashboard";
 
 // Business Configurations
