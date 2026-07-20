@@ -42,8 +42,8 @@ export const transactionApi = {
    * GET /api/transactions/:id
    */
   getTransactionById: async (id: string): Promise<Transaction> => {
-    const { data } = await api.get<Transaction>(`/transactions/${id}`);
-    return data;
+    const { data } = await api.get<{ transaction: Transaction }>(`/transactions/${id}`);
+    return data.transaction;
   },
 
   /**
@@ -51,10 +51,12 @@ export const transactionApi = {
    * GET /api/transactions/daily-summary
    */
   getDailySummary: async (date?: string): Promise<DailySummary> => {
-    const { data } = await api.get<DailySummary>("/transactions/daily-summary", {
+    const { data } = await api.get<{ dailySummary?: DailySummary } | DailySummary>("/transactions/daily-summary", {
       params: date ? { date } : undefined,
     });
-    return data;
+    // Just in case it's wrapped
+    if ('dailySummary' in data && data.dailySummary) return data.dailySummary;
+    return data as DailySummary;
   },
 
   /**
@@ -62,8 +64,8 @@ export const transactionApi = {
    * POST /api/transactions
    */
   createTransaction: async (transactionData: CreateTransactionPayload): Promise<Transaction> => {
-    const { data } = await api.post<Transaction>("/transactions", transactionData);
-    return data;
+    const { data } = await api.post<{ transaction: Transaction }>("/transactions", transactionData);
+    return data.transaction;
   },
 
   /**
@@ -71,8 +73,8 @@ export const transactionApi = {
    * PUT /api/transactions/:id
    */
   updateTransaction: async (id: string, transactionData: Partial<CreateTransactionPayload>): Promise<Transaction> => {
-    const { data } = await api.put<Transaction>(`/transactions/${id}`, transactionData);
-    return data;
+    const { data } = await api.put<{ transaction: Transaction }>(`/transactions/${id}`, transactionData);
+    return data.transaction;
   },
 
   /**
