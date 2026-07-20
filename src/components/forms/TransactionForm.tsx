@@ -7,7 +7,13 @@ import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Transaction, TransactionType, Party, Product } from "@/types";
+import {
+  Transaction,
+  TransactionType,
+  Party,
+  Product,
+  TransactionMode,
+} from "@/types";
 import { Plus, Trash2 } from "lucide-react";
 import {
   Select,
@@ -16,24 +22,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getPaymentStatus } from "@/lib/utils/transaction.utils";
 
 const transactionItemSchema = z.object({
   productId: z.string().min(1, "Product is required"),
   quantity: z.number().min(1, "Quantity must be at least 1"),
-  price: z.number().min(0, "Price cannot be negative"),
+  unitPrice: z.number().min(0, "Price cannot be negative"),
 });
 
 const transactionSchema = z.object({
   partyId: z.string().optional(),
-  type: z.enum(["sale", "purchase", "expense", "cash_in", "cash_out"] as const),
+  type: z.enum([
+    "SALE",
+    "PURCHASE",
+    "EXPENSE",
+    "PAYMENT_RECEIVED",
+    "PAYMENT_SENT",
+  ] as const),
   items: z.array(transactionItemSchema).optional(),
-  totalAmount: z.number().min(0, "Total amount cannot be negative"),
+  amount: z.number().min(0, "Total amount cannot be negative"),
   discount: z.number().min(0).optional(),
   tax: z.number().min(0).optional(),
   paidAmount: z.number().min(0, "Paid amount cannot be negative"),
-  paymentMethod: z.enum(["cash", "bank", "mobile_banking", "other"] as const),
-  paymentStatus: z.enum(["paid", "partial", "due"] as const).optional(),
-  notes: z.string().optional(),
+  mode: z.enum(["CASH", "CREDIT", "BANK"] as const),
+  note: z.string().optional(),
 });
 
 export type TransactionFormValues = z.infer<typeof transactionSchema>;
@@ -66,15 +78,14 @@ export function TransactionForm({
         initialData?.items?.map((i) => ({
           productId: i.product?.id || "",
           quantity: i.quantity,
-          price: i.price,
+          unitPrice: i.unitPrice,
         })) || [],
-      totalAmount: initialData?.totalAmount || 0,
+      amount: initialData?.amount || 0,
       discount: initialData?.discount || 0,
       tax: initialData?.tax || 0,
       paidAmount: initialData?.paidAmount || 0,
-      paymentMethod: initialData?.paymentMethod || "cash",
-      paymentStatus: initialData?.paymentStatus || "paid",
-      notes: initialData?.notes || "",
+      mode: initialData?.mode || "CASH",
+      note: initialData?.note || "",
     },
   });
 
@@ -86,35 +97,26 @@ export function TransactionForm({
   const watchItems = form.watch("items") || [];
   const watchDiscount = form.watch("discount") || 0;
   const watchTax = form.watch("tax") || 0;
-  const watchPaidAmount = form.watch("paidAmount") || 0;
 
   // Auto calculate total amount
   useEffect(() => {
-    if (defaultType === "sale" || defaultType === "purchase") {
+    if (defaultType === "SALE" || defaultType === "PURCHASE") {
       const subtotal = watchItems.reduce(
-        (acc, item) => acc + item.price * item.quantity,
+        (acc, item) => acc + item.unitPrice * item.quantity,
         0,
       );
       const total = subtotal - watchDiscount + watchTax;
-      form.setValue("totalAmount", total);
-
-      if (watchPaidAmount === total && total > 0) {
-        form.setValue("paymentStatus", "paid");
-      } else if (watchPaidAmount > 0 && watchPaidAmount < total) {
-        form.setValue("paymentStatus", "partial");
-      } else if (watchPaidAmount === 0 && total > 0) {
-        form.setValue("paymentStatus", "due");
-      }
+      form.setValue("amount", total);
     }
-  }, [watchItems, watchDiscount, watchTax, watchPaidAmount, defaultType, form]);
+  }, [watchItems, watchDiscount, watchTax, defaultType, form]);
 
   const handleProductSelect = (index: number, productId: string) => {
     form.setValue(`items.${index}.productId`, productId);
     const product = products.find((p) => p.id === productId);
     if (product) {
       form.setValue(
-        `items.${index}.price`,
-        defaultType === "sale" ? product.price : (product.purchasePrice ?? 0),
+        `items.${index}.unitPrice`,
+        defaultType === "SALE" ? product.price : (product.purchasePrice ?? 0),
       );
     }
   };
@@ -124,9 +126,9 @@ export function TransactionForm({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label htmlFor="partyId">
-            {defaultType === "sale"
+            {defaultType === "SALE"
               ? "Customer"
-              : defaultType === "purchase"
+              : defaultType === "PURCHASE"
                 ? "Supplier"
                 : "Party"}
           </Label>
@@ -149,27 +151,26 @@ export function TransactionForm({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="paymentMethod">Payment Method *</Label>
+          <Label htmlFor="mode">Payment Mode *</Label>
           <Select
             onValueChange={(val) =>
-              form.setValue("paymentMethod", (val as any) || "cash")
+              form.setValue("mode", (val as any) || "CASH")
             }
-            defaultValue={form.getValues("paymentMethod")}
+            defaultValue={form.getValues("mode")}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select payment method" />
+              <SelectValue placeholder="Select payment mode" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="cash">Cash</SelectItem>
-              <SelectItem value="bank">Bank Transfer</SelectItem>
-              <SelectItem value="mobile_banking">Mobile Banking</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
+              <SelectItem value="CASH">Cash</SelectItem>
+              <SelectItem value="BANK">Bank</SelectItem>
+              <SelectItem value="CREDIT">Credit</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
-      {(defaultType === "sale" || defaultType === "purchase") && (
+      {(defaultType === "SALE" || defaultType === "PURCHASE") && (
         <div className="space-y-4 border rounded-md p-4 bg-muted/20">
           <div className="flex justify-between items-center">
             <Label className="text-base font-semibold">Order Items</Label>
@@ -177,7 +178,9 @@ export function TransactionForm({
               type="button"
               variant="outline"
               size="sm"
-              onClick={() => append({ productId: "", quantity: 1, price: 0 })}
+              onClick={() =>
+                append({ productId: "", quantity: 1, unitPrice: 0 })
+              }
             >
               <Plus className="w-4 h-4 mr-2" /> Add Item
             </Button>
@@ -233,7 +236,7 @@ export function TransactionForm({
                   <Input
                     type="number"
                     step="0.01"
-                    {...form.register(`items.${index}.price`, {
+                    {...form.register(`items.${index}.unitPrice`, {
                       valueAsNumber: true,
                     })}
                   />
@@ -244,7 +247,7 @@ export function TransactionForm({
                   <div className="h-9 px-3 flex items-center border rounded-md bg-muted text-sm">
                     $
                     {(
-                      (watchItems[index]?.price || 0) *
+                      (watchItems[index]?.unitPrice || 0) *
                       (watchItems[index]?.quantity || 0)
                     ).toFixed(2)}
                   </div>
@@ -268,24 +271,27 @@ export function TransactionForm({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="notes">Notes / Reference</Label>
+            <Label htmlFor="note">Notes / Reference</Label>
             <Input
-              id="notes"
+              id="note"
               placeholder="e.g. Inv-10293 or extra details"
-              {...form.register("notes")}
+              {...form.register("note")}
             />
           </div>
         </div>
 
         <div className="space-y-4 border rounded-md p-4 bg-muted/10">
-          {(defaultType === "sale" || defaultType === "purchase") && (
+          {(defaultType === "SALE" || defaultType === "PURCHASE") && (
             <>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Subtotal</span>
                 <span className="font-medium">
                   $
                   {watchItems
-                    .reduce((acc, item) => acc + item.price * item.quantity, 0)
+                    .reduce(
+                      (acc, item) => acc + item.unitPrice * item.quantity,
+                      0,
+                    )
                     .toFixed(2)}
                 </span>
               </div>
@@ -315,7 +321,7 @@ export function TransactionForm({
           <div className="flex justify-between items-center pt-2 border-t">
             <span className="text-base font-semibold">Grand Total</span>
             <span className="text-lg font-bold text-primary">
-              ${(form.watch("totalAmount") || 0).toFixed(2)}
+              ${(form.watch("amount") || 0).toFixed(2)}
             </span>
           </div>
 
