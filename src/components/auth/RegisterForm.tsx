@@ -10,11 +10,13 @@ import { Eye, EyeOff } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { authClient } from "@/lib/auth-client";
+import { useAuthStore } from "@/store/auth.store";
+
 export function RegisterForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { register: registerUser, isLoading, clearError } = useAuthStore();
 
   const {
     register,
@@ -32,22 +34,13 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: RegisterSchema) => {
+    clearError();
     try {
-      const { data: response, error } = await authClient.signUp.email({
-        email: data.email,
-        password: data.password,
-        name: data.name,
-      });
-
-      if (error) {
-        toast.error(error.message || "Something went wrong. Please try again.");
-        return;
-      }
-
+      await registerUser(data.name, data.email, data.password);
       toast.success("Account created successfully!");
       router.push("/login");
-    } catch (error: any) {
-      toast.error("An unexpected error occurred. Please try again.");
+    } catch (err: any) {
+      toast.error(err.message || "Registration failed. Please try again.");
     }
   };
 
@@ -243,10 +236,10 @@ export function RegisterForm() {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLoading}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow-md hover:bg-primary/90 h-12 px-8 w-full mt-4 active:scale-[0.98]"
           >
-            {isSubmitting ? "Creating Account..." : "Create Account"}
+            {isSubmitting || isLoading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 
