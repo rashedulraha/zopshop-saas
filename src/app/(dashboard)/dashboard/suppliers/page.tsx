@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { usePartyStore } from "@/store/party.store";
 import { PartyForm } from "@/components/forms/PartyForm";
-import { Search, Plus, User, Phone, MapPin, Edit, Trash2 } from "lucide-react";
+import { Search, Plus, User, Phone, MapPin, Edit, Trash2, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import Link from "next/link";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,7 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function SuppliersPage() {
-  const { parties, isLoading, fetchParties, createParty, updateParty, deleteParty } = usePartyStore();
+  const { parties, isLoading, fetchParties, createParty, updateParty, deleteParty, fetchPartyTransactions, partyTransactions } = usePartyStore();
   
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -46,6 +47,13 @@ export default function SuppliersPage() {
       setSelectedPartyId(parties[0].id);
     }
   }, [parties, selectedPartyId]);
+
+  // Fetch transactions when a party is selected
+  useEffect(() => {
+    if (selectedPartyId) {
+      fetchPartyTransactions(selectedPartyId, { limit: 10 });
+    }
+  }, [selectedPartyId, fetchPartyTransactions]);
 
   const handleCreateOrUpdate = async (data: any) => {
     try {
@@ -87,7 +95,7 @@ export default function SuppliersPage() {
             Suppliers
           </h1>
           <p className="text-muted-foreground mt-1 text-sm">
-            Manage your suppliers and payables
+            Manage supplier details and balances
           </p>
         </div>
         {!isFormOpen && (
@@ -143,12 +151,13 @@ export default function SuppliersPage() {
               ) : parties.length === 0 ? (
                 <div className="text-center py-8 text-sm text-muted-foreground">No suppliers found.</div>
               ) : (
-                parties.map((supplier) => {
-                  const isSelected = supplier.id === selectedPartyId;
+                parties.map((supp) => {
+                  const isSelected = supp.id === selectedPartyId;
+                  const balance = supp.balance ?? 0;
                   return (
                     <button
-                      key={supplier.id}
-                      onClick={() => setSelectedPartyId(supplier.id)}
+                      key={supp.id}
+                      onClick={() => setSelectedPartyId(supp.id)}
                       className={cn(
                         "flex flex-col items-start text-left p-3 rounded-md border transition-all",
                         isSelected
@@ -157,17 +166,17 @@ export default function SuppliersPage() {
                       )}
                     >
                       <span className="font-semibold text-foreground text-sm">
-                        {supplier.name}
+                        {supp.name}
                       </span>
                       <div className="flex items-center justify-between w-full mt-1">
                         <span className="text-xs text-muted-foreground">
-                          {supplier.phone}
+                          {supp.mobile || "-"}
                         </span>
                         <span className={cn(
                           "text-xs font-medium",
-                          supplier.balance > 0 ? "text-emerald-500" : supplier.balance < 0 ? "text-rose-500" : "text-muted-foreground"
+                          balance > 0 ? "text-emerald-500" : balance < 0 ? "text-rose-500" : "text-muted-foreground"
                         )}>
-                          ${Math.abs(supplier.balance).toFixed(2)} {supplier.balance > 0 ? "Recv" : supplier.balance < 0 ? "Pay" : ""}
+                          ${Math.abs(balance).toFixed(2)} {balance > 0 ? "Recv" : balance < 0 ? "Pay" : ""}
                         </span>
                       </div>
                     </button>
@@ -193,7 +202,7 @@ export default function SuppliersPage() {
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-2 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1.5">
                           <Phone className="w-3.5 h-3.5" />
-                          <span>{selectedParty.phone}</span>
+                          <span>{selectedParty.mobile || "No Mobile"}</span>
                         </div>
                         {selectedParty.address && (
                           <div className="flex items-center gap-1.5">
@@ -241,24 +250,81 @@ export default function SuppliersPage() {
                   </div>
                 </div>
                 
-                <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-md border border-border bg-background flex flex-col items-center text-center">
-                    <span className="text-sm font-medium text-muted-foreground mb-1">Current Balance</span>
-                    <span className={cn(
-                      "text-2xl font-bold",
-                      selectedParty.balance > 0 ? "text-emerald-500" : selectedParty.balance < 0 ? "text-rose-500" : "text-foreground"
-                    )}>
-                      ${Math.abs(selectedParty.balance).toFixed(2)}
-                    </span>
-                    <span className="text-xs text-muted-foreground mt-1">
-                      {selectedParty.balance > 0 ? "Receivable" : selectedParty.balance < 0 ? "Payable" : "Settled"}
-                    </span>
+                <div className="p-6">
+                  <div className="flex flex-col md:flex-row gap-6 mb-8">
+                    <div className="p-5 rounded-md border border-border bg-background flex flex-col items-center text-center flex-1">
+                      <span className="text-sm font-medium text-muted-foreground mb-1">Current Balance</span>
+                      <span className={cn(
+                        "text-3xl font-bold",
+                        (selectedParty.balance ?? 0) > 0 ? "text-emerald-500" : (selectedParty.balance ?? 0) < 0 ? "text-rose-500" : "text-foreground"
+                      )}>
+                        ${Math.abs(selectedParty.balance ?? 0).toFixed(2)}
+                      </span>
+                      <span className="text-xs text-muted-foreground mt-1">
+                        {(selectedParty.balance ?? 0) > 0 ? "Receivable" : (selectedParty.balance ?? 0) < 0 ? "Payable" : "Settled"}
+                      </span>
+                    </div>
+                    <div className="p-5 rounded-md border border-border bg-background flex flex-col justify-center items-center flex-1">
+                       <span className="text-sm font-medium text-muted-foreground mb-3">Quick Actions</span>
+                       <Link href={`/dashboard/purchase/new?partyId=${selectedParty.id}`}>
+                         <Button className="w-full">
+                           <Plus className="w-4 h-4 mr-2" />
+                           New Purchase
+                         </Button>
+                       </Link>
+                    </div>
                   </div>
-                  <div className="p-4 rounded-md border border-border bg-background flex flex-col items-center text-center col-span-2">
-                    <span className="text-sm font-medium text-muted-foreground mb-1">Details</span>
-                    <span className="text-muted-foreground text-sm mt-2">
-                      To view ledger and transactions, visit the Reports section or implement transaction list here.
-                    </span>
+
+                  {/* Transactions List */}
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-lg font-semibold text-foreground">Recent Transactions</h3>
+                      <Link href={`/dashboard/suppliers/ledger?partyId=${selectedParty.id}`} className="text-sm text-primary hover:underline flex items-center">
+                        View full ledger <ArrowRight className="w-3 h-3 ml-1" />
+                      </Link>
+                    </div>
+                    
+                    {isLoading ? (
+                      <div className="text-center py-6 text-sm text-muted-foreground">Loading transactions...</div>
+                    ) : partyTransactions.length === 0 ? (
+                      <div className="text-center py-6 text-sm text-muted-foreground border border-dashed border-border rounded-md">
+                        No transactions found for this supplier.
+                      </div>
+                    ) : (
+                      <div className="border border-border rounded-md overflow-hidden">
+                        <table className="w-full text-sm">
+                          <thead className="bg-muted/50 border-b border-border text-left">
+                            <tr>
+                              <th className="font-medium p-3">Date</th>
+                              <th className="font-medium p-3">Type</th>
+                              <th className="font-medium p-3">Amount</th>
+                              <th className="font-medium p-3">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {partyTransactions.map((tx) => (
+                              <tr key={tx.id} className="border-b border-border/50 last:border-0 hover:bg-muted/20">
+                                <td className="p-3 text-muted-foreground">
+                                  {new Date(tx.createdAt).toLocaleDateString()}
+                                </td>
+                                <td className="p-3 capitalize">{tx.type}</td>
+                                <td className="p-3 font-medium">${tx.totalAmount.toFixed(2)}</td>
+                                <td className="p-3">
+                                  <span className={cn(
+                                    "px-2 py-1 rounded-full text-[10px] uppercase font-semibold tracking-wider",
+                                    tx.paymentStatus === "paid" ? "bg-emerald-500/10 text-emerald-500" :
+                                    tx.paymentStatus === "partial" ? "bg-amber-500/10 text-amber-500" :
+                                    "bg-rose-500/10 text-rose-500"
+                                  )}>
+                                    {tx.paymentStatus}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
