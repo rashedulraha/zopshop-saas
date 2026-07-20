@@ -1,41 +1,60 @@
 import { api } from "../axios";
-import { LoginPayload, RegisterPayload, AuthResponse, User, Store } from "@/types";
+import { User, Store } from "@/types";
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface RegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+}
 
 export interface SessionResponse {
   user: User;
   store?: Store | null;
-  token?: string;
 }
 
+/**
+ * Auth API service using the better-auth HTTP endpoints.
+ * These are called via the axios instance (with withCredentials: true),
+ * so session cookies are handled automatically by better-auth.
+ */
 export const authApi = {
   /**
-   * Logs in a user using email and password.
+   * Sign in with email and password.
+   * POST /auth/sign-in/email
    */
-  login: async (credentials: LoginPayload): Promise<AuthResponse> => {
-    const { data } = await api.post<AuthResponse>("/auth/sign-in/email", credentials);
+  login: async (credentials: LoginPayload): Promise<{ user: User }> => {
+    const { data } = await api.post<{ user: User }>("/auth/sign-in/email", credentials);
     return data;
   },
 
   /**
-   * Registers a new user.
+   * Register a new user with name, email, and password.
+   * POST /auth/sign-up/email
    */
-  register: async (payload: RegisterPayload): Promise<AuthResponse> => {
-    const { data } = await api.post<AuthResponse>("/auth/sign-up/email", payload);
+  register: async (payload: RegisterPayload): Promise<{ user: User }> => {
+    const { data } = await api.post<{ user: User }>("/auth/sign-up/email", payload);
     return data;
   },
 
   /**
-   * Invalidates user session and logs them out.
+   * Sign out the current user and invalidate their session cookie.
+   * POST /auth/sign-out
    */
   logout: async (): Promise<void> => {
-    await api.post("/signout");
+    await api.post("/auth/sign-out");
   },
 
   /**
-   * Retrieves the current authenticated user's session.
+   * Get the current authenticated session.
+   * GET /auth/get-session
    */
   getSession: async (): Promise<SessionResponse> => {
-    const { data } = await api.get<SessionResponse>("/me");
+    const { data } = await api.get<SessionResponse>("/auth/get-session");
     return data;
   },
 };
