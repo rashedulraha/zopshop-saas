@@ -42,7 +42,8 @@ export const useAuthStore = create<AuthState>()(
             localStorage.setItem("accessToken", res.token);
           }
         } catch (err: any) {
-          const errMsg = err.response?.data?.message || err.message || "Login failed";
+          const errMsg =
+            err.response?.data?.message || err.message || "Login failed";
           set({ isLoading: false, error: errMsg });
           throw err;
         }
@@ -62,7 +63,8 @@ export const useAuthStore = create<AuthState>()(
             localStorage.setItem("accessToken", res.token);
           }
         } catch (err: any) {
-          const errMsg = err.response?.data?.message || err.message || "Registration failed";
+          const errMsg =
+            err.response?.data?.message || err.message || "Registration failed";
           set({ isLoading: false, error: errMsg });
           throw err;
         }
@@ -73,7 +75,10 @@ export const useAuthStore = create<AuthState>()(
         try {
           await authApi.logout();
         } catch (err) {
-          console.error("Logout API call failed, proceeding with local logout", err);
+          console.error(
+            "Logout API call failed, proceeding with local logout",
+            err,
+          );
         } finally {
           set({
             user: null,
@@ -89,11 +94,19 @@ export const useAuthStore = create<AuthState>()(
       },
 
       checkAuth: async () => {
-        const storedToken = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+        const storedToken =
+          typeof window !== "undefined"
+            ? localStorage.getItem("accessToken")
+            : null;
         const currentToken = get().token || storedToken;
 
         if (!currentToken) {
-          set({ isAuthenticated: false, user: null, token: null, isCheckingAuth: false });
+          set({
+            isAuthenticated: false,
+            user: null,
+            token: null,
+            isCheckingAuth: false,
+          });
           return;
         }
 
@@ -147,6 +160,6 @@ export const useAuthStore = create<AuthState>()(
         token: state.token,
         isAuthenticated: state.isAuthenticated,
       }),
-    }
-  )
+    },
+  ),
 );

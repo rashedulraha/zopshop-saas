@@ -82,11 +82,29 @@ export interface Product {
   updatedAt?: string;
 }
 
+export interface CreateProductPayload {
+  name: string;
+  sku?: string;
+  barcode?: string;
+  description?: string;
+  costPrice: number;
+  price: number;
+  stock: number;
+  categoryId?: string | null;
+}
+
+export interface ProductListResponse {
+  products: Product[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 // ==========================================
 // PARTY (CUSTOMER / SUPPLIER) TYPES
 // ==========================================
 
-export type PartyType = "customer" | "supplier";
+export type PartyType = "customer" | "supplier" | "CUSTOMER" | "SUPPLIER" | "BOTH";
 
 export interface Party {
   id: string;
@@ -99,6 +117,22 @@ export interface Party {
   storeId: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface CreatePartyPayload {
+  name: string;
+  email?: string;
+  phone: string;
+  address?: string;
+  type: PartyType;
+  balance?: number;
+}
+
+export interface PartyListResponse {
+  parties: Party[];
+  total: number;
+  page: number;
+  limit: number;
 }
 
 // ==========================================
@@ -139,6 +173,51 @@ export interface Transaction {
   storeId: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface CreateTransactionPayload {
+  type: TransactionType;
+  partyId?: string | null;
+  items?: Array<{
+    productId: string;
+    quantity: number;
+    price: number;
+    costPrice?: number;
+  }>;
+  totalAmount: number;
+  discount?: number;
+  tax?: number;
+  paidAmount: number;
+  paymentMethod: PaymentMethod;
+  paymentStatus?: PaymentStatus;
+  notes?: string;
+  date?: string;
+}
+
+export interface TransactionListResponse {
+  transactions: Transaction[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface DailySummary {
+  date: string;
+  totalSales: number;
+  totalPurchases: number;
+  totalExpenses: number;
+  totalCashIn: number;
+  totalCashOut: number;
+  netCashFlow: number;
+}
+
+export interface PartyLedgerResponse {
+  party: Party;
+  openingBalance: number;
+  closingBalance: number;
+  transactions: Transaction[];
+  totalDebit: number;
+  totalCredit: number;
 }
 
 // ==========================================
