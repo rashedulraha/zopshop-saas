@@ -99,7 +99,7 @@ const DemoDashboard = () => {
       {/* Enhanced Dashboard Preview Section */}
       <div
         id="demo-dashboard"
-        className="relative w-full max-w-[1100px] mx-auto px-4 mt-20"
+        className="relative w-full max-w-[100%] mx-auto px-4 mt-20"
       >
         {/* Header with Badge & Controls */}
         <div className="text-center mb-8 relative">
