@@ -7,6 +7,25 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { FaFacebook, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 const contactSchema = z.object({
   firstName: z.string().min(2, "First name is required"),
@@ -20,36 +39,33 @@ type ContactSchema = z.infer<typeof contactSchema>;
 
 const CONTACT_ITEMS = [
   {
-    icon: <Mail className="w-5 h-5 text-primary" />,
-    iconBg: "bg-primary/10 border border-primary/15 group-hover:bg-primary/15",
+    icon: <Mail className="w-5 h-5 text-blue-600 dark:text-blue-400" />,
+    iconBg:
+      "bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800",
     label: "Email Us",
     value: "hello@zopshop.com",
     href: "mailto:hello@zopshop.com",
     sub: "We typically reply within 24 hours.",
-    hoverColor: "hover:text-primary",
   },
   {
-    icon: <Phone className="w-5 h-5 text-cyan-500" />,
-    iconBg: "bg-cyan-500/10 border border-cyan-500/15 group-hover:bg-cyan-500/15",
+    icon: <Phone className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />,
+    iconBg:
+      "bg-cyan-50 dark:bg-cyan-900/30 border border-cyan-100 dark:border-cyan-800",
     label: "Call Us",
     value: "+880 123 456 789",
     href: "tel:+880123456789",
     sub: "Sat-Thu from 9am to 6pm.",
-    hoverColor: "hover:text-cyan-500",
   },
   {
-    icon: <MapPin className="w-5 h-5 text-purple-500" />,
-    iconBg: "bg-purple-500/10 border border-purple-500/15 group-hover:bg-purple-500/15",
+    icon: <MapPin className="w-5 h-5 text-purple-600 dark:text-purple-400" />,
+    iconBg:
+      "bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800",
     label: "Visit Us",
     value: "Gulshan-1, Dhaka, Bangladesh",
     href: undefined,
     sub: undefined,
-    hoverColor: "",
   },
 ];
-
-const INPUT_CLASS =
-  "w-full bg-slate-50 dark:bg-slate-800/50 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-all duration-200 border border-slate-200 dark:border-slate-700";
 
 export function ContactSection() {
   const {
@@ -57,6 +73,7 @@ export function ContactSection() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    setValue,
   } = useForm<ContactSchema>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -70,7 +87,6 @@ export function ContactSection() {
 
   const onSubmit = async (data: ContactSchema) => {
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
       toast.success("Message sent successfully!");
       reset();
@@ -86,13 +102,14 @@ export function ContactSection() {
     >
       {/* Ambient orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-[600px] h-[600px] bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-[120px]" />
+        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-[120px]" />
+        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-[120px]" />
       </div>
 
       <ResponsiveComponents>
-        <div className="container mx-auto max-w-7xl">
-          {/* Header */}
-          <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-24 px-4 sm:px-6">
+        <div className="container mx-auto max-w-6xl relative z-10 px-4 sm:px-6">
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -116,7 +133,7 @@ export function ContactSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="mb-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1]"
+              className="mb-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1]"
             >
               Let&apos;s build something{" "}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
@@ -129,206 +146,253 @@ export function ContactSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium"
+              className="text-base sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed"
             >
               Have a question about ZopShop? Want to request a demo? Our team is
               ready to help you transform your business.
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10 px-4 sm:px-6">
-            {/* Contact Information Panel */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="lg:col-span-5"
-            >
-              <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 lg:p-10 h-full overflow-hidden shadow-xl shadow-slate-200/50 dark:shadow-black/20">
+          {/* Unified Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <Card className="border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-200/50 dark:shadow-black/30 overflow-hidden bg-white dark:bg-slate-900">
+              <div className="grid grid-cols-1 lg:grid-cols-5">
+                {/* Left Side: Contact Info */}
+                <div className="lg:col-span-2 bg-slate-50/80 dark:bg-slate-800/30 p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+                  <div>
+                    <CardHeader className="p-0 mb-6">
+                      <CardTitle className="text-xl text-slate-900 dark:text-white">
+                        Get in touch
+                      </CardTitle>
+                      <CardDescription className="text-sm text-slate-500 dark:text-slate-400 mt-2">
+                        Fill out the form and our team will get back to you
+                        within 24 hours.
+                      </CardDescription>
+                    </CardHeader>
 
-                <h3 className="text-2xl font-bold mb-8 text-slate-900 dark:text-white">
-                  Contact Information
-                </h3>
-
-                <div className="space-y-7">
-                  {CONTACT_ITEMS.map((item, i) => (
-                    <div key={i} className="flex items-start gap-5 group">
-                      <div
-                        className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-105 ${item.iconBg}`}
-                      >
-                        {item.icon}
-                      </div>
-                      <div>
-                        <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">
-                          {item.label}
-                        </h4>
-                        {item.href ? (
-                          <a
-                            href={item.href}
-                            className={`text-base font-semibold text-slate-900 dark:text-white transition-colors ${item.hoverColor}`}
+                    <div className="space-y-6">
+                      {CONTACT_ITEMS.map((item, i) => (
+                        <div key={i} className="flex items-start gap-4 group">
+                          <div
+                            className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-110 ${item.iconBg}`}
                           >
-                            {item.value}
+                            {item.icon}
+                          </div>
+                          <div>
+                            <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-0.5 uppercase tracking-wider">
+                              {item.label}
+                            </h4>
+                            {item.href ? (
+                              <a
+                                href={item.href}
+                                className="text-sm font-semibold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors block"
+                              >
+                                {item.value}
+                              </a>
+                            ) : (
+                              <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                                {item.value}
+                              </p>
+                            )}
+                            {item.sub && (
+                              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                                {item.sub}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Social Links */}
+                  <div className="mt-10 pt-8 border-t border-slate-200 dark:border-slate-800">
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-widest">
+                      Follow us
+                    </h4>
+                    <div className="flex gap-3">
+                      {[
+                        {
+                          icon: <FaTwitter className="w-4 h-4" />,
+                          name: "Twitter",
+                        },
+                        {
+                          icon: <FaLinkedin className="w-4 h-4" />,
+                          name: "LinkedIn",
+                        },
+                        {
+                          icon: <FaFacebook className="w-4 h-4" />,
+                          name: "Facebook",
+                        },
+                      ].map((social) => (
+                        <Button
+                          key={social.name}
+                          variant="outline"
+                          size="icon"
+                          className="h-9 w-9 rounded-lg border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-800 transition-all duration-200"
+                        >
+                          <a href="#" aria-label={social.name}>
+                            {social.icon}
                           </a>
-                        ) : (
-                          <p className="text-base font-semibold text-slate-900 dark:text-white">{item.value}</p>
-                        )}
-                        {item.sub && (
-                          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">{item.sub}</p>
-                        )}
-                      </div>
+                        </Button>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
 
-                <div className="mt-10 pt-8 border-t border-slate-100 dark:border-slate-800">
-                  <h4 className="text-xs font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-widest">
-                    Follow us
-                  </h4>
-                  <div className="flex gap-3">
-                    {["Twitter", "LinkedIn", "Facebook"].map((social) => (
-                      <a
-                        key={social}
-                        href="#"
-                        className="bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-4 py-2 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                {/* Right Side: Contact Form */}
+                <div className="lg:col-span-3 p-8 lg:p-10">
+                  <CardHeader className="p-0 mb-6">
+                    <CardTitle className="text-xl text-slate-900 dark:text-white">
+                      Send us a message
+                    </CardTitle>
+                  </CardHeader>
+
+                  <CardContent className="p-0">
+                    <form
+                      className="space-y-5"
+                      onSubmit={handleSubmit(onSubmit)}
+                    >
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div className="space-y-2">
+                          <Label
+                            htmlFor="firstName"
+                            className="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider"
+                          >
+                            First Name
+                          </Label>
+                          <Input
+                            id="firstName"
+                            {...register("firstName")}
+                            placeholder="John"
+                            className="bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50"
+                          />
+                          {errors.firstName && (
+                            <p className="text-xs font-medium text-red-500">
+                              {errors.firstName.message}
+                            </p>
+                          )}
+                        </div>
+                        <div className="space-y-2">
+                          <Label
+                            htmlFor="lastName"
+                            className="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider"
+                          >
+                            Last Name
+                          </Label>
+                          <Input
+                            id="lastName"
+                            {...register("lastName")}
+                            placeholder="Doe"
+                            className="bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50"
+                          />
+                          {errors.lastName && (
+                            <p className="text-xs font-medium text-red-500">
+                              {errors.lastName.message}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label
+                          htmlFor="email"
+                          className="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider"
+                        >
+                          Email Address
+                        </Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          {...register("email")}
+                          placeholder="john@company.com"
+                          className="bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50"
+                        />
+                        {errors.email && (
+                          <p className="text-xs font-medium text-red-500">
+                            {errors.email.message}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label
+                          htmlFor="subject"
+                          className="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider"
+                        >
+                          Subject
+                        </Label>
+                        <Select
+                          onValueChange={(value) =>
+                            setValue("subject", value ?? "")
+                          }
+                          defaultValue=""
+                        >
+                          <SelectTrigger className="bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50">
+                            <SelectValue placeholder="How can we help you?" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="sales">Sales Inquiry</SelectItem>
+                            <SelectItem value="support">
+                              Technical Support
+                            </SelectItem>
+                            <SelectItem value="partnership">
+                              Partnership
+                            </SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {errors.subject && (
+                          <p className="text-xs font-medium text-red-500">
+                            {errors.subject.message}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label
+                          htmlFor="message"
+                          className="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider"
+                        >
+                          Message
+                        </Label>
+                        <Textarea
+                          id="message"
+                          {...register("message")}
+                          placeholder="Tell us a little about your project..."
+                          rows={4}
+                          className="bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 resize-none"
+                        />
+                        {errors.message && (
+                          <p className="text-xs font-medium text-red-500">
+                            {errors.message.message}
+                          </p>
+                        )}
+                      </div>
+
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-6 transition-all duration-300 gap-2 group shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:pointer-events-none mt-2"
                       >
-                        {social}
-                      </a>
-                    ))}
-                  </div>
+                        <span>
+                          {isSubmitting ? "Sending..." : "Send Message"}
+                        </span>
+                        {!isSubmitting && (
+                          <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        )}
+                      </Button>
+                    </form>
+                  </CardContent>
                 </div>
               </div>
-            </motion.div>
-
-            {/* Contact Form Panel */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="lg:col-span-7"
-            >
-              <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 lg:p-12 overflow-hidden shadow-xl shadow-slate-200/50 dark:shadow-black/20">
-
-                <h3 className="text-2xl font-bold mb-8 text-slate-900 dark:text-white">
-                  Send us a message
-                </h3>
-
-                <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div className="space-y-2">
-                      <label htmlFor="firstName" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        id="firstName"
-                        {...register("firstName")}
-                        className={INPUT_CLASS}
-                        placeholder="John"
-                      />
-                      {errors.firstName && (
-                        <p className="text-xs font-medium text-destructive mt-1">
-                          {errors.firstName.message}
-                        </p>
-                      )}
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="lastName" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        id="lastName"
-                        {...register("lastName")}
-                        className={INPUT_CLASS}
-                        placeholder="Doe"
-                      />
-                      {errors.lastName && (
-                        <p className="text-xs font-medium text-destructive mt-1">
-                          {errors.lastName.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      {...register("email")}
-                      className={INPUT_CLASS}
-                      placeholder="john@company.com"
-                    />
-                    {errors.email && (
-                      <p className="text-xs font-medium text-destructive mt-1">
-                        {errors.email.message}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="subject" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                      Subject
-                    </label>
-                    <div className="relative">
-                      <select
-                        id="subject"
-                        {...register("subject")}
-                        className={`${INPUT_CLASS} appearance-none`}
-                      >
-                        <option value="" disabled>How can we help you?</option>
-                        <option value="sales">Sales Inquiry</option>
-                        <option value="support">Technical Support</option>
-                        <option value="partnership">Partnership</option>
-                        <option value="other">Other</option>
-                      </select>
-                      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-muted-foreground">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                    </div>
-                    {errors.subject && (
-                      <p className="text-xs font-medium text-destructive mt-1">
-                        {errors.subject.message}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="message" className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      rows={5}
-                      {...register("message")}
-                      className={`${INPUT_CLASS} resize-none`}
-                      placeholder="Tell us a little about your project..."
-                    />
-                    {errors.message && (
-                      <p className="text-xs font-medium text-destructive mt-1">
-                        {errors.message.message}
-                      </p>
-                    )}
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl px-6 py-4 transition-all duration-300 flex items-center justify-center gap-2 group shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:pointer-events-none"
-                  >
-                    <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
-                    {!isSubmitting && <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
-                  </button>
-                </form>
-              </div>
-            </motion.div>
-          </div>
+            </Card>
+          </motion.div>
         </div>
       </ResponsiveComponents>
     </section>
