@@ -49,7 +49,7 @@ const CONTACT_ITEMS = [
 ];
 
 const INPUT_CLASS =
-  "w-full glass-sm rounded-xl px-4 py-3 text-foreground text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all duration-200 border-white/30 dark:border-white/8";
+  "w-full bg-slate-50 dark:bg-slate-800/50 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-all duration-200 border border-slate-200 dark:border-slate-700";
 
 export function ContactSection() {
   const {
@@ -82,32 +82,33 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="py-14 lg:py-20 relative overflow-hidden"
+      className="py-20 lg:py-32 relative overflow-hidden bg-slate-50/50 dark:bg-slate-950/50"
     >
       {/* Ambient orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-[600px] h-[600px] bg-primary/4 dark:bg-primary/7 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 -left-20 w-[500px] h-[500px] bg-cyan-500/3 dark:bg-cyan-500/6 rounded-full blur-[100px]" />
+        <div className="absolute -top-20 -right-20 w-[600px] h-[600px] bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-[120px]" />
       </div>
-
-      {/* Top separator */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
 
       <ResponsiveComponents>
         <div className="container mx-auto max-w-7xl">
           {/* Header */}
-          <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
+          <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-24 px-4 sm:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="flex justify-center mb-4"
+              className="flex justify-center mb-6"
             >
-              <span className="inline-flex items-center gap-2 rounded-full glass-sm px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                Contact Us
-              </span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50/80 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 shadow-sm backdrop-blur-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                <span className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wide">
+                  Contact Us
+                </span>
+              </div>
             </motion.div>
 
             <motion.h2
@@ -115,10 +116,12 @@ export function ContactSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="mb-5 text-3xl font-normal leading-tight tracking-tight text-foreground sm:text-5xl"
+              className="mb-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.1]"
             >
               Let&apos;s build something{" "}
-              <span className="text-gradient">great together</span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
+                great together
+              </span>
             </motion.h2>
 
             <motion.p
@@ -126,14 +129,14 @@ export function ContactSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg md:text-xl text-muted-foreground leading-relaxed"
+              className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium"
             >
               Have a question about ZopShop? Want to request a demo? Our team is
               ready to help you transform your business.
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10 px-4 sm:px-6">
             {/* Contact Information Panel */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -142,11 +145,9 @@ export function ContactSection() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="lg:col-span-5"
             >
-              <div className="relative glass-md rounded-3xl p-8 lg:p-10 h-full overflow-hidden">
-                {/* Top shimmer */}
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/60 dark:via-white/15 to-transparent rounded-t-3xl" />
+              <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 lg:p-10 h-full overflow-hidden shadow-xl shadow-slate-200/50 dark:shadow-black/20">
 
-                <h3 className="text-2xl font-semibold mb-8 text-foreground">
+                <h3 className="text-2xl font-bold mb-8 text-slate-900 dark:text-white">
                   Contact Information
                 </h3>
 
@@ -159,29 +160,29 @@ export function ContactSection() {
                         {item.icon}
                       </div>
                       <div>
-                        <h4 className="text-xs font-semibold text-muted-foreground mb-1 uppercase tracking-wider">
+                        <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 uppercase tracking-wider">
                           {item.label}
                         </h4>
                         {item.href ? (
                           <a
                             href={item.href}
-                            className={`text-base font-semibold text-foreground transition-colors ${item.hoverColor}`}
+                            className={`text-base font-semibold text-slate-900 dark:text-white transition-colors ${item.hoverColor}`}
                           >
                             {item.value}
                           </a>
                         ) : (
-                          <p className="text-base font-semibold text-foreground">{item.value}</p>
+                          <p className="text-base font-semibold text-slate-900 dark:text-white">{item.value}</p>
                         )}
                         {item.sub && (
-                          <p className="text-xs text-muted-foreground mt-1">{item.sub}</p>
+                          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">{item.sub}</p>
                         )}
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-10 pt-8 border-t border-white/20 dark:border-white/5">
-                  <h4 className="text-xs font-semibold text-foreground mb-4 uppercase tracking-widest">
+                <div className="mt-10 pt-8 border-t border-slate-100 dark:border-slate-800">
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-widest">
                     Follow us
                   </h4>
                   <div className="flex gap-3">
@@ -189,7 +190,7 @@ export function ContactSection() {
                       <a
                         key={social}
                         href="#"
-                        className="glass-sm px-3 py-1.5 rounded-full text-xs font-medium text-muted-foreground hover:text-primary transition-colors"
+                        className="bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 px-4 py-2 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                       >
                         {social}
                       </a>
@@ -207,11 +208,9 @@ export function ContactSection() {
               transition={{ duration: 0.5, delay: 0.4 }}
               className="lg:col-span-7"
             >
-              <div className="relative glass-md rounded-3xl p-8 lg:p-12 overflow-hidden">
-                {/* Top shimmer */}
-                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/60 dark:via-white/15 to-transparent rounded-t-3xl" />
+              <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 lg:p-12 overflow-hidden shadow-xl shadow-slate-200/50 dark:shadow-black/20">
 
-                <h3 className="text-2xl font-semibold mb-8 text-foreground">
+                <h3 className="text-2xl font-bold mb-8 text-slate-900 dark:text-white">
                   Send us a message
                 </h3>
 
@@ -321,10 +320,10 @@ export function ContactSection() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-primary hover:bg-primary-dark text-primary-foreground font-semibold rounded-xl px-6 py-4 transition-all duration-300 flex items-center justify-center gap-2 group shadow-[0_8px_25px_rgba(79,70,229,0.25)] hover:shadow-[0_12px_35px_rgba(79,70,229,0.35)] hover:-translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none"
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl px-6 py-4 transition-all duration-300 flex items-center justify-center gap-2 group shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:pointer-events-none"
                   >
                     <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
-                    {!isSubmitting && <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
+                    {!isSubmitting && <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
                   </button>
                 </form>
               </div>
@@ -332,9 +331,6 @@ export function ContactSection() {
           </div>
         </div>
       </ResponsiveComponents>
-
-      {/* Bottom separator */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
     </section>
   );
 }
