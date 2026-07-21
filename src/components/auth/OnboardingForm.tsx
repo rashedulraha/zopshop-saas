@@ -20,6 +20,7 @@ const STEPS = [
 
 import { BUSINESS_TYPES, BusinessType } from "@/config/business-types";
 import { toast } from "sonner";
+import { storeApi } from "@/lib/api/store.api";
 
 export function OnboardingForm() {
   const router = useRouter();
@@ -47,17 +48,35 @@ export function OnboardingForm() {
     if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
-  const handleCreateStore = () => {
-    // TODO: Submit form data to API to create the store
-    // Simulate API response setting the active store for the frontend
-    const simulatedStoreId = "store_" + Math.random().toString(36).substring(7);
-    localStorage.setItem("activeStoreId", simulatedStoreId);
-    if (formData.businessType) {
-      localStorage.setItem("businessType", formData.businessType);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleCreateStore = async () => {
+    if (!formData.storeName || !formData.businessType) {
+      toast.error("Please fill in store name and category.");
+      return;
     }
 
-    toast.success("Store created successfully!");
-    router.push("/dashboard");
+    setIsSubmitting(true);
+    try {
+      const store = await storeApi.createStore({
+        name: formData.storeName,
+        businessType: formData.businessType,
+        phone: formData.phone,
+        address: formData.address,
+      });
+
+      localStorage.setItem("activeStoreId", store.id);
+      if (formData.businessType) {
+        localStorage.setItem("businessType", formData.businessType);
+      }
+
+      toast.success("Store created successfully!");
+      router.push("/dashboard");
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || err.message || "Failed to create store.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const progress = (currentStep / STEPS.length) * 100;
@@ -289,10 +308,10 @@ export function OnboardingForm() {
               <button
                 type="button"
                 onClick={handleCreateStore}
-                disabled={!formData.phone || !formData.address}
+                disabled={!formData.phone || !formData.address || isSubmitting}
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4 py-2"
               >
-                Complete Setup
+                {isSubmitting ? "Creating Store..." : "Complete Setup"}
                 <FiCheck className="w-4 h-4" />
               </button>
             </div>

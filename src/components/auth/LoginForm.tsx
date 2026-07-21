@@ -11,6 +11,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { useAuthStore } from "@/store/auth.store";
+import { authClient } from "@/lib/auth-client";
 
 // --- Main App Component ---
 export default function LoginForm() {
@@ -29,6 +30,17 @@ export default function LoginForm() {
       password: "",
     },
   });
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: `${window.location.origin}/onboarding`,
+      });
+    } catch (err: any) {
+      toast.error("Google login failed. Please try again.");
+    }
+  };
 
   const onSubmit = async (data: LoginSchema) => {
     clearError();
@@ -67,26 +79,27 @@ export default function LoginForm() {
 
         {/* Social login buttons - More compact shadcn style */}
         <div className="grid grid-cols-3 gap-2">
-          {[
-            {
-              icon: (
-                <FaApple className="h-5 w-5 text-foreground dark:text-white" />
-              ),
-            },
-            { icon: <FcGoogle className="h-5 w-5" /> },
-            {
-              icon: (
-                <FaXTwitter className="h-4 w-4 text-foreground dark:text-white" />
-              ),
-            },
-          ].map((item, index) => (
-            <button
-              key={index}
-              className="flex items-center justify-center h-9 px-3 rounded-md border border-border bg-card hover:bg-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 cursor-pointer"
-            >
-              {item.icon}
-            </button>
-          ))}
+          <button
+            type="button"
+            onClick={() => toast.info("Apple sign in coming soon!")}
+            className="flex items-center justify-center h-9 px-3 rounded-md border border-border bg-card hover:bg-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 cursor-pointer"
+          >
+            <FaApple className="h-5 w-5 text-foreground dark:text-white" />
+          </button>
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            className="flex items-center justify-center h-9 px-3 rounded-md border border-border bg-card hover:bg-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 cursor-pointer"
+          >
+            <FcGoogle className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => toast.info("Twitter/X sign in coming soon!")}
+            className="flex items-center justify-center h-9 px-3 rounded-md border border-border bg-card hover:bg-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 cursor-pointer"
+          >
+            <FaXTwitter className="h-4 w-4 text-foreground dark:text-white" />
+          </button>
         </div>
 
         {/* OR Divider - More subtle */}
