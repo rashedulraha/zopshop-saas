@@ -3,7 +3,16 @@
 import { useEffect, useState } from "react";
 import { usePartyStore } from "@/store/party.store";
 import { PartyForm } from "@/components/forms/PartyForm";
-import { Search, Plus, User, Phone, MapPin, Edit, Trash2, ArrowRight } from "lucide-react";
+import {
+  Search,
+  Plus,
+  User,
+  Phone,
+  MapPin,
+  Edit,
+  Trash2,
+  ArrowRight,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import Link from "next/link";
@@ -22,8 +31,17 @@ import {
 import { getPaymentStatus } from "@/lib/utils/transaction.utils";
 
 export default function SuppliersPage() {
-  const { parties, isLoading, fetchParties, createParty, updateParty, deleteParty, fetchPartyTransactions, partyTransactions } = usePartyStore();
-  
+  const {
+    parties,
+    isLoading,
+    fetchParties,
+    createParty,
+    updateParty,
+    deleteParty,
+    fetchPartyTransactions,
+    partyTransactions,
+  } = usePartyStore();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -80,12 +98,15 @@ export default function SuppliersPage() {
       if (selectedPartyId === id) setSelectedPartyId(null);
       fetchParties({ type: "SUPPLIER", search: debouncedSearch, limit: 50 });
     } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Failed to delete supplier");
+      toast.error(
+        error?.response?.data?.message || "Failed to delete supplier",
+      );
     }
   };
 
-  const selectedParty = parties.find(p => p.id === selectedPartyId) || parties[0];
-  const editingParty = parties.find(p => p.id === editingPartyId);
+  const selectedParty =
+    parties.find((p) => p.id === selectedPartyId) || parties[0];
+  const editingParty = parties.find((p) => p.id === editingPartyId);
 
   return (
     <div className="flex flex-col gap-6 pb-12">
@@ -120,7 +141,7 @@ export default function SuppliersPage() {
               {editingPartyId ? "Edit Supplier" : "Add New Supplier"}
             </h2>
           </div>
-          <PartyForm 
+          <PartyForm
             initialData={editingParty}
             defaultType="SUPPLIER"
             onSubmit={handleCreateOrUpdate}
@@ -148,9 +169,13 @@ export default function SuppliersPage() {
 
             <div className="flex flex-col gap-1 max-h-[500px] overflow-y-auto custom-scrollbar pr-1">
               {isLoading && parties.length === 0 ? (
-                <div className="text-center py-8 text-sm text-muted-foreground">Loading...</div>
+                <div className="text-center py-8 text-sm text-muted-foreground">
+                  Loading...
+                </div>
               ) : parties.length === 0 ? (
-                <div className="text-center py-8 text-sm text-muted-foreground">No suppliers found.</div>
+                <div className="text-center py-8 text-sm text-muted-foreground">
+                  No suppliers found.
+                </div>
               ) : (
                 parties.map((supp) => {
                   const isSelected = supp.id === selectedPartyId;
@@ -173,11 +198,18 @@ export default function SuppliersPage() {
                         <span className="text-xs text-muted-foreground">
                           {supp.mobile || "-"}
                         </span>
-                        <span className={cn(
-                          "text-xs font-medium",
-                          balance > 0 ? "text-emerald-500" : balance < 0 ? "text-rose-500" : "text-muted-foreground"
-                        )}>
-                          ${Math.abs(balance).toFixed(2)} {balance > 0 ? "Recv" : balance < 0 ? "Pay" : ""}
+                        <span
+                          className={cn(
+                            "text-xs font-medium",
+                            balance > 0
+                              ? "text-emerald-500"
+                              : balance < 0
+                                ? "text-rose-500"
+                                : "text-muted-foreground",
+                          )}
+                        >
+                          ${Math.abs(balance).toFixed(2)}{" "}
+                          {balance > 0 ? "Recv" : balance < 0 ? "Pay" : ""}
                         </span>
                       </div>
                     </button>
@@ -214,10 +246,10 @@ export default function SuppliersPage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center gap-2">
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       size="sm"
                       onClick={() => {
                         setEditingPartyId(selectedParty.id);
@@ -227,14 +259,23 @@ export default function SuppliersPage() {
                       <Edit className="w-4 h-4 mr-2" /> Edit
                     </Button>
                     <AlertDialog>
-                      <AlertDialogTrigger render={<Button variant="outline" size="sm" className="text-rose-500 hover:text-rose-600" />}>
+                      <AlertDialogTrigger
+                        render={
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="text-rose-500 hover:text-rose-600"
+                          />
+                        }
+                      >
                         <Trash2 className="w-4 h-4 mr-2" /> Delete
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle>Delete Supplier</AlertDialogTitle>
                           <AlertDialogDescription>
-                            Are you sure you want to delete {selectedParty.name}? This action cannot be undone.
+                            Are you sure you want to delete {selectedParty.name}
+                            ? This action cannot be undone.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
@@ -250,43 +291,66 @@ export default function SuppliersPage() {
                     </AlertDialog>
                   </div>
                 </div>
-                
+
                 <div className="p-6">
                   <div className="flex flex-col md:flex-row gap-6 mb-8">
                     <div className="p-5 rounded-md border border-border bg-background flex flex-col items-center text-center flex-1">
-                      <span className="text-sm font-medium text-muted-foreground mb-1">Current Balance</span>
-                      <span className={cn(
-                        "text-3xl font-bold",
-                        (selectedParty.balance ?? 0) > 0 ? "text-emerald-500" : (selectedParty.balance ?? 0) < 0 ? "text-rose-500" : "text-foreground"
-                      )}>
+                      <span className="text-sm font-medium text-muted-foreground mb-1">
+                        Current Balance
+                      </span>
+                      <span
+                        className={cn(
+                          "text-3xl font-bold",
+                          (selectedParty.balance ?? 0) > 0
+                            ? "text-emerald-500"
+                            : (selectedParty.balance ?? 0) < 0
+                              ? "text-rose-500"
+                              : "text-foreground",
+                        )}
+                      >
                         ${Math.abs(selectedParty.balance ?? 0).toFixed(2)}
                       </span>
                       <span className="text-xs text-muted-foreground mt-1">
-                        {(selectedParty.balance ?? 0) > 0 ? "Receivable" : (selectedParty.balance ?? 0) < 0 ? "Payable" : "Settled"}
+                        {(selectedParty.balance ?? 0) > 0
+                          ? "Receivable"
+                          : (selectedParty.balance ?? 0) < 0
+                            ? "Payable"
+                            : "Settled"}
                       </span>
                     </div>
                     <div className="p-5 rounded-md border border-border bg-background flex flex-col justify-center items-center flex-1">
-                       <span className="text-sm font-medium text-muted-foreground mb-3">Quick Actions</span>
-                       <Link href={`/dashboard/purchase/new?partyId=${selectedParty.id}`}>
-                         <Button className="w-full">
-                           <Plus className="w-4 h-4 mr-2" />
-                           New Purchase
-                         </Button>
-                       </Link>
+                      <span className="text-sm font-medium text-muted-foreground mb-3">
+                        Quick Actions
+                      </span>
+                      <Link
+                        href={`/dashboard/purchase/new?partyId=${selectedParty.id}`}
+                      >
+                        <Button className="w-full">
+                          <Plus className="w-4 h-4 mr-2" />
+                          New Purchase
+                        </Button>
+                      </Link>
                     </div>
                   </div>
 
                   {/* Transactions List */}
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold text-foreground">Recent Transactions</h3>
-                      <Link href={`/dashboard/suppliers/ledger?partyId=${selectedParty.id}`} className="text-sm text-primary hover:underline flex items-center">
+                      <h3 className="text-lg font-semibold text-foreground">
+                        Recent Transactions
+                      </h3>
+                      <Link
+                        href={`/dashboard/suppliers/ledger?partyId=${selectedParty.id}`}
+                        className="text-sm text-primary hover:underline flex items-center"
+                      >
                         View full ledger <ArrowRight className="w-3 h-3 ml-1" />
                       </Link>
                     </div>
-                    
+
                     {isLoading ? (
-                      <div className="text-center py-6 text-sm text-muted-foreground">Loading transactions...</div>
+                      <div className="text-center py-6 text-sm text-muted-foreground">
+                        Loading transactions...
+                      </div>
                     ) : (
                       <div className="border border-border rounded-md overflow-hidden">
                         <table className="w-full text-sm">
@@ -296,30 +360,44 @@ export default function SuppliersPage() {
                               <th className="font-medium p-3">Date</th>
                               <th className="font-medium p-3">Type</th>
                               <th className="font-medium p-3">Amount</th>
-                              <th className="font-medium p-3 text-center">Status</th>
+                              <th className="font-medium p-3 text-center">
+                                Status
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
                             {partyTransactions.length === 0 ? (
                               <tr>
-                                <td colSpan={5} className="p-4 text-center text-muted-foreground">
+                                <td
+                                  colSpan={5}
+                                  className="p-4 text-center text-muted-foreground"
+                                >
                                   No transactions found for this supplier.
                                 </td>
                               </tr>
                             ) : (
                               partyTransactions.map((tx) => (
-                                <tr key={tx.id} className="border-b border-border/50 last:border-0 hover:bg-muted/20">
+                                <tr
+                                  key={tx.id}
+                                  className="border-b border-border/50 last:border-0 hover:bg-muted/20"
+                                >
                                   <td className="px-4 py-3 font-semibold text-foreground font-mono">
                                     {tx.invoiceNo || "-"}
                                   </td>
                                   <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">
-                                    {new Date(tx.createdAt).toLocaleDateString()}
+                                    {new Date(
+                                      tx.createdAt,
+                                    ).toLocaleDateString()}
                                   </td>
                                   <td className="px-4 py-3">
-                                    <span className={cn(
-                                      "inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold border",
-                                      tx.type === "PURCHASE" ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" : "bg-blue-500/10 text-blue-600 border-blue-500/20"
-                                    )}>
+                                    <span
+                                      className={cn(
+                                        "inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold border",
+                                        tx.type === "PURCHASE"
+                                          ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+                                          : "bg-blue-500/10 text-blue-600 border-blue-500/20",
+                                      )}
+                                    >
                                       {tx.type}
                                     </span>
                                   </td>
@@ -327,16 +405,42 @@ export default function SuppliersPage() {
                                     ${tx.amount.toFixed(2)}
                                   </td>
                                   <td className="px-4 py-3 text-center">
-                                    <span className={cn(
-                                      "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border",
-                                      getPaymentStatus(tx.dueAmount, tx.amount) === "paid" && "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
-                                      (getPaymentStatus(tx.dueAmount, tx.amount) === "due" || getPaymentStatus(tx.dueAmount, tx.amount) === "partial") && "bg-amber-500/10 text-amber-600 border-amber-500/20"
-                                    )}>
-                                      <span className={cn(
-                                        "w-1.5 h-1.5 rounded-full",
-                                        getPaymentStatus(tx.dueAmount, tx.amount) === "paid" ? "bg-emerald-500" : "bg-amber-500"
-                                      )} />
-                                      {getPaymentStatus(tx.dueAmount, tx.amount) === "paid" ? "Paid" : "Due"}
+                                    <span
+                                      className={cn(
+                                        "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border",
+                                        getPaymentStatus(
+                                          tx.dueAmount,
+                                          tx.amount,
+                                        ) === "paid" &&
+                                          "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+                                        (getPaymentStatus(
+                                          tx.dueAmount,
+                                          tx.amount,
+                                        ) === "due" ||
+                                          getPaymentStatus(
+                                            tx.dueAmount,
+                                            tx.amount,
+                                          ) === "partial") &&
+                                          "bg-amber-500/10 text-amber-600 border-amber-500/20",
+                                      )}
+                                    >
+                                      <span
+                                        className={cn(
+                                          "w-1.5 h-1.5 rounded-full",
+                                          getPaymentStatus(
+                                            tx.dueAmount,
+                                            tx.amount,
+                                          ) === "paid"
+                                            ? "bg-emerald-500"
+                                            : "bg-amber-500",
+                                        )}
+                                      />
+                                      {getPaymentStatus(
+                                        tx.dueAmount,
+                                        tx.amount,
+                                      ) === "paid"
+                                        ? "Paid"
+                                        : "Due"}
                                     </span>
                                   </td>
                                 </tr>
@@ -352,9 +456,12 @@ export default function SuppliersPage() {
             ) : (
               <div className="border border-border bg-card rounded-md p-12 flex flex-col items-center justify-center text-center h-full min-h-[400px]">
                 <User className="w-12 h-12 text-muted-foreground/30 mb-4" />
-                <h3 className="text-lg font-medium text-foreground">No Supplier Selected</h3>
+                <h3 className="text-lg font-medium text-foreground">
+                  No Supplier Selected
+                </h3>
                 <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-                  Select a supplier from the list or create a new one to view their details.
+                  Select a supplier from the list or create a new one to view
+                  their details.
                 </p>
               </div>
             )}

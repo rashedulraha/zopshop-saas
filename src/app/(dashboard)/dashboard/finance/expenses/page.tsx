@@ -12,7 +12,6 @@ import {
   Tag,
 } from "lucide-react";
 import { useTransactionStore } from "@/store/transaction.store";
-import { TransactionMode } from "@/types";
 import { toast } from "sonner";
 import {
   AlertDialog,
