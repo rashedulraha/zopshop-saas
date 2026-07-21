@@ -18,23 +18,15 @@ const STEPS = [
   { label: "Create Store", number: 3 },
 ];
 
-const CATEGORIES = [
-  "Fashion & Apparel",
-  "Electronics",
-  "Grocery & Food",
-  "Health & Beauty",
-  "Home & Living",
-  "Books & Stationery",
-  "Sports & Outdoors",
-  "Other",
-];
+import { BUSINESS_TYPES, BusinessType } from "@/config/business-types";
+import { toast } from "sonner";
 
 export function OnboardingForm() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     storeName: "",
-    category: "",
+    businessType: "" as BusinessType | "",
     phone: "",
     address: "",
   });
@@ -56,8 +48,15 @@ export function OnboardingForm() {
   };
 
   const handleCreateStore = () => {
-    // TODO: Submit form data to API
-    console.log("Creating store with:", formData);
+    // TODO: Submit form data to API to create the store
+    // Simulate API response setting the active store for the frontend
+    const simulatedStoreId = "store_" + Math.random().toString(36).substring(7);
+    localStorage.setItem("activeStoreId", simulatedStoreId);
+    if (formData.businessType) {
+      localStorage.setItem("businessType", formData.businessType);
+    }
+
+    toast.success("Store created successfully!");
     router.push("/dashboard");
   };
 
@@ -180,19 +179,19 @@ export function OnboardingForm() {
                 </label>
                 <div className="relative">
                   <select
-                    id="category"
-                    name="category"
-                    value={formData.category}
+                    id="businessType"
+                    name="businessType"
+                    value={formData.businessType}
                     onChange={handleChange}
                     className="flex h-9 w-full rounded-md border border-border bg-background px-3 py-1 text-sm shadow-sm transition-colors appearance-none cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                     required
                   >
                     <option value="" disabled>
-                      Select a category...
+                      Select a business type...
                     </option>
-                    {CATEGORIES.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
+                    {Object.entries(BUSINESS_TYPES).map(([key, config]) => (
+                      <option key={key} value={key}>
+                        {config.label}
                       </option>
                     ))}
                   </select>
@@ -212,7 +211,7 @@ export function OnboardingForm() {
               <button
                 type="button"
                 onClick={handleNext}
-                disabled={!formData.storeName || !formData.category}
+                disabled={!formData.storeName || !formData.businessType}
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4 py-2"
               >
                 Continue

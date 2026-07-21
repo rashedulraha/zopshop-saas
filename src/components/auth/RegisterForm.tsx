@@ -38,7 +38,10 @@ export function RegisterForm() {
     try {
       await registerUser(data.name, data.email, data.password);
       toast.success("Account created successfully!");
-      router.push("/login");
+      // Note: If backend supports auto-login, this goes to onboarding.
+      // If it requires explicit login, we should probably redirect to login.
+      // But we will redirect to /onboarding assuming auto-login or they'll be bounced to login by middleware if needed.
+      router.push("/onboarding");
     } catch (err: any) {
       toast.error(err.message || "Registration failed. Please try again.");
     }

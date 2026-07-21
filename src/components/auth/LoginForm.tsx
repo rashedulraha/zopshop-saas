@@ -35,9 +35,16 @@ export default function LoginForm() {
     try {
       await login(data.email, data.password);
       toast.success("Logged in successfully!");
-      router.push("/dashboard");
+      const hasStore = !!localStorage.getItem("activeStoreId");
+      if (hasStore) {
+        router.push("/dashboard");
+      } else {
+        router.push("/onboarding");
+      }
     } catch (err: any) {
-      toast.error(err.message || "Login failed. Please check your credentials.");
+      toast.error(
+        err.message || "Login failed. Please check your credentials.",
+      );
     }
   };
 
