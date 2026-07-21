@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Config, StoreInfo } from "@/types";
 import { configAPI } from "@/lib/api/config.api";
+import { handleApiError } from "@/lib/error-handler";
 
 interface ConfigState {
   config: Config | null;
@@ -23,6 +24,7 @@ export const useConfigStore = create<ConfigState>((set) => ({
       set({ config: response.data, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch config");
       throw error;
     }
   },
@@ -34,6 +36,7 @@ export const useConfigStore = create<ConfigState>((set) => ({
       set({ config: response.data.config, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to update config");
       throw error;
     }
   },
@@ -45,6 +48,7 @@ export const useConfigStore = create<ConfigState>((set) => ({
       set({ storeInfo: response.data, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch store info");
       throw error;
     }
   },

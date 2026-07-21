@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { User } from "@/types";
 import { authClient } from "@/lib/auth-client";
+import { handleApiError } from "@/lib/error-handler";
 
 interface AuthState {
   user: User | null;
@@ -51,7 +52,7 @@ export const useAuthStore = create<AuthState>()(
             isLoading: false,
           });
         } catch (err: any) {
-          const errMsg = err.message || "Login failed";
+          const errMsg = handleApiError(err, "Login failed");
           set({ isLoading: false, error: errMsg });
           throw err;
         }
@@ -79,7 +80,7 @@ export const useAuthStore = create<AuthState>()(
           // After registration, user may need to verify email or go directly to login
           set({ isLoading: false });
         } catch (err: any) {
-          const errMsg = err.message || "Registration failed";
+          const errMsg = handleApiError(err, "Registration failed");
           set({ isLoading: false, error: errMsg });
           throw err;
         }
@@ -93,10 +94,7 @@ export const useAuthStore = create<AuthState>()(
         try {
           await authClient.signOut();
         } catch (err) {
-          console.error(
-            "Logout API call failed, proceeding with local logout",
-            err,
-          );
+          handleApiError(err, "Logout API call failed, proceeding with local logout");
         } finally {
           set({
             user: null,
@@ -137,7 +135,7 @@ export const useAuthStore = create<AuthState>()(
         if (typeof window !== "undefined") {
           return localStorage;
         }
-        // SSR-safe dummy storage
+        // SSR-safe fallback storage
         return {
           getItem: () => null,
           setItem: () => {},

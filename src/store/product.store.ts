@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Product, CreateProductPayload } from "@/types";
 import { productApi } from "@/lib/api/product.api";
+import { handleApiError } from "@/lib/error-handler";
 
 interface ProductFilters {
   page: number;
@@ -93,6 +94,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
       });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch products");
       throw error;
     }
   },
@@ -107,6 +109,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
       set({ currentProduct: product, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch product details");
       throw error;
     }
   },
@@ -124,6 +127,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
       return newProduct;
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to create product");
       throw error;
     }
   },
@@ -141,6 +145,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
       return updatedProduct;
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to update product");
       throw error;
     }
   },
@@ -157,6 +162,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
       await get().fetchProducts();
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to delete product");
       throw error;
     }
   },

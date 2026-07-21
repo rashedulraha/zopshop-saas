@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { Category } from "@/types";
 import { categoryAPI } from "@/lib/api/config.api";
+import { handleApiError } from "@/lib/error-handler";
+import { toast } from "sonner";
 
 interface CategoryState {
   categories: Category[];
@@ -22,6 +24,7 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
       set({ categories: response.data.categories || [], isLoading: false });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch categories");
       throw error;
     }
   },
@@ -34,6 +37,7 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
       await get().fetchCategories();
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to create category");
       throw error;
     }
   },
@@ -46,6 +50,7 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
       await get().fetchCategories();
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to update category");
       throw error;
     }
   },
@@ -58,6 +63,7 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
       await get().fetchCategories();
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to delete category");
       throw error;
     }
   },

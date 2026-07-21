@@ -4,6 +4,7 @@ import {
   transactionApi,
   TransactionListParams,
 } from "@/lib/api/transaction.api";
+import { handleApiError } from "@/lib/error-handler";
 
 interface TransactionFiltersState {
   type: string | null;
@@ -109,6 +110,7 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
       });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch transactions");
       throw error;
     }
   },
@@ -123,6 +125,7 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
       set({ currentTransaction: transaction, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch transaction details");
       throw error;
     }
   },
@@ -137,6 +140,7 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
       set({ dailySummary: summary, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch daily summary");
       throw error;
     }
   },
@@ -160,6 +164,7 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
       return newTx;
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to create transaction");
       throw error;
     }
   },
@@ -188,6 +193,7 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
       return updatedTx;
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to update transaction");
       throw error;
     }
   },
@@ -215,6 +221,7 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
       }
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to delete transaction");
       throw error;
     }
   },

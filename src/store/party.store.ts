@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Party, CreatePartyPayload, Transaction } from "@/types";
 import { partyApi, PartyTransactionsParams } from "@/lib/api/party.api";
+import { handleApiError } from "@/lib/error-handler";
 
 interface PartyFilters {
   page: number;
@@ -87,6 +88,7 @@ export const usePartyStore = create<PartyState>((set, get) => ({
       });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch parties");
       throw error;
     }
   },
@@ -101,6 +103,7 @@ export const usePartyStore = create<PartyState>((set, get) => ({
       set({ currentParty: party, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch party details");
       throw error;
     }
   },
@@ -115,6 +118,7 @@ export const usePartyStore = create<PartyState>((set, get) => ({
       set({ currentBalance: response.balance, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch party balance");
       throw error;
     }
   },
@@ -129,6 +133,7 @@ export const usePartyStore = create<PartyState>((set, get) => ({
       set({ partyTransactions: response.transactions || [], isLoading: false });
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch party transactions");
       throw error;
     }
   },
@@ -146,6 +151,7 @@ export const usePartyStore = create<PartyState>((set, get) => ({
       return newParty;
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to create party");
       throw error;
     }
   },
@@ -168,6 +174,7 @@ export const usePartyStore = create<PartyState>((set, get) => ({
       return updatedParty;
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to update party");
       throw error;
     }
   },
@@ -193,6 +200,7 @@ export const usePartyStore = create<PartyState>((set, get) => ({
       }
     } catch (error) {
       set({ isLoading: false });
+      handleApiError(error, "Failed to delete party");
       throw error;
     }
   },

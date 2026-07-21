@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { reportApi } from "@/lib/api/report.api";
 import { DashboardReport } from "@/types";
+import { handleApiError } from "@/lib/error-handler";
 
 // The user requested a specific DashboardStats interface shape.
 // We map the backend DashboardReport to this if needed, or just extend DashboardReport.
@@ -41,8 +42,8 @@ export const useReportStore = create<ReportStore>((set) => ({
 
       set({ dashboardStats: mappedStats, isLoading: false });
     } catch (error) {
-      console.error("Failed to fetch dashboard stats:", error);
       set({ isLoading: false });
+      handleApiError(error, "Failed to fetch dashboard stats");
     }
   },
 }));
