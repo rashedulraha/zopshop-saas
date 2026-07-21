@@ -17,17 +17,26 @@ interface CartItem extends Product {
   quantity: number;
 }
 
-const mockProducts: Product[] = [
-  { id: "P-1", name: "iPhone 15 Case Pro", code: "IPH15-SPG", price: 15, stock: 45, category: "Accessories" },
-  { id: "P-2", name: "USB-C to C Cable 2M", code: "USBC-ANK-2", price: 12, stock: 30, category: "Cables" },
-  { id: "P-3", name: "Sony WH-1000XM5", code: "SONY-XM5", price: 350, stock: 15, category: "Audio" },
-  { id: "P-4", name: "Galaxy S24 Ultra Case", code: "S24U-SPG", price: 18, stock: 25, category: "Accessories" },
-  { id: "P-5", name: "Anker PowerBank 20k", code: "ANK-PWR-20", price: 45, stock: 10, category: "Cables" },
-  { id: "P-6", name: "MacBook Air 13 M2", code: "MAC13-M2", price: 999, stock: 5, category: "Computers" }
-];
+const mockProducts: Product[] = [];
+
+import { useProductStore } from "@/store/product.store";
+import { useEffect } from "react";
 
 export default function POSBillingPage() {
-  const [products] = useState<Product[]>(mockProducts);
+  const { products: storeProducts, fetchProducts } = useProductStore();
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  const products: Product[] = storeProducts.map((p: any) => ({
+    id: p.id || p._id,
+    name: p.name,
+    code: p.sku || "",
+    price: p.price,
+    stock: p.stock || p.stockQuantity || 0,
+    category: p.category?.name || "Uncategorized"
+  }));
   const [cart, setCart] = useState<CartItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [discount, setDiscount] = useState("0");

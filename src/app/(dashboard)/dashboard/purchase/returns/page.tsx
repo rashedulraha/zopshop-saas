@@ -21,28 +21,7 @@ interface PurchaseReturn {
   status: "Completed" | "Pending";
 }
 
-const initialReturns: PurchaseReturn[] = [
-  {
-    id: "PR-1",
-    returnNumber: "RET-201",
-    poNumber: "PO-501",
-    date: "12 Oct 2026",
-    supplier: "TechCorp Inc.",
-    amount: 450,
-    reason: "Defective chargers inside batch",
-    status: "Completed",
-  },
-  {
-    id: "PR-2",
-    returnNumber: "RET-202",
-    poNumber: "PO-502",
-    date: "10 Oct 2026",
-    supplier: "Global Supply",
-    amount: 150,
-    reason: "Wrong product color sent",
-    status: "Pending",
-  },
-];
+const initialReturns: PurchaseReturn[] = [];
 
 export default function PurchaseReturnsPage() {
   const [returns, setReturns] = useState<PurchaseReturn[]>(initialReturns);

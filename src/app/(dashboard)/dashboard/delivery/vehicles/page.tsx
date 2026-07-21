@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Plus, Search, CheckCircle, AlertTriangle, Truck, Shield, User, X } from "lucide-react";
+import {
+  Plus,
+  Search,
+  CheckCircle,
+  AlertTriangle,
+  Truck,
+  Shield,
+  User,
+  X,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Vehicle {
@@ -13,11 +22,7 @@ interface Vehicle {
   capacity: string;
 }
 
-const initialVehicles: Vehicle[] = [
-  { id: "VEH-01", plateNumber: "DHAKA METRO-T-11-2233", model: "Toyota TownAce", driver: "Karim Khan", status: "Transit", capacity: "800 kg" },
-  { id: "VEH-02", plateNumber: "DHAKA METRO-T-12-4455", model: "Hyundai H-100", driver: "John Doe", status: "Available", capacity: "1.2 Ton" },
-  { id: "VEH-03", plateNumber: "DHAKA METRO-T-14-7788", model: "Suzuki Carry", driver: "Unassigned", status: "Maintenance", capacity: "500 kg" }
-];
+const initialVehicles: Vehicle[] = [];
 
 export default function DeliveryVehiclesPage() {
   const [vehicles, setVehicles] = useState<Vehicle[]>(initialVehicles);
@@ -28,7 +33,9 @@ export default function DeliveryVehiclesPage() {
   const [plateNumber, setPlateNumber] = useState("");
   const [model, setModel] = useState("");
   const [driver, setDriver] = useState("");
-  const [status, setStatus] = useState<"Available" | "Transit" | "Maintenance">("Available");
+  const [status, setStatus] = useState<"Available" | "Transit" | "Maintenance">(
+    "Available",
+  );
   const [capacity, setCapacity] = useState("");
 
   const stats = useMemo(() => {
@@ -48,7 +55,7 @@ export default function DeliveryVehiclesPage() {
       model,
       driver: driver || "Unassigned",
       status,
-      capacity
+      capacity,
     };
 
     setVehicles([...vehicles, newVehicle]);
@@ -69,7 +76,7 @@ export default function DeliveryVehiclesPage() {
       (v) =>
         v.plateNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
         v.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        v.driver.toLowerCase().includes(searchQuery.toLowerCase())
+        v.driver.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }, [vehicles, searchQuery]);
 
@@ -77,8 +84,13 @@ export default function DeliveryVehiclesPage() {
     <div className="flex flex-col gap-6 pb-12">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
-          <h1 className="text-3xl font-semibold text-foreground tracking-tight">Delivery Vehicles</h1>
-          <p className="text-muted-foreground mt-1 text-sm">Manage logistics fleets, capacity tracking, and dispatch driver rosters</p>
+          <h1 className="text-3xl font-semibold text-foreground tracking-tight">
+            Delivery Vehicles
+          </h1>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Manage logistics fleets, capacity tracking, and dispatch driver
+            rosters
+          </p>
         </div>
         <button
           onClick={() => setIsModalOpen(true)}
@@ -95,9 +107,15 @@ export default function DeliveryVehiclesPage() {
           <table className="w-full text-sm text-left table-fixed min-w-[650px] md:min-w-0">
             <thead className="text-xs text-muted-foreground uppercase bg-muted/10 border-b border-border">
               <tr className="divide-x divide-border">
-                <th className="px-5 py-3 font-semibold text-center w-[33%]">Logistics Fleet</th>
-                <th className="px-5 py-3 font-semibold text-center w-[33%]">Available Fleet</th>
-                <th className="px-5 py-3 font-semibold text-center w-[34%]">Out on Transit</th>
+                <th className="px-5 py-3 font-semibold text-center w-[33%]">
+                  Logistics Fleet
+                </th>
+                <th className="px-5 py-3 font-semibold text-center w-[33%]">
+                  Available Fleet
+                </th>
+                <th className="px-5 py-3 font-semibold text-center w-[34%]">
+                  Out on Transit
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -154,32 +172,53 @@ export default function DeliveryVehiclesPage() {
                 <th className="px-4 py-2 font-semibold">Plate Number</th>
                 <th className="px-4 py-2 font-semibold">Model / Make</th>
                 <th className="px-4 py-2 font-semibold">Driver Assigned</th>
-                <th className="px-4 py-2 font-semibold text-center">Payload Capacity</th>
+                <th className="px-4 py-2 font-semibold text-center">
+                  Payload Capacity
+                </th>
                 <th className="px-4 py-2 font-semibold text-center">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/50">
               {filteredVehicles.map((v) => (
                 <tr key={v.id} className="hover:bg-muted/20 transition-colors">
-                  <td className="px-4 py-3 font-semibold text-foreground font-mono">{v.id}</td>
-                  <td className="px-4 py-3 font-mono text-muted-foreground">{v.plateNumber}</td>
-                  <td className="px-4 py-3 font-semibold text-foreground">{v.model}</td>
+                  <td className="px-4 py-3 font-semibold text-foreground font-mono">
+                    {v.id}
+                  </td>
+                  <td className="px-4 py-3 font-mono text-muted-foreground">
+                    {v.plateNumber}
+                  </td>
+                  <td className="px-4 py-3 font-semibold text-foreground">
+                    {v.model}
+                  </td>
                   <td className="px-4 py-3 text-muted-foreground flex items-center gap-1.5">
                     <User className="w-3.5 h-3.5 text-muted-foreground" />
                     <span>{v.driver}</span>
                   </td>
-                  <td className="px-4 py-3 text-center text-foreground font-bold font-mono">{v.capacity}</td>
+                  <td className="px-4 py-3 text-center text-foreground font-bold font-mono">
+                    {v.capacity}
+                  </td>
                   <td className="px-4 py-3 text-center">
-                    <span className={cn(
-                      "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border",
-                      v.status === "Available" && "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
-                      v.status === "Transit" && "bg-indigo-500/10 text-indigo-600 border-indigo-500/20",
-                      v.status === "Maintenance" && "bg-rose-500/10 text-rose-600 border-rose-500/20"
-                    )}>
-                      <span className={cn(
-                        "w-1 h-1 rounded-full",
-                        v.status === "Available" ? "bg-emerald-500" : v.status === "Transit" ? "bg-indigo-500" : "bg-rose-500"
-                      )} />
+                    <span
+                      className={cn(
+                        "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold border",
+                        v.status === "Available" &&
+                          "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+                        v.status === "Transit" &&
+                          "bg-indigo-500/10 text-indigo-600 border-indigo-500/20",
+                        v.status === "Maintenance" &&
+                          "bg-rose-500/10 text-rose-600 border-rose-500/20",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "w-1 h-1 rounded-full",
+                          v.status === "Available"
+                            ? "bg-emerald-500"
+                            : v.status === "Transit"
+                              ? "bg-indigo-500"
+                              : "bg-rose-500",
+                        )}
+                      />
                       {v.status}
                     </span>
                   </td>
@@ -193,17 +232,27 @@ export default function DeliveryVehiclesPage() {
       {/* Modal Dialog */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
+          <div
+            className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+            onClick={() => setIsModalOpen(false)}
+          />
           <div className="relative border border-border bg-card rounded-md max-w-md w-full p-6 shadow-2xl z-10">
             <div className="flex items-center justify-between border-b border-border pb-4 mb-5">
-              <h3 className="text-base font-semibold text-foreground">Add New Fleet Vehicle</h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-muted-foreground hover:text-foreground">
+              <h3 className="text-base font-semibold text-foreground">
+                Add New Fleet Vehicle
+              </h3>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-muted-foreground hover:text-foreground"
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase">Plate Number</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                  Plate Number
+                </label>
                 <input
                   type="text"
                   required
@@ -214,7 +263,9 @@ export default function DeliveryVehiclesPage() {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase">Model / Make</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                  Model / Make
+                </label>
                 <input
                   type="text"
                   required
@@ -226,7 +277,9 @@ export default function DeliveryVehiclesPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase">Assigned Driver</label>
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                    Assigned Driver
+                  </label>
                   <input
                     type="text"
                     value={driver}
@@ -236,7 +289,9 @@ export default function DeliveryVehiclesPage() {
                   />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-bold text-muted-foreground uppercase">Payload Capacity</label>
+                  <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                    Payload Capacity
+                  </label>
                   <input
                     type="text"
                     required
@@ -248,7 +303,9 @@ export default function DeliveryVehiclesPage() {
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase">Fleet Status</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                  Fleet Status
+                </label>
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value as any)}

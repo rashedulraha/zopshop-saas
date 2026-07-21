@@ -15,11 +15,7 @@ interface AdjustmentRecord {
   user: string;
 }
 
-const initialAdjustments: AdjustmentRecord[] = [
-  { id: "ADJ-001", date: "12 Oct 2026", productName: "iPhone 15 Case Pro", sku: "IPH15-SPG", type: "Subtraction", qty: 2, reason: "Damaged in storage", user: "Admin User" },
-  { id: "ADJ-002", date: "10 Oct 2026", productName: "USB-C to C Cable 2M", sku: "USBC-ANK-2", type: "Addition", qty: 10, reason: "Manual audit correction", user: "Admin User" },
-  { id: "ADJ-003", date: "09 Oct 2026", productName: "Sony WH-1000XM5", sku: "SONY-XM5", type: "Subtraction", qty: 1, reason: "Customer return defect", user: "Manager" }
-];
+const initialAdjustments: AdjustmentRecord[] = [];
 
 export default function StockAdjustmentsPage() {
   const [adjustments, setAdjustments] = useState<AdjustmentRecord[]>(initialAdjustments);

@@ -28,44 +28,7 @@ interface CustomerDue {
   lastPaymentDate: string;
 }
 
-const initialDues: CustomerDue[] = [
-  {
-    id: "CUST-001",
-    name: "Olivia Martin",
-    phone: "+880 1712-345678",
-    totalPurchased: 4500,
-    currentDue: 299,
-    ageingDays: 14,
-    lastPaymentDate: "05 Oct 2026",
-  },
-  {
-    id: "CUST-002",
-    name: "Jackson Lee",
-    phone: "+880 1819-876543",
-    totalPurchased: 1800,
-    currentDue: 99,
-    ageingDays: 7,
-    lastPaymentDate: "—",
-  },
-  {
-    id: "CUST-004",
-    name: "William Kim",
-    phone: "+880 1515-555666",
-    totalPurchased: 850,
-    currentDue: 15,
-    ageingDays: 1,
-    lastPaymentDate: "10 Oct 2026",
-  },
-  {
-    id: "CUST-005",
-    name: "Sofia Davis",
-    phone: "+880 1616-112233",
-    totalPurchased: 2500,
-    currentDue: 350,
-    ageingDays: 24,
-    lastPaymentDate: "03 Oct 2026",
-  },
-];
+const initialDues: CustomerDue[] = [];
 
 export default function CustomerDuePage() {
   const [dues, setDues] = useState<CustomerDue[]>(initialDues);

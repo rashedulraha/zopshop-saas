@@ -25,48 +25,7 @@ interface AttendanceRecord {
   checkOut: string;
 }
 
-const initialAttendance: AttendanceRecord[] = [
-  {
-    id: "EMP-001",
-    name: "John Doe",
-    role: "Warehouse Manager",
-    status: "Present",
-    checkIn: "08:45 AM",
-    checkOut: "05:15 PM",
-  },
-  {
-    id: "EMP-002",
-    name: "Jane Smith",
-    role: "Sales Representative",
-    status: "Late",
-    checkIn: "09:30 AM",
-    checkOut: "05:00 PM",
-  },
-  {
-    id: "EMP-003",
-    name: "Rahat Islam",
-    role: "Accountant",
-    status: "Present",
-    checkIn: "08:50 AM",
-    checkOut: "05:05 PM",
-  },
-  {
-    id: "EMP-004",
-    name: "Samantha Roy",
-    role: "Cashier",
-    status: "On Leave",
-    checkIn: "—",
-    checkOut: "—",
-  },
-  {
-    id: "EMP-005",
-    name: "Karim Khan",
-    role: "Delivery Driver",
-    status: "Absent",
-    checkIn: "—",
-    checkOut: "—",
-  },
-];
+const initialAttendance: AttendanceRecord[] = [];
 
 export default function AttendancePage() {
   const [attendance, setAttendance] =

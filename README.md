@@ -41,7 +41,11 @@ Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
   npm install
   ```
 4.  **Configure environment variables:**
-  Create a `.env` file in the root directory and add your required API keys (e.g., MongoDB URI, Auth Secret).
+  Copy the `.env.example` file to `.env` in the root directory:
+  ```bash
+  cp .env.example .env
+  ```
+  Ensure `NEXT_PUBLIC_API_URL` points to your backend API.
 5.  **Run the development server:**
   ```bash
   npm run dev

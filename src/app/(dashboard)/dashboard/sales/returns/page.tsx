@@ -15,10 +15,7 @@ interface SaleReturn {
   status: "Refunded" | "Pending";
 }
 
-const initialReturns: SaleReturn[] = [
-  { id: "SR-1", returnNumber: "SRET-901", invoice: "INV-1001", date: "13 Oct 2026", customer: "Olivia Martin", amount: 45, reason: "Item size mismatch", status: "Refunded" },
-  { id: "SR-2", returnNumber: "SRET-902", invoice: "INV-1003", date: "12 Oct 2026", customer: "Isabella Nguyen", amount: 120, reason: "Defective casing buttons", status: "Pending" }
-];
+const initialReturns: SaleReturn[] = [];
 
 export default function SalesReturnsPage() {
   const [returns] = useState<SaleReturn[]>(initialReturns);

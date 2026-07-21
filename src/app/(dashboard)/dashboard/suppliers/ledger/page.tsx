@@ -24,55 +24,19 @@ interface Supplier {
   ledger: LedgerEntry[];
 }
 
-const mockSuppliers: Supplier[] = [
-  {
-    id: "SUPP-001",
-    name: "John Doe",
-    company: "TechCorp Inc.",
-    phone: "+880 1612-990011",
-    address: "Plot 12, Sector 7, Uttara, Dhaka",
-    dueAmount: 5400,
-    ledger: [
-      { id: "L-1", date: "01 Oct 2026", type: "Opening Balance", reference: "-", debit: 0, credit: 0, balance: 0 },
-      { id: "L-2", date: "12 Oct 2026", type: "Purchase", reference: "PO-501", debit: 0, credit: 5400, balance: 5400 }
-    ]
-  },
-  {
-    id: "SUPP-002",
-    name: "Alex Mercer",
-    company: "Global Supply",
-    phone: "+880 1819-556677",
-    address: "Road 4, Dhanmondi, Dhaka",
-    dueAmount: 1200,
-    ledger: [
-      { id: "L-3", date: "01 Oct 2026", type: "Opening Balance", reference: "-", debit: 0, credit: 1200, balance: 1200 }
-    ]
-  },
-  {
-    id: "SUPP-003",
-    name: "Jane Smith",
-    company: "Smart Devices Ltd",
-    phone: "+880 1911-332211",
-    address: "DIT Road, Rampura, Dhaka",
-    dueAmount: 0,
-    ledger: [
-      { id: "L-4", date: "01 Oct 2026", type: "Opening Balance", reference: "-", debit: 0, credit: 2000, balance: 2000 },
-      { id: "L-5", date: "05 Oct 2026", type: "Payment", reference: "PAY-1092", debit: 2000, credit: 0, balance: 0 },
-      { id: "L-6", date: "08 Oct 2026", type: "Purchase", reference: "PO-503", debit: 0, credit: 3800, balance: 3800 },
-      { id: "L-7", date: "08 Oct 2026", type: "Payment", reference: "PAY-1100", debit: 3800, credit: 0, balance: 0 }
-    ]
-  }
-];
+const mockSuppliers: Supplier[] = [];
 
 export default function SupplierLedgerPage() {
   const [suppliers] = useState<Supplier[]>(mockSuppliers);
-  const [selectedSupplierId, setSelectedSupplierId] = useState<string>(mockSuppliers[0].id);
+  const [selectedSupplierId, setSelectedSupplierId] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState<string>("All");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const selectedSupplier = useMemo(() => {
-    return suppliers.find((s) => s.id === selectedSupplierId) || suppliers[0];
+    return suppliers.find((s) => s.id === selectedSupplierId) || suppliers[0] || {
+      id: "", name: "", company: "", phone: "", address: "", dueAmount: 0, ledger: []
+    };
   }, [suppliers, selectedSupplierId]);
 
   // Aggregate Ledger Stats

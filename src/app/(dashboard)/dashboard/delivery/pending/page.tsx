@@ -18,38 +18,7 @@ interface Delivery {
   date: string;
 }
 
-const initialDeliveries: Delivery[] = [
-  {
-    invoice: "INV-1002",
-    customer: "Jackson Lee",
-    address: "Sector 4, Uttara, Dhaka",
-    driver: "Unassigned",
-    vehicle: "Unassigned",
-    deliveryCost: 15.00,
-    status: "Pending",
-    date: "14 Oct 2026"
-  },
-  {
-    invoice: "INV-0985",
-    customer: "Sofia Davis",
-    address: "Road 12, Dhanmondi, Dhaka",
-    driver: "John Doe",
-    vehicle: "Covered Van - V102",
-    deliveryCost: 20.00,
-    status: "On the way",
-    date: "13 Oct 2026"
-  },
-  {
-    invoice: "INV-0988",
-    customer: "Michael Chen",
-    address: "Mirpur 10, Dhaka",
-    driver: "Unassigned",
-    vehicle: "Unassigned",
-    deliveryCost: 12.50,
-    status: "Pending",
-    date: "15 Oct 2026"
-  }
-];
+const initialDeliveries: Delivery[] = [];
 
 export default function PendingDeliveriesPage() {
   const [deliveries, setDeliveries] = useState<Delivery[]>(initialDeliveries);

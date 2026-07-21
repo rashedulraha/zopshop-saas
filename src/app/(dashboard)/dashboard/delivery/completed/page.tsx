@@ -17,28 +17,7 @@ interface Delivery {
   date: string;
 }
 
-const initialDeliveries: Delivery[] = [
-  {
-    invoice: "INV-1001",
-    customer: "Olivia Martin",
-    address: "House 45, Road 11, Banani, Dhaka",
-    driver: "John Doe",
-    vehicle: "Covered Van - V102",
-    deliveryCost: 15.00,
-    status: "Completed",
-    date: "13 Oct 2026"
-  },
-  {
-    invoice: "INV-0980",
-    customer: "Isabella Nguyen",
-    address: "Mirpur DOHS, Dhaka",
-    driver: "Robert Smith",
-    vehicle: "Pickup Truck - P205",
-    deliveryCost: 18.50,
-    status: "Completed",
-    date: "11 Oct 2026"
-  }
-];
+const initialDeliveries: Delivery[] = [];
 
 export default function CompletedDeliveriesPage() {
   const [deliveries] = useState<Delivery[]>(initialDeliveries);

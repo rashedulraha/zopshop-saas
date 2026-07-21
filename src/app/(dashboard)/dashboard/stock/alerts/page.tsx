@@ -14,12 +14,7 @@ interface LowStockItem {
   status: "Critical" | "Low";
 }
 
-const initialAlerts: LowStockItem[] = [
-  { id: "PROD-001", name: "iPhone 15 Case Pro", code: "IPH15-SPG", category: "Accessories", stock: 2, threshold: 10, status: "Critical" },
-  { id: "PROD-003", name: "USB-C to C Cable 2M", code: "USBC-ANK-2", category: "Cables", stock: 6, threshold: 15, status: "Low" },
-  { id: "PROD-005", name: "MacBook Pro 14 M3", code: "MAC14-M3", category: "Computers", stock: 1, threshold: 5, status: "Critical" },
-  { id: "PROD-008", name: "Sony WH-1000XM5", code: "SONY-XM5", category: "Audio", stock: 4, threshold: 8, status: "Low" }
-];
+const initialAlerts: LowStockItem[] = [];
 
 export default function LowStockAlertPage() {
   const [alerts, setAlerts] = useState<LowStockItem[]>(initialAlerts);

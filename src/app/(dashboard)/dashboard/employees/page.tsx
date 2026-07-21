@@ -31,58 +31,7 @@ interface Employee {
   status: "Active" | "Inactive";
 }
 
-const initialEmployees: Employee[] = [
-  {
-    id: "EMP-001",
-    name: "John Doe",
-    role: "Warehouse Manager",
-    phone: "+880 1712-111222",
-    email: "john.doe@zopshop.com",
-    salary: 1200,
-    joinDate: "15 Jan 2025",
-    status: "Active",
-  },
-  {
-    id: "EMP-002",
-    name: "Jane Smith",
-    role: "Sales Representative",
-    phone: "+880 1819-333444",
-    email: "jane.smith@zopshop.com",
-    salary: 800,
-    joinDate: "10 Mar 2025",
-    status: "Active",
-  },
-  {
-    id: "EMP-003",
-    name: "Rahat Islam",
-    role: "Accountant",
-    phone: "+880 1911-555666",
-    email: "rahat.islam@zopshop.com",
-    salary: 1500,
-    joinDate: "01 Jun 2024",
-    status: "Active",
-  },
-  {
-    id: "EMP-004",
-    name: "Samantha Roy",
-    role: "Cashier",
-    phone: "+880 1616-777888",
-    email: "samantha@zopshop.com",
-    salary: 750,
-    joinDate: "01 Oct 2025",
-    status: "Active",
-  },
-  {
-    id: "EMP-005",
-    name: "Karim Khan",
-    role: "Delivery Driver",
-    phone: "+880 1515-999000",
-    email: "karim@zopshop.com",
-    salary: 600,
-    joinDate: "12 Dec 2025",
-    status: "Inactive",
-  },
-];
+const initialEmployees: Employee[] = [];
 
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState<Employee[]>(initialEmployees);

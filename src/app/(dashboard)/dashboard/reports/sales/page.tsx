@@ -11,6 +11,8 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTransactionStore } from "@/store/transaction.store";
+import { useEffect } from "react";
 
 interface ReportRow {
   invoice: string;
@@ -24,63 +26,7 @@ interface ReportRow {
   paymentMethod: string;
 }
 
-const mockReportData: ReportRow[] = [
-  {
-    invoice: "INV-1001",
-    date: "13 Oct 2026",
-    customer: "Olivia Martin",
-    itemsCount: 2,
-    subtotal: 280.0,
-    discount: 0.0,
-    vat: 19.0,
-    total: 299.0,
-    paymentMethod: "Bkash",
-  },
-  {
-    invoice: "INV-1002",
-    date: "13 Oct 2026",
-    customer: "Jackson Lee",
-    itemsCount: 1,
-    subtotal: 99.0,
-    discount: 0.0,
-    vat: 0.0,
-    total: 99.0,
-    paymentMethod: "Cash",
-  },
-  {
-    invoice: "INV-1003",
-    date: "12 Oct 2026",
-    customer: "Isabella Nguyen",
-    itemsCount: 3,
-    subtotal: 420.0,
-    discount: 10.0,
-    vat: 40.0,
-    total: 450.0,
-    paymentMethod: "Bank",
-  },
-  {
-    invoice: "INV-1004",
-    date: "12 Oct 2026",
-    customer: "William Kim",
-    itemsCount: 1,
-    subtotal: 15.0,
-    discount: 0.0,
-    vat: 0.0,
-    total: 15.0,
-    paymentMethod: "Cash",
-  },
-  {
-    invoice: "INV-0985",
-    date: "10 Oct 2026",
-    customer: "Sofia Davis",
-    itemsCount: 2,
-    subtotal: 320.0,
-    discount: 15.0,
-    vat: 45.0,
-    total: 350.0,
-    paymentMethod: "Card",
-  },
-];
+const mockReportData: ReportRow[] = [];
 
 export default function SalesReportPage() {
   const [dateFilter, setDateFilter] = useState("This Month");
@@ -88,6 +34,24 @@ export default function SalesReportPage() {
   const [customEnd, setCustomEnd] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [isExporting, setIsExporting] = useState<string | null>(null);
+
+  const { transactions, fetchTransactions, isLoading } = useTransactionStore();
+
+  useEffect(() => {
+    fetchTransactions({ type: "sale", limit: 50 });
+  }, [fetchTransactions]);
+
+  const reportData: ReportRow[] = transactions.map((t) => ({
+    invoice: t.invoiceNo || "N/A",
+    date: new Date(t.createdAt || Date.now()).toLocaleDateString(),
+    customer: t.party?.name || "Cash Customer",
+    itemsCount: t.items?.length || 0,
+    subtotal: t.amount,
+    discount: t.discount || 0,
+    vat: 0,
+    total: t.amount,
+    paymentMethod: t.mode || "Cash",
+  }));
 
   const triggerExport = (format: string) => {
     setIsExporting(format);
@@ -102,7 +66,7 @@ export default function SalesReportPage() {
     }, 1000);
   };
 
-  const filteredData = mockReportData.filter(
+  const filteredData = reportData.filter(
     (row) =>
       row.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
       row.invoice.toLowerCase().includes(searchQuery.toLowerCase()),

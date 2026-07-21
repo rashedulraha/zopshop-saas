@@ -30,63 +30,7 @@ interface SalarySlip {
   paymentDate: string;
 }
 
-const initialSalarySlips: SalarySlip[] = [
-  {
-    id: "EMP-001",
-    name: "John Doe",
-    role: "Warehouse Manager",
-    baseSalary: 1200,
-    allowance: 150,
-    deduction: 50,
-    netPayable: 1300,
-    status: "Paid",
-    paymentDate: "05 Oct 2026"
-  },
-  {
-    id: "EMP-002",
-    name: "Jane Smith",
-    role: "Sales Representative",
-    baseSalary: 800,
-    allowance: 120,
-    deduction: 30,
-    netPayable: 890,
-    status: "Pending",
-    paymentDate: "—"
-  },
-  {
-    id: "EMP-003",
-    name: "Rahat Islam",
-    role: "Accountant",
-    baseSalary: 1500,
-    allowance: 200,
-    deduction: 80,
-    netPayable: 1620,
-    status: "Paid",
-    paymentDate: "04 Oct 2026"
-  },
-  {
-    id: "EMP-004",
-    name: "Samantha Roy",
-    role: "Cashier",
-    baseSalary: 750,
-    allowance: 50,
-    deduction: 25,
-    netPayable: 775,
-    status: "Pending",
-    paymentDate: "—"
-  },
-  {
-    id: "EMP-005",
-    name: "Karim Khan",
-    role: "Delivery Driver",
-    baseSalary: 600,
-    allowance: 40,
-    deduction: 20,
-    netPayable: 620,
-    status: "Pending",
-    paymentDate: "—"
-  }
-];
+const initialSalarySlips: SalarySlip[] = [];
 
 export default function SalaryPage() {
   const [salaries, setSalaries] = useState<SalarySlip[]>(initialSalarySlips);

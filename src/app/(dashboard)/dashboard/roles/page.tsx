@@ -12,36 +12,7 @@ interface Role {
   permissions: string[];
 }
 
-const initialRoles: Role[] = [
-  {
-    id: "ROLE-1",
-    name: "Super Admin",
-    description: "Full system control with unrestricted access to all modules",
-    userCount: 1,
-    permissions: ["Sales", "Purchase", "Inventory", "Finance", "Reports", "Users", "Settings"]
-  },
-  {
-    id: "ROLE-2",
-    name: "Manager",
-    description: "Can manage operations, view reports, and approve transactions",
-    userCount: 1,
-    permissions: ["Sales", "Purchase", "Inventory", "Finance", "Reports"]
-  },
-  {
-    id: "ROLE-3",
-    name: "Cashier",
-    description: "POS billing, sales invoicing, and customer collections only",
-    userCount: 1,
-    permissions: ["Sales", "POS"]
-  },
-  {
-    id: "ROLE-4",
-    name: "Delivery Staff",
-    description: "View pending deliveries and update delivery status",
-    userCount: 1,
-    permissions: ["Delivery"]
-  }
-];
+const initialRoles: Role[] = [];
 
 export default function RolesPage() {
   const [roles, setRoles] = useState<Role[]>(initialRoles);

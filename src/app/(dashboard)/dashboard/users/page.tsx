@@ -13,12 +13,7 @@ interface SystemUser {
   lastLogin: string;
 }
 
-const initialUsers: SystemUser[] = [
-  { id: "USR-001", name: "Rashedul Raha", email: "raha@zopshop.com", role: "Super Admin", status: "Active", lastLogin: "Today 8:22 AM" },
-  { id: "USR-002", name: "Karim Khan", email: "karim@zopshop.com", role: "Manager", status: "Active", lastLogin: "Yesterday" },
-  { id: "USR-003", name: "Aisha Begum", email: "aisha@zopshop.com", role: "Cashier", status: "Active", lastLogin: "2 days ago" },
-  { id: "USR-004", name: "Rahim Uddin", email: "rahim@zopshop.com", role: "Delivery Staff", status: "Suspended", lastLogin: "5 days ago" }
-];
+const initialUsers: SystemUser[] = [];
 
 export default function UsersPage() {
   const [users, setUsers] = useState<SystemUser[]>(initialUsers);
