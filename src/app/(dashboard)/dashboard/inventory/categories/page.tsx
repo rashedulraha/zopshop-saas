@@ -63,7 +63,7 @@ export default function CategoriesPage() {
       setIsFormOpen(false);
       resetForm();
     } catch (error) {
-      console.error("Failed to save category:", error);
+      // Error handled by store
     }
   };
 
@@ -79,7 +79,7 @@ export default function CategoriesPage() {
         await deleteCategory(id);
         showNotification("Category successfully deleted!");
       } catch (error) {
-        console.error("Failed to delete category:", error);
+        // Error handled by store
       }
     }
   };

@@ -23,53 +23,34 @@ interface Product {
   status: "Active" | "Inactive";
 }
 
-const initialProducts: Product[] = [
-  {
-    id: "PROD-001",
-    name: "iPhone 15 Pro",
-    code: "IPH15P-128",
-    category: "Electronics",
-    brand: "Apple",
-    unit: "pcs",
-    purchasePrice: 999,
-    sellingPrice: 1199,
-    currentStock: 45,
-    reorderLevel: 10,
-    warehouse: "Main Warehouse",
-    status: "Active"
-  },
-  {
-    id: "PROD-002",
-    name: "Wireless Charger Pad",
-    code: "WCP-ANK",
-    category: "Accessories",
-    brand: "Anker",
-    unit: "pcs",
-    purchasePrice: 15,
-    sellingPrice: 29.99,
-    currentStock: 8,
-    reorderLevel: 15,
-    warehouse: "Floor Warehouse",
-    status: "Active"
-  },
-  {
-    id: "PROD-003",
-    name: "Ergonomic Office Chair",
-    code: "EOC-CH",
-    category: "Furniture",
-    brand: "Steelcase",
-    unit: "pcs",
-    purchasePrice: 350,
-    sellingPrice: 499,
-    currentStock: 12,
-    reorderLevel: 5,
-    warehouse: "Main Warehouse",
-    status: "Active"
-  }
-];
+import { useProductStore } from "@/store/product.store";
+import { useEffect } from "react";
+import { toast } from "sonner";
+
+const initialProducts: Product[] = [];
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const { products: storeProducts, fetchProducts, createProduct, deleteProduct, isLoading } = useProductStore();
+  
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  const products: Product[] = storeProducts.map((p: any) => ({
+    id: p.id,
+    name: p.name,
+    code: p.sku || "-",
+    category: p.category?.name || "Uncategorized",
+    brand: (p.attributes?.brand as string) || "N/A",
+    unit: p.unit || "pcs",
+    purchasePrice: p.purchasePrice || 0,
+    sellingPrice: p.price,
+    currentStock: p.stock || 0,
+    reorderLevel: 5,
+    warehouse: "Main",
+    status: "Active"
+  }));
+
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   
@@ -86,28 +67,37 @@ export default function ProductsPage() {
   const [warehouse, setWarehouse] = useState("Main Warehouse");
   const [status, setStatus] = useState<"Active" | "Inactive">("Active");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !code || !brand || !purchasePrice || !sellingPrice || !currentStock) return;
+    if (!name || !code || !purchasePrice || !sellingPrice || !currentStock) return;
 
-    const newProduct: Product = {
-      id: `PROD-00${products.length + 1}`,
-      name,
-      code,
-      category,
-      brand,
-      unit,
-      purchasePrice: parseFloat(purchasePrice),
-      sellingPrice: parseFloat(sellingPrice),
-      currentStock: parseInt(currentStock),
-      reorderLevel: parseInt(reorderLevel) || 5,
-      warehouse,
-      status
-    };
+    try {
+      await createProduct({
+        name,
+        unit,
+        price: parseFloat(sellingPrice),
+        purchasePrice: parseFloat(purchasePrice),
+        stock: parseInt(currentStock),
+        sku: code,
+        attributes: { brand, warehouse, reorderLevel: parseInt(reorderLevel) || 5 }
+      });
+      toast.success("Product added successfully!");
+      setIsFormOpen(false);
+      resetForm();
+    } catch (err) {
+      // Error handled by store
+    }
+  };
 
-    setProducts([newProduct, ...products]);
-    setIsFormOpen(false);
-    resetForm();
+  const handleDelete = async (id: string) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      try {
+        await deleteProduct(id);
+        toast.success("Product deleted successfully!");
+      } catch (error) {
+        // Handled by store
+      }
+    }
   };
 
   const resetForm = () => {
@@ -447,7 +437,7 @@ export default function ProductsPage() {
                             <button title="Edit" className="p-1 hover:text-primary hover:bg-primary/5 rounded transition-colors text-muted-foreground">
                               <Edit3 className="w-4 h-4" />
                             </button>
-                            <button title="Delete" className="p-1 hover:text-rose-500 hover:bg-rose-500/5 rounded transition-colors text-muted-foreground">
+                            <button onClick={() => handleDelete(product.id)} title="Delete" className="p-1 hover:text-rose-500 hover:bg-rose-500/5 rounded transition-colors text-muted-foreground">
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>

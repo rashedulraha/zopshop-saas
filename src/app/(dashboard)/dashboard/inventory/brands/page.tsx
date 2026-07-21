@@ -28,48 +28,7 @@ interface Brand {
   status: "Active" | "Inactive";
 }
 
-const initialBrands: Brand[] = [
-  {
-    id: "BRD-001",
-    name: "Apple",
-    code: "AAPL",
-    description: "Premium consumer electronics, software ecosystem, and smartphones.",
-    productCount: 45,
-    status: "Active"
-  },
-  {
-    id: "BRD-002",
-    name: "Samsung",
-    code: "SMSG",
-    description: "High-performance displays, smartphones, tablets, and memory devices.",
-    productCount: 20,
-    status: "Active"
-  },
-  {
-    id: "BRD-003",
-    name: "Sony",
-    code: "SONY",
-    description: "Professional audio devices, noise-canceling headphones, and digital cameras.",
-    productCount: 10,
-    status: "Active"
-  },
-  {
-    id: "BRD-004",
-    name: "Anker",
-    code: "ANKR",
-    description: "Portable battery packs, wall chargers, cables, and home accessory hubs.",
-    productCount: 10,
-    status: "Active"
-  },
-  {
-    id: "BRD-005",
-    name: "LG",
-    code: "LGE",
-    description: "OLED displays, smart televisions, and high-end consumer appliances.",
-    productCount: 0,
-    status: "Inactive"
-  }
-];
+const initialBrands: Brand[] = [];
 
 export default function BrandsPage() {
   const [brands, setBrands] = useState<Brand[]>(initialBrands);
