@@ -8,7 +8,7 @@ export interface User {
   fullName?: string; // Some API response fields might use fullName
   email: string;
   phone?: string;
-  role?: "admin" | "manager" | "cashier" | "user" | string;
+  role?: "SUPERADMIN" | "admin" | "manager" | "cashier" | "user" | string;
   storeId?: string | null;
   createdAt?: string;
   updatedAt?: string;
