@@ -45,7 +45,7 @@ export function ProductForm({
 
   // Load categories for the dropdown on mount
   useEffect(() => {
-    fetchCategories().catch(console.error);
+    fetchCategories().catch(() => {});
   }, [fetchCategories]);
 
   const form = useForm<ProductFormValues>({
