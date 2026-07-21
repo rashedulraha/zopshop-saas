@@ -46,162 +46,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// MOCK DATA for Charts
-const trendData = [
-  { name: "Mon", sales: 4000, purchase: 2400, profit: 1600, customers: 12 },
-  { name: "Tue", sales: 3000, purchase: 1398, profit: 1602, customers: 18 },
-  { name: "Wed", sales: 2000, purchase: 9800, profit: -7800, customers: 5 },
-  { name: "Thu", sales: 2780, purchase: 3908, profit: -1128, customers: 22 },
-  { name: "Fri", sales: 1890, purchase: 4800, profit: -2910, customers: 14 },
-  { name: "Sat", sales: 2390, purchase: 3800, profit: -1410, customers: 30 },
-  { name: "Sun", sales: 3490, purchase: 4300, profit: -810, customers: 25 },
-];
-
-const monthlyData = [
-  { name: "Jan", revenue: 40000, expense: 24000 },
-  { name: "Feb", revenue: 30000, expense: 13980 },
-  { name: "Mar", revenue: 20000, expense: 18000 },
-  { name: "Apr", revenue: 27800, expense: 19080 },
-  { name: "May", revenue: 18900, expense: 14800 },
-  { name: "Jun", revenue: 33900, expense: 23800 },
-];
-
-const expenseData = [
-  { name: "Salaries", value: 14000 },
-  { name: "Marketing", value: 8000 },
-  { name: "Rent", value: 5000 },
-  { name: "Utilities", value: 2780 },
-  { name: "Logistics", value: 4890 },
-];
-
-const brandData = [
-  { name: "Apple", value: 45 },
-  { name: "Samsung", value: 25 },
-  { name: "Sony", value: 15 },
-  { name: "LG", value: 15 },
-];
-
-const bestSelling = [
-  { name: "iPhone 15", total: 1400 },
-  { name: "MacBook Air", total: 950 },
-  { name: "AirPods Pro", total: 800 },
-  { name: "Galaxy S24", total: 600 },
-  { name: "Sony WH", total: 450 },
-];
-
-const inventoryValue = [
-  { name: "Jan", value: 150000 },
-  { name: "Feb", value: 145000 },
-  { name: "Mar", value: 160000 },
-  { name: "Apr", value: 155000 },
-  { name: "May", value: 170000 },
-  { name: "Jun", value: 180000 },
-];
-
-// MOCK DATA for Tables
-const recentSales = [
-  {
-    invoice: "INV-1001",
-    customer: "Olivia Martin",
-    amount: "$299.00",
-    status: "Paid",
-    date: "Today 10:24 AM",
-  },
-  {
-    invoice: "INV-1002",
-    customer: "Jackson Lee",
-    amount: "$99.00",
-    status: "Due",
-    date: "Today 09:12 AM",
-  },
-  {
-    invoice: "INV-1003",
-    customer: "Isabella Nguyen",
-    amount: "$450.00",
-    status: "Paid",
-    date: "Yesterday",
-  },
-  {
-    invoice: "INV-1004",
-    customer: "William Kim",
-    amount: "$15.00",
-    status: "Paid",
-    date: "Yesterday",
-  },
-  {
-    invoice: "INV-1005",
-    customer: "Sofia Davis",
-    amount: "$350.00",
-    status: "Paid",
-    date: "2 days ago",
-  },
-];
-
-const recentPurchases = [
-  {
-    supplier: "TechCorp Inc.",
-    invoice: "PO-501",
-    amount: "$5,400.00",
-    status: "Received",
-    date: "12 Oct 2026",
-  },
-  {
-    supplier: "Global Supply",
-    invoice: "PO-502",
-    amount: "$1,200.00",
-    status: "Pending",
-    date: "10 Oct 2026",
-  },
-  {
-    supplier: "Smart Devices Ltd",
-    invoice: "PO-503",
-    amount: "$3,800.00",
-    status: "Received",
-    date: "08 Oct 2026",
-  },
-];
-
-const recentExpenses = [
-  {
-    category: "Utilities",
-    amount: "$120.00",
-    description: "Electricity Bill",
-    date: "13 Oct 2026",
-  },
-  {
-    category: "Marketing",
-    amount: "$500.00",
-    description: "Facebook Ads",
-    date: "12 Oct 2026",
-  },
-  {
-    category: "Logistics",
-    amount: "$85.00",
-    description: "Courier Services",
-    date: "11 Oct 2026",
-  },
-];
-
-const lowStock = [
-  { product: "iPhone 15 Case", brand: "Spigen", stock: "5", alert: "Critical" },
-  { product: "USB-C Cable 2M", brand: "Anker", stock: "12", alert: "Low" },
-  { product: 'MacBook Pro 14"', brand: "Apple", stock: "2", alert: "Critical" },
-];
-
-const pendingDeliveries = [
-  {
-    invoice: "INV-0985",
-    customer: "Sofia Davis",
-    driver: "John Doe",
-    status: "On the way",
-  },
-  {
-    invoice: "INV-0988",
-    customer: "Michael Chen",
-    driver: "Unassigned",
-    status: "Processing",
-  },
-];
+// Data is loaded from Zustand stores
 
 export default function DashboardPage() {
   const {
@@ -389,12 +234,12 @@ export default function DashboardPage() {
               </div>
             ) : (
               <ChartTabs
-                trendData={dashboardStats?.salesTrend || trendData}
-                monthlyData={monthlyData}
-                expenseData={expenseData}
-                brandData={brandData}
-                bestSelling={bestSelling}
-                inventoryValue={inventoryValue}
+                trendData={dashboardStats?.salesTrend || []}
+                monthlyData={[]}
+                expenseData={[]}
+                brandData={[]}
+                bestSelling={[]}
+                inventoryValue={[]}
               />
             )}
           </div>
@@ -484,13 +329,13 @@ export default function DashboardPage() {
 
           <div className="flex flex-col gap-6">
             {!isReportLoading && (dashboardStats?.lowStockCount || 0) > 0 ? (
-              <LowStockTable data={lowStock} />
+              <LowStockTable data={[]} />
             ) : null}
-            <PendingDeliveriesTable data={pendingDeliveries} />
+            <PendingDeliveriesTable data={[]} />
           </div>
 
-          <RecentExpensesTable data={recentExpenses} />
-          <RecentPurchasesTable data={recentPurchases} />
+          <RecentExpensesTable data={[]} />
+          <RecentPurchasesTable data={[]} />
         </div>
       </div>
     </div>
