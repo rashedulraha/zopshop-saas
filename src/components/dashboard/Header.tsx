@@ -26,10 +26,12 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { useAuthStore } from "@/store/auth.store";
 
 export function Header() {
   const toggleSidebar = useSidebar((state) => state.toggle);
   const pathname = usePathname();
+  const { user } = useAuthStore();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
   const [showAvatarMenu, setShowAvatarMenu] = useState(false);
@@ -112,6 +114,10 @@ export function Header() {
     toast.success("Logout successfull");
     router.push("/login");
   };
+
+  const userName = user?.name || "Admin User";
+  const userEmail = user?.email || "admin@zopshop.com";
+  const initials = user?.name ? user.name.substring(0, 2).toUpperCase() : "AD";
 
   return (
     <>
@@ -291,10 +297,10 @@ export function Header() {
               )}
             >
               <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary ring-1 ring-primary/20 shrink-0">
-                AD
+                {initials}
               </div>
               <span className="hidden sm:inline font-medium text-foreground text-xs">
-                Admin User
+                {userName}
               </span>
               <ChevronDown className="w-3.5 h-3.5 text-muted-foreground transition-transform shrink-0" />
             </button>
@@ -311,15 +317,15 @@ export function Header() {
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center ring-2 ring-primary/20 shrink-0">
                         <span className="text-sm font-semibold text-primary">
-                          AD
+                          {initials}
                         </span>
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-foreground">
-                          Admin User
+                          {userName}
                         </p>
-                        <p className="text-xs text-muted-foreground">
-                          admin@zopshop.com
+                        <p className="text-xs text-muted-foreground truncate max-w-[150px]" title={userEmail}>
+                          {userEmail}
                         </p>
                       </div>
                     </div>
@@ -328,15 +334,7 @@ export function Header() {
                   {/* Menu Items */}
                   <div className="py-1">
                     <Link
-                      href="/dashboard/settings/business"
-                      onClick={() => setShowAvatarMenu(false)}
-                      className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
-                    >
-                      <User className="w-4 h-4 text-muted-foreground" />
-                      Profile
-                    </Link>
-                    <Link
-                      href="/dashboard/settings/system"
+                      href="/dashboard/settings"
                       onClick={() => setShowAvatarMenu(false)}
                       className="flex items-center gap-3 px-4 py-2.5 text-sm text-foreground hover:bg-muted transition-colors"
                     >

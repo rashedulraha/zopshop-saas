@@ -117,11 +117,11 @@ const DemoDashboard = () => {
           {/* Hover Glow Effect */}
 
           {/* Main Dashboard */}
-          <div className="relative w-full rounded-2xl p-[1px] pt-[2.5px] bg-gradient-to-b from-indigo-300/60 via-indigo-200/20 to-transparent shadow-[0_24px_60px_rgba(99,102,241,0.12)] dark:shadow-[0_24px_60px_rgba(99,102,241,0.2)] transition-all duration-300 group-hover:shadow-[0_32px_80px_rgba(99,102,241,0.2)] dark:group-hover:shadow-[0_32px_80px_rgba(99,102,241,0.3)]">
-            {/* Browser Window - Glassmorphism Base */}
-            <div className="w-full bg-[#eef2ff] dark:bg-[#141e3a] rounded-[14px] overflow-hidden backdrop-blur-sm">
-              {/* Browser Control Bar - Enhanced */}
-              <div className="flex items-center justify-between px-4 py-3 border-b border-indigo-100 dark:border-white/8 bg-white/70 dark:bg-[#1a2444] backdrop-blur-md">
+          <div className="relative w-full rounded-2xl p-[1px] pt-[2.5px]">
+            {/* Browser Window */}
+            <div className="w-full bg-glass backdrop-blur-2xl border border-glass-border rounded-[14px] overflow-hidden shadow-glass">
+              {/* Browser Control Bar */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-glass-border-subtle bg-glass-strong backdrop-blur-md">
                 <div className="flex items-center gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-rose-400 hover:bg-rose-500 transition-colors cursor-pointer" />
                   <span className="w-2.5 h-2.5 rounded-full bg-amber-400 hover:bg-amber-500 transition-colors cursor-pointer" />
@@ -152,8 +152,8 @@ const DemoDashboard = () => {
 
               {/* Browser Content Area */}
               <div className="flex h-[650px] overflow-hidden">
-                {/* Sidebar - Enhanced with Glass Effect */}
-                <div className="w-16 md:w-48 border-r border-slate-200 dark:border-white/8 flex flex-col p-2 md:p-3.5 bg-white/80 dark:bg-[#1a2444]/80 backdrop-blur-sm overflow-y-auto custom-scrollbar">
+                {/* Sidebar */}
+                <div className="w-16 md:w-48 border-r border-glass-border-subtle flex flex-col p-2 md:p-3.5 bg-glass-weak backdrop-blur-md overflow-y-auto custom-scrollbar">
                   <div className="flex flex-col gap-4">
                     {/* Logo with Animation */}
                     <div className="flex items-center justify-center md:justify-start gap-2 px-0 md:px-2 pb-1 group/logo">
@@ -391,7 +391,9 @@ const SidebarButton = ({
         {badge}
       </span>
     )}
-    {!badge && active && <ChevronRight className="hidden md:block w-3 h-3 text-blue-500" />}
+    {!badge && active && (
+      <ChevronRight className="hidden md:block w-3 h-3 text-blue-500" />
+    )}
     {!badge && !active && (
       <ChevronRight className="hidden md:block w-3 h-3 text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity" />
     )}
@@ -468,43 +470,43 @@ const OverviewTab = () => (
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-[10px] min-w-[500px]">
-        <thead>
-          <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
-            <th className="py-2.5 px-3">No</th>
-            <th className="py-2.5 px-3">ID</th>
-            <th className="py-2.5 px-3">Date</th>
-            <th className="py-2.5 px-3">Customer</th>
-            <th className="py-2.5 px-3">Amount</th>
-            <th className="py-2.5 px-3">Status</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-slate-50 dark:divide-white/5 text-slate-700 dark:text-slate-300">
-          {transactions.map((tx, index) => (
-            <tr
-              key={index}
-              className="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors"
-            >
-              <td className="py-2.5 px-3">{index + 1}</td>
-              <td className="py-2.5 px-3 font-semibold text-[#0066ff] dark:text-blue-400">
-                {tx.id}
-              </td>
-              <td className="py-2.5 px-3">{tx.date}</td>
-              <td className="py-2.5 px-3 font-medium">{tx.customer}</td>
-              <td className="py-2.5 px-3 font-bold">${tx.amount}</td>
-              <td className="py-2.5 px-3">
-                <span
-                  className={`flex items-center gap-1 font-bold ${tx.status === "New Order" ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"}`}
-                >
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full ${tx.status === "New Order" ? "bg-emerald-500" : "bg-amber-500"}`}
-                  />
-                  {tx.status}
-                </span>
-              </td>
+          <thead>
+            <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
+              <th className="py-2.5 px-3">No</th>
+              <th className="py-2.5 px-3">ID</th>
+              <th className="py-2.5 px-3">Date</th>
+              <th className="py-2.5 px-3">Customer</th>
+              <th className="py-2.5 px-3">Amount</th>
+              <th className="py-2.5 px-3">Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="divide-y divide-slate-50 dark:divide-white/5 text-slate-700 dark:text-slate-300">
+            {transactions.map((tx, index) => (
+              <tr
+                key={index}
+                className="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors"
+              >
+                <td className="py-2.5 px-3">{index + 1}</td>
+                <td className="py-2.5 px-3 font-semibold text-[#0066ff] dark:text-blue-400">
+                  {tx.id}
+                </td>
+                <td className="py-2.5 px-3">{tx.date}</td>
+                <td className="py-2.5 px-3 font-medium">{tx.customer}</td>
+                <td className="py-2.5 px-3 font-bold">${tx.amount}</td>
+                <td className="py-2.5 px-3">
+                  <span
+                    className={`flex items-center gap-1 font-bold ${tx.status === "New Order" ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"}`}
+                  >
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full ${tx.status === "New Order" ? "bg-emerald-500" : "bg-amber-500"}`}
+                    />
+                    {tx.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -764,32 +766,32 @@ const FinanceTab = () => (
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-[10px] min-w-[400px]">
-        <thead>
-          <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
-            <th className="py-2 px-3">Category</th>
-            <th className="py-2 px-3">Description</th>
-            <th className="py-2 px-3">Amount</th>
-            <th className="py-2 px-3">Date</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-white/5 text-slate-700 dark:text-slate-300">
-          {expenses.map((expense, index) => (
-            <tr
-              key={index}
-              className="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors"
-            >
-              <td className="py-2 px-3 font-semibold">{expense.category}</td>
-              <td className="py-2 px-3 text-slate-450 dark:text-slate-400">
-                {expense.description}
-              </td>
-              <td className="py-2 px-3 font-bold text-rose-500">
-                ${expense.amount.toFixed(2)}
-              </td>
-              <td className="py-2 px-3">{expense.date}</td>
+          <thead>
+            <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
+              <th className="py-2 px-3">Category</th>
+              <th className="py-2 px-3">Description</th>
+              <th className="py-2 px-3">Amount</th>
+              <th className="py-2 px-3">Date</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="divide-y divide-white/5 text-slate-700 dark:text-slate-300">
+            {expenses.map((expense, index) => (
+              <tr
+                key={index}
+                className="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors"
+              >
+                <td className="py-2 px-3 font-semibold">{expense.category}</td>
+                <td className="py-2 px-3 text-slate-450 dark:text-slate-400">
+                  {expense.description}
+                </td>
+                <td className="py-2 px-3 font-bold text-rose-500">
+                  ${expense.amount.toFixed(2)}
+                </td>
+                <td className="py-2 px-3">{expense.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -940,44 +942,44 @@ const EmployeesTab = () => (
 
     <div className="overflow-x-auto">
       <table className="w-full text-left border-collapse text-[10px] min-w-[450px]">
-      <thead>
-        <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
-          <th className="py-2 px-3">Name</th>
-          <th className="py-2 px-3">Role</th>
-          <th className="py-2 px-3">Attendance</th>
-          <th className="py-2 px-3">Salary</th>
-          <th className="py-2 px-3">Status</th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-white/5 text-slate-700 dark:text-slate-300">
-        {employees.map((employee, index) => (
-          <tr
-            key={index}
-            className="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors"
-          >
-            <td className="py-2 px-3 font-semibold">{employee.name}</td>
-            <td className="py-2 px-3 text-slate-450 dark:text-slate-400">
-              {employee.role}
-            </td>
-            <td className="py-2 px-3 font-bold">{employee.attendance}%</td>
-            <td className="py-2 px-3 font-bold">
-              ${employee.salary.toFixed(2)}
-            </td>
-            <td className="py-2 px-3">
-              <span
-                className={`px-2 py-0.5 rounded-md font-bold ${
-                  employee.status === "Paid"
-                    ? "bg-emerald-50/50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400"
-                    : "bg-amber-50/50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400"
-                }`}
-              >
-                {employee.status}
-              </span>
-            </td>
+        <thead>
+          <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
+            <th className="py-2 px-3">Name</th>
+            <th className="py-2 px-3">Role</th>
+            <th className="py-2 px-3">Attendance</th>
+            <th className="py-2 px-3">Salary</th>
+            <th className="py-2 px-3">Status</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className="divide-y divide-white/5 text-slate-700 dark:text-slate-300">
+          {employees.map((employee, index) => (
+            <tr
+              key={index}
+              className="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors"
+            >
+              <td className="py-2 px-3 font-semibold">{employee.name}</td>
+              <td className="py-2 px-3 text-slate-450 dark:text-slate-400">
+                {employee.role}
+              </td>
+              <td className="py-2 px-3 font-bold">{employee.attendance}%</td>
+              <td className="py-2 px-3 font-bold">
+                ${employee.salary.toFixed(2)}
+              </td>
+              <td className="py-2 px-3">
+                <span
+                  className={`px-2 py-0.5 rounded-md font-bold ${
+                    employee.status === "Paid"
+                      ? "bg-emerald-50/50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400"
+                      : "bg-amber-50/50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400"
+                  }`}
+                >
+                  {employee.status}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   </div>
 );
@@ -995,43 +997,43 @@ const RolesTab = () => (
 
     <div className="overflow-x-auto">
       <table className="w-full text-left border-collapse text-[10px] min-w-[500px]">
-      <thead>
-        <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
-          <th className="py-2 px-3">Name</th>
-          <th className="py-2 px-3">Email</th>
-          <th className="py-2 px-3">Role</th>
-          <th className="py-2 px-3">Permissions</th>
-          <th className="py-2 px-3">Status</th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-white/5 text-slate-700 dark:text-slate-300">
-        {rolesData.map((user, index) => (
-          <tr
-            key={index}
-            className="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors"
-          >
-            <td className="py-2.5 px-3 font-semibold">{user.name}</td>
-            <td className="py-2.5 px-3 text-slate-450 dark:text-slate-400">
-              {user.email}
-            </td>
-            <td className="py-2.5 px-3">
-              <span
-                className={`px-2 py-0.5 rounded-md font-bold ${user.roleColor}`}
-              >
-                {user.role}
-              </span>
-            </td>
-            <td className="py-2.5 px-3 font-medium">{user.permissions}</td>
-            <td className="py-2.5 px-3">
-              <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Active
-              </span>
-            </td>
+        <thead>
+          <tr className="bg-slate-50/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-bold border-b border-slate-100 dark:border-white/8">
+            <th className="py-2 px-3">Name</th>
+            <th className="py-2 px-3">Email</th>
+            <th className="py-2 px-3">Role</th>
+            <th className="py-2 px-3">Permissions</th>
+            <th className="py-2 px-3">Status</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className="divide-y divide-white/5 text-slate-700 dark:text-slate-300">
+          {rolesData.map((user, index) => (
+            <tr
+              key={index}
+              className="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors"
+            >
+              <td className="py-2.5 px-3 font-semibold">{user.name}</td>
+              <td className="py-2.5 px-3 text-slate-450 dark:text-slate-400">
+                {user.email}
+              </td>
+              <td className="py-2.5 px-3">
+                <span
+                  className={`px-2 py-0.5 rounded-md font-bold ${user.roleColor}`}
+                >
+                  {user.role}
+                </span>
+              </td>
+              <td className="py-2.5 px-3 font-medium">{user.permissions}</td>
+              <td className="py-2.5 px-3">
+                <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Active
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   </div>
 );

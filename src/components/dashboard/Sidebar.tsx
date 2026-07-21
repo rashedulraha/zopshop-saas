@@ -182,22 +182,6 @@ const sidebarGroups: SidebarGroup[] = [
           { name: "Permissions", href: "/dashboard/permissions" },
         ],
       },
-      {
-        name: "Settings",
-        icon: Settings,
-        subItems: [
-          { name: "Appearance & Theme", href: "/dashboard/settings/theme" },
-          {
-            name: "Business Information",
-            href: "/dashboard/settings/business",
-          },
-          { name: "Invoice Settings", href: "/dashboard/settings/invoice" },
-          { name: "Tax & VAT", href: "/dashboard/settings/tax" },
-          { name: "Backup", href: "/dashboard/settings/backup" },
-          { name: "Security", href: "/dashboard/settings/security" },
-          { name: "System Settings", href: "/dashboard/settings/system" },
-        ],
-      },
     ],
   },
 ];
