@@ -28,7 +28,6 @@ export function RegisterForm() {
     defaultValues: {
       name: "",
       email: "",
-      phone: "",
       password: "",
       confirmPassword: "",
     },
@@ -155,31 +154,6 @@ export function RegisterForm() {
               </p>
             )}
           </div>
-
-          <div className="space-y-2">
-            <label
-              htmlFor="phone"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground"
-            >
-              Phone Number{" "}
-              <span className="text-muted-foreground font-normal">
-                (optional)
-              </span>
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              {...register("phone")}
-              placeholder="01700000000"
-              className="flex h-12 w-full rounded-lg border border-border bg-background/50 px-4 text-sm shadow-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 hover:bg-background"
-            />
-            {errors.phone && (
-              <p className="text-xs font-medium text-destructive mt-1">
-                {errors.phone.message}
-              </p>
-            )}
-          </div>
-
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
               <label
@@ -255,7 +229,9 @@ export function RegisterForm() {
             disabled={isSubmitting || isLoading}
             className="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow-md hover:bg-primary/90 h-12 px-8 w-full mt-4 active:scale-[0.98]"
           >
-            {isSubmitting || isLoading ? "Creating Account..." : "Create Account"}
+            {isSubmitting || isLoading
+              ? "Creating Account..."
+              : "Create Account"}
           </button>
         </form>
 

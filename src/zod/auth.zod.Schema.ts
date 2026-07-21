@@ -11,13 +11,7 @@ export const registerSchema = z
       .email("Invalid email address.")
       .min(3, "Email must be at least 3 characters long.")
       .max(100, "Email must not exceed 100 characters."),
-    phone: z
-      .string()
-      .min(11, "Phone number must be at least 11 digits.")
-      .max(15, "Phone number must not exceed 15 digits.")
-      .regex(/^\d+$/, "Phone number must contain only digits.")
-      .optional()
-      .or(z.literal("")),
+
     password: z
       .string()
       .min(8, "Password must be at least 8 characters long.")
