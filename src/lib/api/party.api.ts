@@ -98,4 +98,25 @@ export const partyApi = {
   deleteParty: async (id: string): Promise<void> => {
     await api.delete(`/parties/${id}`);
   },
+
+  /**
+   * Gets all parties with due amount.
+   * GET /api/parties/due
+   */
+  getDueParties: async (): Promise<Party[]> => {
+    const { data } = await api.get<{ parties: Party[] }>("/parties/due");
+    return data.parties;
+  },
+
+  /**
+   * Records a payment for a due amount.
+   * POST /api/parties/:id/payment
+   */
+  recordPartyPayment: async (
+    id: string,
+    paymentDetails: { amount: number; paymentMethod?: string; notes?: string }
+  ): Promise<unknown> => {
+    const { data } = await api.post(`/parties/${id}/payment`, paymentDetails);
+    return data;
+  },
 };

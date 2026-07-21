@@ -13,12 +13,6 @@ export const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
-      const token =
-        localStorage.getItem("accessToken") || localStorage.getItem("token");
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-
       // Support multi-tenancy: attach active store ID if available
       const storeId = localStorage.getItem("activeStoreId");
       if (storeId) {
@@ -46,12 +40,17 @@ api.interceptors.response.use(
         );
 
         if (!isAuthPage) {
-          // Clear local tokens
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("token");
-
           // Redirect user to login with redirect parameter
           window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+        }
+      }
+    }
+    if (error.response?.status === 403) {
+      if (typeof window !== "undefined") {
+        const currentPath = window.location.pathname;
+        if (currentPath !== "/onboarding") {
+          localStorage.removeItem("activeStoreId");
+          window.location.href = "/onboarding";
         }
       }
     }
