@@ -13,8 +13,7 @@ export const configAPI = {
 export const categoryAPI = {
   getAll: () => api.get<{ categories: Category[] }>("/categories"),
 
-  getById: (id: string) =>
-    api.get<{ category: Category }>(`/categories/${id}`),
+  getById: (id: string) => api.get<{ category: Category }>(`/categories/${id}`),
 
   create: (data: { name: string }) =>
     api.post<{ category: Category }>("/categories", data),

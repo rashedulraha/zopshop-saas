@@ -33,16 +33,20 @@ export const useAuthStore = create<AuthState>()(
       login: async (email, password) => {
         set({ isLoading: true, error: null });
         try {
-          const { data, error } = await authClient.signIn.email({ email, password });
+          const { data, error } = await authClient.signIn.email({
+            email,
+            password,
+          });
 
           if (error) {
-            const errMsg = error.message || "Login failed. Please check your credentials.";
+            const errMsg =
+              error.message || "Login failed. Please check your credentials.";
             set({ isLoading: false, error: errMsg });
             throw new Error(errMsg);
           }
 
           set({
-            user: data?.user as unknown as User || null,
+            user: (data?.user as unknown as User) || null,
             isAuthenticated: true,
             isLoading: false,
           });
@@ -59,10 +63,15 @@ export const useAuthStore = create<AuthState>()(
       register: async (name, email, password) => {
         set({ isLoading: true, error: null });
         try {
-          const { data, error } = await authClient.signUp.email({ name, email, password });
+          const { data, error } = await authClient.signUp.email({
+            name,
+            email,
+            password,
+          });
 
           if (error) {
-            const errMsg = error.message || "Registration failed. Please try again.";
+            const errMsg =
+              error.message || "Registration failed. Please try again.";
             set({ isLoading: false, error: errMsg });
             throw new Error(errMsg);
           }
@@ -84,7 +93,10 @@ export const useAuthStore = create<AuthState>()(
         try {
           await authClient.signOut();
         } catch (err) {
-          console.error("Logout API call failed, proceeding with local logout", err);
+          console.error(
+            "Logout API call failed, proceeding with local logout",
+            err,
+          );
         } finally {
           set({
             user: null,
