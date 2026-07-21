@@ -14,35 +14,7 @@ interface CashRecord {
   balance: number;
 }
 
-const initialCashBook: CashRecord[] = [
-  {
-    id: "TXN-001",
-    date: "13 Oct 2026",
-    type: "Debit",
-    reference: "INV-1001",
-    description: "Customer invoice checkout payment",
-    amount: 299,
-    balance: 4500,
-  },
-  {
-    id: "TXN-002",
-    date: "12 Oct 2026",
-    type: "Credit",
-    reference: "PAY-1100",
-    description: "Paid outstanding to Jane Smith",
-    amount: 3800,
-    balance: 4201,
-  },
-  {
-    id: "TXN-003",
-    date: "11 Oct 2026",
-    type: "Debit",
-    reference: "INC-809",
-    description: "Rental deposit refund from sub-agent",
-    amount: 1500,
-    balance: 8001,
-  },
-];
+const initialCashBook: CashRecord[] = [];
 
 export default function CashBookPage() {
   const [records] = useState<CashRecord[]>(initialCashBook);

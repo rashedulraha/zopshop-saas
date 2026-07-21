@@ -21,35 +21,7 @@ interface BankAccount {
   status: "Active" | "Inactive";
 }
 
-const initialAccounts: BankAccount[] = [
-  {
-    id: "ACC-01",
-    accountName: "ZopShop Operating Account",
-    accountNumber: "122-333-44555",
-    bankName: "Brac Bank Ltd",
-    branch: "Banani Branch",
-    balance: 25000,
-    status: "Active",
-  },
-  {
-    id: "ACC-02",
-    accountName: "Corporate Backup Savings",
-    accountNumber: "009-887-11223",
-    bankName: "City Bank PLC",
-    branch: "Gulshan Branch",
-    balance: 50000,
-    status: "Active",
-  },
-  {
-    id: "ACC-03",
-    accountName: "Employee Petty Cash Fund",
-    accountNumber: "445-112-99081",
-    bankName: "Dutch-Bangla Bank",
-    branch: "Uttara Branch",
-    balance: 500,
-    status: "Inactive",
-  },
-];
+const initialAccounts: BankAccount[] = [];
 
 export default function BankAccountsPage() {
   const [accounts, setAccounts] = useState<BankAccount[]>(initialAccounts);

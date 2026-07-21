@@ -14,11 +14,7 @@ interface IncomeRecord {
   description: string;
 }
 
-const initialIncome: IncomeRecord[] = [
-  { id: "INC-01", date: "12 Oct 2026", source: "Asset Sale", category: "Salvage Disposal", amount: 1500, paymentMethod: "Bank Transfer", description: "Disposed old inventory racks" },
-  { id: "INC-02", date: "10 Oct 2026", source: "Sub-lease Rent", category: "Rental Income", amount: 800, paymentMethod: "Cash", description: "Sub-lease floor rent" },
-  { id: "INC-03", date: "05 Oct 2026", source: "Delivery Service Fee", category: "Logistics Profit", amount: 250, paymentMethod: "Bkash", description: "Outstation delivery charges" }
-];
+const initialIncome: IncomeRecord[] = [];
 
 export default function IncomePage() {
   const [incomes, setIncomes] = useState<IncomeRecord[]>(initialIncome);

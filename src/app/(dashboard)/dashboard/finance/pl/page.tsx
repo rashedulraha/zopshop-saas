@@ -11,14 +11,7 @@ interface Transaction {
   amount: number;
 }
 
-const mockTransactions: Transaction[] = [
-  { id: "T-01", category: "Retail Sales", type: "Revenue", amount: 4500 },
-  { id: "T-02", category: "Other Income (Rent)", type: "Revenue", amount: 250 },
-  { id: "T-03", category: "Staff Salaries", type: "Expense", amount: 1200 },
-  { id: "T-04", category: "Marketing & Facebook Ads", type: "Expense", amount: 500 },
-  { id: "T-05", category: "Utilities (Electricity)", type: "Expense", amount: 120 },
-  { id: "T-06", category: "Office Rent", type: "Expense", amount: 800 }
-];
+const mockTransactions: Transaction[] = [];
 
 export default function ProfitLossPage() {
   const [txns] = useState<Transaction[]>(mockTransactions);
