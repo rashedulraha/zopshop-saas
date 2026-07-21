@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Product, Category } from "@/types";
 import { useRouter } from "next/navigation";
-import { categoryApi } from "@/lib/api/category.api";
+import { useCategoryStore } from "@/store/category.store";
 import { Loader2 } from "lucide-react";
 
 const productSchema = z.object({
@@ -31,26 +31,22 @@ interface ProductFormProps {
   isLoading?: boolean;
 }
 
-export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormProps) {
+export function ProductForm({
+  initialData,
+  onSubmit,
+  isLoading,
+}: ProductFormProps) {
   const router = useRouter();
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [isCategoriesLoading, setIsCategoriesLoading] = useState(true);
+  const {
+    categories,
+    isLoading: isCategoriesLoading,
+    fetchCategories,
+  } = useCategoryStore();
 
   // Load categories for the dropdown on mount
   useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        const data = await categoryApi.getCategories();
-        setCategories(data);
-      } catch {
-        // Non-critical: category dropdown will just be empty
-        setCategories([]);
-      } finally {
-        setIsCategoriesLoading(false);
-      }
-    };
-    loadCategories();
-  }, []);
+    fetchCategories().catch(console.error);
+  }, [fetchCategories]);
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
@@ -78,7 +74,9 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
             {...form.register("name")}
           />
           {form.formState.errors.name && (
-            <p className="text-sm text-red-500">{form.formState.errors.name.message}</p>
+            <p className="text-sm text-red-500">
+              {form.formState.errors.name.message}
+            </p>
           )}
         </div>
 
@@ -91,7 +89,9 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
             {...form.register("unit")}
           />
           {form.formState.errors.unit && (
-            <p className="text-sm text-red-500">{form.formState.errors.unit.message}</p>
+            <p className="text-sm text-red-500">
+              {form.formState.errors.unit.message}
+            </p>
           )}
         </div>
 
@@ -118,7 +118,9 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
             </select>
           )}
           {form.formState.errors.categoryId && (
-            <p className="text-sm text-red-500">{form.formState.errors.categoryId.message}</p>
+            <p className="text-sm text-red-500">
+              {form.formState.errors.categoryId.message}
+            </p>
           )}
         </div>
 
@@ -133,7 +135,9 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
             {...form.register("price", { valueAsNumber: true })}
           />
           {form.formState.errors.price && (
-            <p className="text-sm text-red-500">{form.formState.errors.price.message}</p>
+            <p className="text-sm text-red-500">
+              {form.formState.errors.price.message}
+            </p>
           )}
         </div>
 
@@ -148,7 +152,9 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
             {...form.register("purchasePrice", { valueAsNumber: true })}
           />
           {form.formState.errors.purchasePrice && (
-            <p className="text-sm text-red-500">{form.formState.errors.purchasePrice.message}</p>
+            <p className="text-sm text-red-500">
+              {form.formState.errors.purchasePrice.message}
+            </p>
           )}
         </div>
 
@@ -162,7 +168,9 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
             {...form.register("stock", { valueAsNumber: true })}
           />
           {form.formState.errors.stock && (
-            <p className="text-sm text-red-500">{form.formState.errors.stock.message}</p>
+            <p className="text-sm text-red-500">
+              {form.formState.errors.stock.message}
+            </p>
           )}
         </div>
 
@@ -175,7 +183,9 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
             {...form.register("sku")}
           />
           {form.formState.errors.sku && (
-            <p className="text-sm text-red-500">{form.formState.errors.sku.message}</p>
+            <p className="text-sm text-red-500">
+              {form.formState.errors.sku.message}
+            </p>
           )}
         </div>
 
@@ -188,7 +198,9 @@ export function ProductForm({ initialData, onSubmit, isLoading }: ProductFormPro
             {...form.register("barcode")}
           />
           {form.formState.errors.barcode && (
-            <p className="text-sm text-red-500">{form.formState.errors.barcode.message}</p>
+            <p className="text-sm text-red-500">
+              {form.formState.errors.barcode.message}
+            </p>
           )}
         </div>
       </div>

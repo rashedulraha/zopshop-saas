@@ -68,7 +68,8 @@ export function Footer() {
               className="inline-flex items-center gap-2 no-underline group"
             >
               <span className="font-bold text-lg tracking-tight text-slate-900 dark:text-white">
-                Zop<span className="text-blue-600 dark:text-blue-400">Shop</span>
+                Zop
+                <span className="text-blue-600 dark:text-blue-400">Shop</span>
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">

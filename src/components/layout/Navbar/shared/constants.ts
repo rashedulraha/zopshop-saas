@@ -9,4 +9,4 @@ export const NAV_LINKS = [
   { name: "Contact", href: "#contact", icon: Mail },
 ];
 
-export type NavLink = typeof NAV_LINKS[0];
+export type NavLink = (typeof NAV_LINKS)[0];
