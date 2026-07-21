@@ -26,9 +26,15 @@ interface PartyState {
   fetchParties: (params?: Partial<PartyFilters>) => Promise<void>;
   fetchPartyById: (id: string) => Promise<void>;
   fetchPartyBalance: (id: string) => Promise<void>;
-  fetchPartyTransactions: (id: string, params?: PartyTransactionsParams) => Promise<void>;
+  fetchPartyTransactions: (
+    id: string,
+    params?: PartyTransactionsParams,
+  ) => Promise<void>;
   createParty: (data: CreatePartyPayload) => Promise<Party>;
-  updateParty: (id: string, data: Partial<CreatePartyPayload>) => Promise<Party>;
+  updateParty: (
+    id: string,
+    data: Partial<CreatePartyPayload>,
+  ) => Promise<Party>;
   deleteParty: (id: string) => Promise<void>;
   setFilters: (filters: Partial<PartyFilters>) => void;
   reset: () => void;
@@ -154,7 +160,7 @@ export const usePartyStore = create<PartyState>((set, get) => ({
       set({ isLoading: false });
       // Refresh active list using current filter state parameters
       await get().fetchParties();
-      
+
       // If we are currently viewing this party, update details in store state
       if (get().currentParty?.id === id) {
         set({ currentParty: updatedParty });
@@ -179,7 +185,11 @@ export const usePartyStore = create<PartyState>((set, get) => ({
 
       // Clear current details if the viewed party was deleted
       if (get().currentParty?.id === id) {
-        set({ currentParty: null, currentBalance: null, partyTransactions: [] });
+        set({
+          currentParty: null,
+          currentBalance: null,
+          partyTransactions: [],
+        });
       }
     } catch (error) {
       set({ isLoading: false });

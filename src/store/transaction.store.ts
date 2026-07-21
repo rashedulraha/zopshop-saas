@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { Transaction, CreateTransactionPayload, DailySummary } from "@/types";
-import { transactionApi, TransactionListParams } from "@/lib/api/transaction.api";
+import {
+  transactionApi,
+  TransactionListParams,
+} from "@/lib/api/transaction.api";
 
 interface TransactionFiltersState {
   type: string | null;
@@ -26,7 +29,10 @@ interface TransactionState {
   fetchTransactionById: (id: string) => Promise<void>;
   fetchDailySummary: (date?: string) => Promise<void>;
   createTransaction: (data: CreateTransactionPayload) => Promise<Transaction>;
-  updateTransaction: (id: string, data: Partial<CreateTransactionPayload>) => Promise<Transaction>;
+  updateTransaction: (
+    id: string,
+    data: Partial<CreateTransactionPayload>,
+  ) => Promise<Transaction>;
   deleteTransaction: (id: string) => Promise<void>;
   setFilters: (filters: Partial<TransactionFiltersState>) => void;
   reset: () => void;
@@ -66,10 +72,14 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
     const limit = params?.limit !== undefined ? params.limit : state.limit;
 
     // Resolve filter state variables
-    const filterType = params?.type !== undefined ? params.type : state.filters.type;
-    const filterMode = params?.mode !== undefined ? params.mode : state.filters.mode;
-    const filterPartyId = params?.partyId !== undefined ? params.partyId : state.filters.partyId;
-    const filterFrom = params?.from !== undefined ? params.from : state.filters.from;
+    const filterType =
+      params?.type !== undefined ? params.type : state.filters.type;
+    const filterMode =
+      params?.mode !== undefined ? params.mode : state.filters.mode;
+    const filterPartyId =
+      params?.partyId !== undefined ? params.partyId : state.filters.partyId;
+    const filterFrom =
+      params?.from !== undefined ? params.from : state.filters.from;
     const filterTo = params?.to !== undefined ? params.to : state.filters.to;
 
     try {
@@ -139,10 +149,10 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
     try {
       const newTx = await transactionApi.createTransaction(data);
       set({ isLoading: false });
-      
+
       // Auto refresh list
       await get().fetchTransactions();
-      
+
       // If a daily summary was loaded, refresh it too
       if (get().dailySummary) {
         await get().fetchDailySummary();
@@ -162,15 +172,15 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
     try {
       const updatedTx = await transactionApi.updateTransaction(id, data);
       set({ isLoading: false });
-      
+
       // Auto refresh list
       await get().fetchTransactions();
-      
+
       // If we are currently viewing this transaction details, update store state
       if (get().currentTransaction?.id === id) {
         set({ currentTransaction: updatedTx });
       }
-      
+
       // Refresh daily summary
       if (get().dailySummary) {
         await get().fetchDailySummary();
@@ -190,7 +200,7 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
     try {
       await transactionApi.deleteTransaction(id);
       set({ isLoading: false });
-      
+
       // Auto refresh list
       await get().fetchTransactions();
 
@@ -198,7 +208,7 @@ export const useTransactionStore = create<TransactionState>((set, get) => ({
       if (get().currentTransaction?.id === id) {
         set({ currentTransaction: null });
       }
-      
+
       // Refresh daily summary
       if (get().dailySummary) {
         await get().fetchDailySummary();
