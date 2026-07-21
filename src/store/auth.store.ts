@@ -120,10 +120,17 @@ export const useAuthStore = create<AuthState>()(
               isCheckingAuth: false,
             });
           } else {
+            // Session not found — clear auth state
             set({ user: null, isAuthenticated: false, isCheckingAuth: false });
           }
         } catch (err) {
-          set({ user: null, isAuthenticated: false, isCheckingAuth: false });
+          // Network error or server down — keep persisted state to avoid logout flash
+          // but mark checking as done
+          set((state) => ({
+            isCheckingAuth: false,
+            // Only clear if we had no persisted user (first load)
+            ...(state.user ? {} : { isAuthenticated: false }),
+          }));
         }
       },
 

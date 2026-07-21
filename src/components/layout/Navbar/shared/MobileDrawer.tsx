@@ -11,6 +11,7 @@ interface MobileDrawerProps {
   onClose: () => void;
   activeSection: string;
   isLoggedIn: boolean;
+  userRole?: string;
   hideDashboardLink?: boolean;
 }
 
@@ -19,6 +20,7 @@ export function MobileDrawer({
   onClose,
   activeSection,
   isLoggedIn,
+  userRole,
   hideDashboardLink,
 }: MobileDrawerProps) {
   const containerVariants = {
@@ -162,6 +164,7 @@ export function MobileDrawer({
             <div className="relative p-4 border-t border-border bg-muted/30 flex flex-col gap-3">
               <UserActions
                 isLoggedIn={isLoggedIn}
+                userRole={userRole}
                 hideDashboardLink={hideDashboardLink}
                 onClose={onClose}
               />

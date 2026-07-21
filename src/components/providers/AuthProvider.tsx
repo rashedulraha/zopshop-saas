@@ -24,14 +24,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!isMounted) return;
-    
+
+    const { user } = useAuthStore.getState();
+
+    // Super admin never needs a store — skip all store-based redirects
+    const isSuperAdmin = user?.role === "SUPERADMIN";
+    if (isSuperAdmin) return;
+
     const hasStore = !!localStorage.getItem("activeStoreId");
-    
+
     // If accessing dashboard without a store
     if (pathname.startsWith("/dashboard") && !hasStore) {
       router.replace("/onboarding");
     }
-    
+
     // If accessing onboarding but already has a store
     if (pathname === "/onboarding" && hasStore) {
       router.replace("/dashboard");

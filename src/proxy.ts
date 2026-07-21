@@ -27,7 +27,10 @@ export async function proxy(request: NextRequest) {
 
   // User is already logged in
   if (session && isAuthPage) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    const isSuperAdmin = (session.user as any)?.role === "SUPERADMIN";
+    return NextResponse.redirect(
+      new URL(isSuperAdmin ? "/superadmin" : "/dashboard", request.url)
+    );
   }
 
   return NextResponse.next();

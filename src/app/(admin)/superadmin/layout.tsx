@@ -11,21 +11,32 @@ export default function SuperadminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, isAuthenticated, isLoading } = useAuthStore();
+  const { user, isAuthenticated, isLoading, isCheckingAuth } = useAuthStore();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading) {
-      if (!isAuthenticated) {
-        router.push("/login");
-      } else if (user?.role !== "SUPERADMIN") {
-        router.push("/dashboard");
-      }
-    }
-  }, [isAuthenticated, isLoading, user, router]);
+    // Wait until both loading states are done before making redirect decisions
+    if (isLoading || isCheckingAuth) return;
 
-  if (isLoading || !isAuthenticated || user?.role !== "SUPERADMIN") {
-    return <div className="h-screen w-full flex items-center justify-center bg-background"><div className="w-8 h-8 border-4 border-rose-500 border-t-transparent rounded-full animate-spin"></div></div>;
+    if (!isAuthenticated) {
+      router.push("/login");
+    } else if (user?.role !== "SUPERADMIN") {
+      router.push("/dashboard");
+    }
+  }, [isAuthenticated, isLoading, isCheckingAuth, user, router]);
+
+  // Show spinner while session is being verified
+  if (
+    isLoading ||
+    isCheckingAuth ||
+    !isAuthenticated ||
+    user?.role !== "SUPERADMIN"
+  ) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center bg-background">
+        <div className="w-8 h-8 border-4 border-rose-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
   }
 
   return (

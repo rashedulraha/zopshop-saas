@@ -48,7 +48,9 @@ api.interceptors.response.use(
     if (error.response?.status === 403) {
       if (typeof window !== "undefined") {
         const currentPath = window.location.pathname;
-        if (currentPath !== "/onboarding") {
+        // Don't redirect superadmin routes — their 403 means something else
+        const isSuperAdminRoute = currentPath.startsWith("/superadmin");
+        if (currentPath !== "/onboarding" && !isSuperAdminRoute) {
           localStorage.removeItem("activeStoreId");
           window.location.href = "/onboarding";
         }

@@ -22,6 +22,7 @@ export function Navbar({
 }: { hideDashboardLink?: boolean } = {}) {
   const { data: session } = authClient.useSession();
   const isLoggedIn = !!session;
+  const userRole = session?.user?.role as string | undefined;
 
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -153,6 +154,7 @@ export function Navbar({
                     <ThemeToggle />
                     <UserActions
                       isLoggedIn={isLoggedIn}
+                      userRole={userRole}
                       hideDashboardLink={hideDashboardLink}
                       onClose={() => setIsOpen(false)}
                     />
@@ -174,6 +176,7 @@ export function Navbar({
         onClose={() => setIsOpen(false)}
         activeSection={activeSection}
         isLoggedIn={isLoggedIn}
+        userRole={userRole}
         hideDashboardLink={hideDashboardLink}
       />
     </>
