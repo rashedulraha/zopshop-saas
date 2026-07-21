@@ -9,20 +9,27 @@ export const api = axios.create({
   timeout: 15000,
 });
 
-// Request Interceptor: Attach bearer token to outgoing requests if available
+// Request Interceptor: Attach bearer token and store ID to outgoing requests if available
 api.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("accessToken") || localStorage.getItem("token");
+      const token =
+        localStorage.getItem("accessToken") || localStorage.getItem("token");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
+      }
+
+      // Support multi-tenancy: attach active store ID if available
+      const storeId = localStorage.getItem("activeStoreId");
+      if (storeId) {
+        config.headers["x-store-id"] = storeId;
       }
     }
     return config;
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response Interceptor: Handle global errors (e.g., redirect to login on 401)
@@ -34,8 +41,8 @@ api.interceptors.response.use(
         const currentPath = window.location.pathname;
 
         // Prevent infinite redirect loops if the user is already on auth pages
-        const isAuthPage = ["/login", "/register", "/forgot-password"].some((path) =>
-          currentPath.startsWith(path)
+        const isAuthPage = ["/login", "/register", "/forgot-password"].some(
+          (path) => currentPath.startsWith(path),
         );
 
         if (!isAuthPage) {
@@ -49,5 +56,5 @@ api.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
