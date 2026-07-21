@@ -38,7 +38,52 @@ interface Customer {
   ledger: LedgerEntry[];
 }
 
-const mockCustomers: Customer[] = [];
+const mockCustomers: Customer[] = [
+  {
+    id: "cust-1",
+    name: "Rahim Islam",
+    phone: "+880 1712-345678",
+    address: "Mirpur 10, Dhaka",
+    previousDue: 1500,
+    currentDue: 3500,
+    totalPurchases: 25000,
+    ledger: [
+      { id: "l-101", date: "2026-07-01", type: "Opening Balance", reference: "OB-001", debit: 1500, credit: 0, balance: 1500 },
+      { id: "l-102", date: "2026-07-05", type: "Sale", reference: "INV-2026-001", debit: 5000, credit: 0, balance: 6500 },
+      { id: "l-103", date: "2026-07-10", type: "Payment", reference: "PAY-901", debit: 0, credit: 4000, balance: 2500 },
+      { id: "l-104", date: "2026-07-18", type: "Sale", reference: "INV-2026-015", debit: 2000, credit: 0, balance: 4500 },
+      { id: "l-105", date: "2026-07-20", type: "Payment", reference: "PAY-935", debit: 0, credit: 1000, balance: 3500 },
+    ]
+  },
+  {
+    id: "cust-2",
+    name: "Sadia Rahman",
+    phone: "+880 1819-876543",
+    address: "Gulshan 2, Dhaka",
+    previousDue: 0,
+    currentDue: 0,
+    totalPurchases: 18000,
+    ledger: [
+      { id: "l-201", date: "2026-07-03", type: "Sale", reference: "INV-2026-003", debit: 8000, credit: 8000, balance: 0 },
+      { id: "l-202", date: "2026-07-12", type: "Sale", reference: "INV-2026-009", debit: 10000, credit: 10000, balance: 0 },
+    ]
+  },
+  {
+    id: "cust-3",
+    name: "Karim Uddin",
+    phone: "+880 1911-112233",
+    address: "Agrabad, Chittagong",
+    previousDue: 5000,
+    currentDue: 12000,
+    totalPurchases: 32000,
+    ledger: [
+      { id: "l-301", date: "2026-07-01", type: "Opening Balance", reference: "OB-002", debit: 5000, credit: 0, balance: 5000 },
+      { id: "l-302", date: "2026-07-08", type: "Sale", reference: "INV-2026-005", debit: 12000, credit: 0, balance: 17000 },
+      { id: "l-303", date: "2026-07-15", type: "Payment", reference: "PAY-912", debit: 0, credit: 10000, balance: 7000 },
+      { id: "l-304", date: "2026-07-21", type: "Sale", reference: "INV-2026-022", debit: 5000, credit: 0, balance: 12000 },
+    ]
+  }
+];
 
 export default function CustomerLedgerPage() {
   const [customers] = useState<Customer[]>(mockCustomers);

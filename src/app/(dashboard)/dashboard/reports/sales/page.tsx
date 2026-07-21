@@ -26,7 +26,12 @@ interface ReportRow {
   paymentMethod: string;
 }
 
-const mockReportData: ReportRow[] = [];
+const mockReportData: ReportRow[] = [
+  { invoice: "INV-2026-001", date: "2026-07-05", customer: "Rahim Islam", itemsCount: 3, subtotal: 5000, discount: 0, vat: 250, total: 5250, paymentMethod: "Cash" },
+  { invoice: "INV-2026-002", date: "2026-07-06", customer: "Cash Customer", itemsCount: 1, subtotal: 1200, discount: 100, vat: 55, total: 1155, paymentMethod: "Card" },
+  { invoice: "INV-2026-003", date: "2026-07-08", customer: "Karim Uddin", itemsCount: 5, subtotal: 12000, discount: 500, vat: 575, total: 12075, paymentMethod: "Mobile Banking" },
+  { invoice: "INV-2026-004", date: "2026-07-12", customer: "Sadia Rahman", itemsCount: 2, subtotal: 8000, discount: 0, vat: 400, total: 8400, paymentMethod: "Cash" },
+];
 
 export default function SalesReportPage() {
   const [dateFilter, setDateFilter] = useState("This Month");
@@ -41,17 +46,19 @@ export default function SalesReportPage() {
     fetchTransactions({ type: "sale", limit: 50 });
   }, [fetchTransactions]);
 
-  const reportData: ReportRow[] = transactions.map((t) => ({
-    invoice: t.invoiceNo || "N/A",
-    date: new Date(t.createdAt || Date.now()).toLocaleDateString(),
-    customer: t.party?.name || "Cash Customer",
-    itemsCount: t.items?.length || 0,
-    subtotal: t.amount,
-    discount: t.discount || 0,
-    vat: 0,
-    total: t.amount,
-    paymentMethod: t.mode || "Cash",
-  }));
+  const reportData: ReportRow[] = transactions.length > 0
+    ? transactions.map((t) => ({
+        invoice: t.invoiceNo || "N/A",
+        date: new Date(t.createdAt || Date.now()).toLocaleDateString(),
+        customer: t.party?.name || "Cash Customer",
+        itemsCount: t.items?.length || 0,
+        subtotal: t.amount,
+        discount: t.discount || 0,
+        vat: 0,
+        total: t.amount,
+        paymentMethod: t.mode || "Cash",
+      }))
+    : mockReportData;
 
   const triggerExport = (format: string) => {
     setIsExporting(format);

@@ -1,7 +1,19 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, ShoppingCart, Trash2, Plus, Minus, DollarSign, CheckCircle, Tag, Layers, X, CreditCard } from "lucide-react";
+import {
+  Search,
+  ShoppingCart,
+  Trash2,
+  Plus,
+  Minus,
+  DollarSign,
+  CheckCircle,
+  Tag,
+  Layers,
+  X,
+  CreditCard,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Product {
@@ -17,7 +29,48 @@ interface CartItem extends Product {
   quantity: number;
 }
 
-const mockProducts: Product[] = [];
+const mockProducts: Product[] = [
+  {
+    id: "prod-1",
+    name: "Cement Bag (Lafarge)",
+    code: "CEM-001",
+    price: 520,
+    stock: 120,
+    category: "Construction",
+  },
+  {
+    id: "prod-2",
+    name: "Steel Rod 12mm (AKS)",
+    code: "STL-012",
+    price: 920,
+    stock: 85,
+    category: "Steel",
+  },
+  {
+    id: "prod-3",
+    name: "Paint Can White 5L",
+    code: "PNT-005",
+    price: 1850,
+    stock: 30,
+    category: "Paints",
+  },
+  {
+    id: "prod-4",
+    name: "PVC Pipe 4 inch",
+    code: "PIP-004",
+    price: 420,
+    stock: 200,
+    category: "Plumbing",
+  },
+  {
+    id: "prod-5",
+    name: "Bricks (Grade A)",
+    code: "BRK-001",
+    price: 12,
+    stock: 5000,
+    category: "Construction",
+  },
+];
 
 import { useProductStore } from "@/store/product.store";
 import { useEffect } from "react";
@@ -29,19 +82,22 @@ export default function POSBillingPage() {
     fetchProducts();
   }, [fetchProducts]);
 
-  const products: Product[] = storeProducts.map((p: any) => ({
-    id: p.id || p._id,
-    name: p.name,
-    code: p.sku || "",
-    price: p.price,
-    stock: p.stock || p.stockQuantity || 0,
-    category: p.category?.name || "Uncategorized"
-  }));
+  const products: Product[] =
+    storeProducts.length > 0
+      ? storeProducts.map((p: any) => ({
+          id: p.id || p._id,
+          name: p.name,
+          code: p.sku || "",
+          price: p.price,
+          stock: p.stock || p.stockQuantity || 0,
+          category: p.category?.name || "Uncategorized",
+        }))
+      : mockProducts;
   const [cart, setCart] = useState<CartItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [discount, setDiscount] = useState("0");
   const [selectedCustomer, setSelectedCustomer] = useState("Walk-in Customer");
-  
+
   // Pay Modal State
   const [isPayOpen, setIsPayOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Cash");
@@ -55,7 +111,13 @@ export default function POSBillingPage() {
         alert("Cannot add more! Stock limit reached.");
         return;
       }
-      setCart(cart.map((item) => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item));
+      setCart(
+        cart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        ),
+      );
     } else {
       setCart([...cart, { ...product, quantity: 1 }]);
     }
@@ -71,7 +133,9 @@ export default function POSBillingPage() {
       alert("Cannot exceed stock limits!");
       return;
     }
-    setCart(cart.map((item) => item.id === id ? { ...item, quantity: qty } : item));
+    setCart(
+      cart.map((item) => (item.id === id ? { ...item, quantity: qty } : item)),
+    );
   };
 
   const removeFromCart = (id: string) => {
@@ -80,7 +144,10 @@ export default function POSBillingPage() {
 
   // Cart pricing totals
   const totals = useMemo(() => {
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const subtotal = cart.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0,
+    );
     const discVal = parseFloat(discount) || 0;
     const vatVal = subtotal * 0.15; // 15% VAT
     const netTotal = Math.max(0, subtotal - discVal + vatVal);
@@ -94,12 +161,16 @@ export default function POSBillingPage() {
 
     const received = parseFloat(receivedAmount) || 0;
     if (received < totals.netTotal) {
-      alert(`Paid amount cannot be less than Net Payable: $${totals.netTotal.toFixed(2)}`);
+      alert(
+        `Paid amount cannot be less than Net Payable: $${totals.netTotal.toFixed(2)}`,
+      );
       return;
     }
 
     setIsPayOpen(false);
-    showNotification(`Invoice successfully generated! Change return: $${(received - totals.netTotal).toFixed(2)}`);
+    showNotification(
+      `Invoice successfully generated! Change return: $${(received - totals.netTotal).toFixed(2)}`,
+    );
     setCart([]);
     setDiscount("0");
     setReceivedAmount("");
@@ -111,9 +182,10 @@ export default function POSBillingPage() {
   };
 
   const filteredProducts = useMemo(() => {
-    return products.filter((p) =>
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.code.toLowerCase().includes(searchQuery.toLowerCase())
+    return products.filter(
+      (p) =>
+        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.code.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }, [products, searchQuery]);
 
@@ -122,8 +194,13 @@ export default function POSBillingPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
-          <h1 className="text-3xl font-semibold text-foreground tracking-tight">POS Terminal</h1>
-          <p className="text-muted-foreground mt-1 text-sm">Real-time checkout terminal, billing sheets, and retail checkout payments</p>
+          <h1 className="text-3xl font-semibold text-foreground tracking-tight">
+            POS Terminal
+          </h1>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Real-time checkout terminal, billing sheets, and retail checkout
+            payments
+          </p>
         </div>
       </div>
 
@@ -136,7 +213,6 @@ export default function POSBillingPage() {
 
       {/* POS Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        
         {/* Left Column: Product Selection Grid */}
         <div className="lg:col-span-7 flex flex-col gap-4">
           <div className="relative w-full">
@@ -159,21 +235,32 @@ export default function POSBillingPage() {
                 disabled={p.stock <= 0}
                 className={cn(
                   "flex flex-col items-start text-left p-4 bg-card border border-border rounded-md hover:border-primary/50 transition-all shadow-sm group",
-                  p.stock <= 0 && "opacity-50 cursor-not-allowed hover:border-border"
+                  p.stock <= 0 &&
+                    "opacity-50 cursor-not-allowed hover:border-border",
                 )}
               >
                 <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs uppercase mb-3 shrink-0">
                   {p.name.charAt(0)}
                 </div>
-                <span className="font-semibold text-foreground text-xs leading-tight line-clamp-2 min-h-[32px]">{p.name}</span>
-                <span className="text-[10px] text-muted-foreground mt-1 font-mono">{p.code}</span>
-                
+                <span className="font-semibold text-foreground text-xs leading-tight line-clamp-2 min-h-[32px]">
+                  {p.name}
+                </span>
+                <span className="text-[10px] text-muted-foreground mt-1 font-mono">
+                  {p.code}
+                </span>
+
                 <div className="flex items-center justify-between w-full mt-3 pt-3 border-t border-border/50">
-                  <span className="text-xs font-bold text-foreground font-mono">${p.price}</span>
-                  <span className={cn(
-                    "text-[10px] font-semibold px-1.5 py-0.5 rounded",
-                    p.stock <= 5 ? "bg-rose-500/10 text-rose-600" : "bg-emerald-500/10 text-emerald-600"
-                  )}>
+                  <span className="text-xs font-bold text-foreground font-mono">
+                    ${p.price}
+                  </span>
+                  <span
+                    className={cn(
+                      "text-[10px] font-semibold px-1.5 py-0.5 rounded",
+                      p.stock <= 5
+                        ? "bg-rose-500/10 text-rose-600"
+                        : "bg-emerald-500/10 text-emerald-600",
+                    )}
+                  >
                     {p.stock} units
                   </span>
                 </div>
@@ -189,13 +276,17 @@ export default function POSBillingPage() {
               <ShoppingCart className="w-4 h-4 text-primary" />
               <span>Checkout Cart</span>
             </h2>
-            <span className="text-xs text-muted-foreground font-semibold font-mono">{cart.length} items</span>
+            <span className="text-xs text-muted-foreground font-semibold font-mono">
+              {cart.length} items
+            </span>
           </div>
 
           {/* Customer select & parameters */}
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-1">
-              <span className="text-[9px] font-bold text-muted-foreground uppercase">Customer profile</span>
+              <span className="text-[9px] font-bold text-muted-foreground uppercase">
+                Customer profile
+              </span>
               <select
                 value={selectedCustomer}
                 onChange={(e) => setSelectedCustomer(e.target.value)}
@@ -208,7 +299,9 @@ export default function POSBillingPage() {
               </select>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-[9px] font-bold text-muted-foreground uppercase">Discount Value ($)</span>
+              <span className="text-[9px] font-bold text-muted-foreground uppercase">
+                Discount Value ($)
+              </span>
               <input
                 type="number"
                 value={discount}
@@ -222,10 +315,17 @@ export default function POSBillingPage() {
           {/* Cart list table items */}
           <div className="flex flex-col gap-2 max-h-[220px] overflow-y-auto custom-scrollbar border border-border/50 rounded-md p-2 bg-muted/10">
             {cart.map((item) => (
-              <div key={item.id} className="flex items-center justify-between bg-card border border-border p-2 rounded-md gap-3 shadow-xs">
+              <div
+                key={item.id}
+                className="flex items-center justify-between bg-card border border-border p-2 rounded-md gap-3 shadow-xs"
+              >
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs font-semibold text-foreground truncate">{item.name}</div>
-                  <div className="text-[10px] text-muted-foreground mt-0.5 font-mono">${item.price} • Stock: {item.stock}</div>
+                  <div className="text-xs font-semibold text-foreground truncate">
+                    {item.name}
+                  </div>
+                  <div className="text-[10px] text-muted-foreground mt-0.5 font-mono">
+                    ${item.price} • Stock: {item.stock}
+                  </div>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
                   <button
@@ -234,7 +334,9 @@ export default function POSBillingPage() {
                   >
                     <Minus className="w-3 h-3" />
                   </button>
-                  <span className="text-xs font-bold text-foreground font-mono w-5 text-center">{item.quantity}</span>
+                  <span className="text-xs font-bold text-foreground font-mono w-5 text-center">
+                    {item.quantity}
+                  </span>
                   <button
                     onClick={() => updateQty(item.id, item.quantity + 1)}
                     className="p-1 rounded bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-colors"
@@ -251,7 +353,9 @@ export default function POSBillingPage() {
               </div>
             ))}
             {cart.length === 0 && (
-              <span className="text-xs text-muted-foreground text-center py-8">Select products to begin checkout billing</span>
+              <span className="text-xs text-muted-foreground text-center py-8">
+                Select products to begin checkout billing
+              </span>
             )}
           </div>
 
@@ -293,23 +397,35 @@ export default function POSBillingPage() {
       {/* Pay Modal Dialog */}
       {isPayOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setIsPayOpen(false)} />
+          <div
+            className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+            onClick={() => setIsPayOpen(false)}
+          />
           <div className="relative border border-border bg-card rounded-md max-w-md w-full p-6 shadow-2xl z-10">
             <div className="flex items-center justify-between border-b border-border pb-4 mb-5">
-              <h3 className="text-base font-semibold text-foreground">Receive Retail Cash</h3>
-              <button onClick={() => setIsPayOpen(false)} className="text-muted-foreground hover:text-foreground">
+              <h3 className="text-base font-semibold text-foreground">
+                Receive Retail Cash
+              </h3>
+              <button
+                onClick={() => setIsPayOpen(false)}
+                className="text-muted-foreground hover:text-foreground"
+              >
                 <X className="w-4 h-4" />
               </button>
             </div>
             <form onSubmit={handleCheckoutSubmit} className="space-y-4">
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-bold text-muted-foreground uppercase">Net Amount Billed</span>
+                <span className="text-[10px] font-bold text-muted-foreground uppercase">
+                  Net Amount Billed
+                </span>
                 <span className="text-base font-bold text-foreground font-mono bg-muted/50 border border-border p-2.5 rounded-md">
                   ${totals.netTotal.toFixed(2)}
                 </span>
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase">Paid Cash Received ($)</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                  Paid Cash Received ($)
+                </label>
                 <div className="relative">
                   <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <input
@@ -324,7 +440,9 @@ export default function POSBillingPage() {
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold text-muted-foreground uppercase">Payment Gateway</label>
+                <label className="text-[10px] font-bold text-muted-foreground uppercase">
+                  Payment Gateway
+                </label>
                 <select
                   value={paymentMethod}
                   onChange={(e) => setPaymentMethod(e.target.value)}

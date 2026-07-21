@@ -139,6 +139,37 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Getting Started Welcome Card if store has no transactions/products */}
+      {!isReportLoading && (!dashboardStats?.todaySales && !dashboardStats?.totalProducts) && (
+        <div className="p-6 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-primary" />
+              <h2 className="text-lg font-semibold text-foreground">Welcome to your new store!</h2>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Your store is currently empty. Get started by adding your first product or creating a sale.
+            </p>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <a
+              href="/dashboard/products/new"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg shadow-sm hover:bg-primary/90 transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              Add Product
+            </a>
+            <a
+              href="/dashboard/sales/new"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-border bg-card text-foreground text-sm font-medium rounded-lg hover:bg-muted transition-colors"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              Create Sale
+            </a>
+          </div>
+        </div>
+      )}
+
       {/* KPI Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         <div className="flex flex-col p-4 bg-card border border-border rounded-md hover:border-primary/30 transition-colors">
@@ -277,7 +308,11 @@ export default function DashboardPage() {
                   </span>
                 </div>
                 <span className="text-sm font-semibold text-foreground">
-                  $6,500.00
+                  {isReportLoading ? (
+                    <div className="h-4 w-16 bg-muted animate-pulse rounded" />
+                  ) : (
+                    `$${(dashboardStats?.cashBalance || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                  )}
                 </span>
               </div>
 
@@ -291,7 +326,11 @@ export default function DashboardPage() {
                   </span>
                 </div>
                 <span className="text-sm font-semibold text-foreground">
-                  $32,840.00
+                  {isReportLoading ? (
+                    <div className="h-4 w-16 bg-muted animate-pulse rounded" />
+                  ) : (
+                    `$${(dashboardStats?.bankBalance || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                  )}
                 </span>
               </div>
 
@@ -307,7 +346,11 @@ export default function DashboardPage() {
                   </span>
                 </div>
                 <span className="text-sm font-semibold text-amber-550">
-                  $4,320.00
+                  {isReportLoading ? (
+                    <div className="h-4 w-16 bg-muted animate-pulse rounded" />
+                  ) : (
+                    `$${(dashboardStats?.customerDue || dashboardStats?.totalOutstanding || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                  )}
                 </span>
               </div>
 
@@ -321,7 +364,11 @@ export default function DashboardPage() {
                   </span>
                 </div>
                 <span className="text-sm font-semibold text-rose-500">
-                  $2,150.00
+                  {isReportLoading ? (
+                    <div className="h-4 w-16 bg-muted animate-pulse rounded" />
+                  ) : (
+                    `$${(dashboardStats?.supplierDue || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                  )}
                 </span>
               </div>
             </div>

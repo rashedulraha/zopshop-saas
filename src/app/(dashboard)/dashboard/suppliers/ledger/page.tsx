@@ -24,7 +24,47 @@ interface Supplier {
   ledger: LedgerEntry[];
 }
 
-const mockSuppliers: Supplier[] = [];
+const mockSuppliers: Supplier[] = [
+  {
+    id: "supp-1",
+    name: "Abul Kalam",
+    company: "Kalam Wholesale Enterprise",
+    phone: "+880 1711-223344",
+    address: "Kowran Bazar, Dhaka",
+    dueAmount: 12000,
+    ledger: [
+      { id: "sl-101", date: "2026-07-01", type: "Opening Balance", reference: "OB-S001", debit: 0, credit: 5000, balance: 5000 },
+      { id: "sl-102", date: "2026-07-04", type: "Purchase", reference: "PUR-2026-001", debit: 0, credit: 15000, balance: 20000 },
+      { id: "sl-103", date: "2026-07-10", type: "Payment", reference: "PAY-S102", debit: 10000, credit: 0, balance: 10000 },
+      { id: "sl-104", date: "2026-07-18", type: "Purchase", reference: "PUR-2026-012", debit: 0, credit: 7000, balance: 17000 },
+      { id: "sl-105", date: "2026-07-20", type: "Payment", reference: "PAY-S145", debit: 5000, credit: 0, balance: 12000 },
+    ]
+  },
+  {
+    id: "supp-2",
+    name: "Mizanur Rahman",
+    company: "Rahman Distributors",
+    phone: "+880 1812-998877",
+    address: "Tejgaon Industrial Area, Dhaka",
+    dueAmount: 0,
+    ledger: [
+      { id: "sl-201", date: "2026-07-03", type: "Purchase", reference: "PUR-2026-003", debit: 25000, credit: 25000, balance: 0 },
+    ]
+  },
+  {
+    id: "supp-3",
+    name: "Tariqul Islam",
+    company: "Islam Paper & Packaging",
+    phone: "+880 1915-667788",
+    address: "Chawkbazar, Dhaka",
+    dueAmount: 8500,
+    ledger: [
+      { id: "sl-301", date: "2026-07-02", type: "Opening Balance", reference: "OB-S002", debit: 0, credit: 3500, balance: 3500 },
+      { id: "sl-302", date: "2026-07-08", type: "Purchase", reference: "PUR-2026-006", debit: 0, credit: 8000, balance: 11500 },
+      { id: "sl-303", date: "2026-07-15", type: "Payment", reference: "PAY-S110", debit: 3000, credit: 0, balance: 8500 },
+    ]
+  }
+];
 
 export default function SupplierLedgerPage() {
   const [suppliers] = useState<Supplier[]>(mockSuppliers);
