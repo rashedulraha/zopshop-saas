@@ -47,6 +47,14 @@ export default function LoginForm() {
     try {
       await login(data.email, data.password);
       toast.success("Logged in successfully!");
+      
+      const user = useAuthStore.getState().user;
+      
+      if (user?.role === "SUPERADMIN") {
+        router.push("/superadmin");
+        return;
+      }
+
       const hasStore = !!localStorage.getItem("activeStoreId");
       if (hasStore) {
         router.push("/dashboard");
