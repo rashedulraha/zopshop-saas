@@ -23,14 +23,15 @@ export function Navbar({
   const { data: session } = authClient.useSession();
   const isLoggedIn = !!session;
 
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const [showGreeting, setShowGreeting] = useState(() => usePathname() === "/");
+  const [showGreeting, setShowGreeting] = useState(isHome);
   const [greetingText, setGreetingText] = useState("");
 
-  const pathname = usePathname();
-  const isHome = pathname === "/";
   const isTransparent = isHome && !scrolled;
 
   // Set greeting based on time
