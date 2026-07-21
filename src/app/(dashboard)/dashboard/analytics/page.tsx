@@ -14,214 +14,37 @@ import {
   Calendar,
   Download,
   Activity,
-  ChevronDown
+  ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   LineChartWidget,
   AreaChartWidget,
   BarChartWidget,
-  DonutChartWidget
+  DonutChartWidget,
 } from "@/components/dashboard/ChartWidgets";
 
-// 1. ADVANCED MOCK DATA TAILORED FOR DIFFERENT DATE RANGES
-const ANALYTICS_DATA = {
-  "Today": {
-    kpis: {
-      revenue: { value: 3240.50, change: 12.5, positive: true },
-      orders: { value: 26, change: 8.3, positive: true },
-      aov: { value: 124.63, change: 3.8, positive: true },
-      conversion: { value: 3.12, change: 0.4, positive: true },
-      profitMargin: { value: 45.2, change: 1.1, positive: true }
-    },
-    trend: [
-      { name: "00:00", sales: 120, orders: 1, profit: 54 },
-      { name: "04:00", sales: 80, orders: 1, profit: 36 },
-      { name: "08:00", sales: 450, orders: 4, profit: 202 },
-      { name: "12:00", sales: 1200, orders: 9, profit: 540 },
-      { name: "16:00", sales: 980, orders: 7, profit: 441 },
-      { name: "20:00", sales: 410, orders: 4, profit: 184 },
-    ],
-    categories: [
-      { name: "Electronics", value: 1450 },
-      { name: "Fashion", value: 890 },
-      { name: "Home & Living", value: 520 },
-      { name: "Grocery", value: 380.5 }
-    ],
-    brands: [
-      { name: "Apple", total: 680 },
-      { name: "Samsung", total: 420 },
-      { name: "Sony", total: 350 },
-      { name: "Anker", total: 200 }
-    ],
-    channels: [
-      { name: "Online Store", percentage: 72, amount: 2333.16 },
-      { name: "Mobile App", percentage: 18, amount: 583.29 },
-      { name: "POS Terminal", percentage: 10, amount: 324.05 }
-    ],
-    payments: [
-      { method: "Bkash", count: 12, amount: 1458.22 },
-      { method: "Card", count: 8, amount: 1069.36 },
-      { method: "Cash", count: 4, amount: 486.08 },
-      { method: "Bank", count: 2, amount: 226.84 }
-    ],
-    customers: [
-      { id: "C-9011", name: "Olivia Martin", email: "olivia.m@gmail.com", spent: 598.00, items: 4, level: "VIP" },
-      { id: "C-9012", name: "Jackson Lee", email: "jackson.l@gmail.com", spent: 399.00, items: 3, level: "Gold" },
-      { id: "C-9013", name: "Isabella Nguyen", email: "isabella@yahoo.com", spent: 350.00, items: 2, level: "Gold" },
-      { id: "C-9014", name: "William Kim", email: "w.kim@outlook.com", spent: 220.00, items: 2, level: "Silver" },
-      { id: "C-9015", name: "Sofia Davis", email: "sofia.d@gmail.com", spent: 180.00, items: 1, level: "Bronze" }
-    ]
+const emptyData = {
+  kpis: {
+    revenue: { value: 0, change: 0, positive: true },
+    orders: { value: 0, change: 0, positive: true },
+    aov: { value: 0, change: 0, positive: true },
+    conversion: { value: 0, change: 0, positive: true },
+    profitMargin: { value: 0, change: 0, positive: true },
   },
-  "Last 7 Days": {
-    kpis: {
-      revenue: { value: 24890.00, change: 18.2, positive: true },
-      orders: { value: 184, change: 11.5, positive: true },
-      aov: { value: 135.27, change: 6.0, positive: true },
-      conversion: { value: 3.48, change: 0.8, positive: true },
-      profitMargin: { value: 46.8, change: 2.3, positive: true }
-    },
-    trend: [
-      { name: "Mon", sales: 4000, orders: 30, profit: 1872 },
-      { name: "Tue", sales: 3000, orders: 22, profit: 1404 },
-      { name: "Wed", sales: 2000, orders: 15, profit: 936 },
-      { name: "Thu", sales: 2780, orders: 20, profit: 1301 },
-      { name: "Fri", sales: 1890, orders: 14, profit: 884 },
-      { name: "Sat", sales: 5390, orders: 40, profit: 2522 },
-      { name: "Sun", sales: 5830, orders: 43, profit: 2728 },
-    ],
-    categories: [
-      { name: "Electronics", value: 11200 },
-      { name: "Fashion", value: 6800 },
-      { name: "Home & Living", value: 4200 },
-      { name: "Grocery", value: 2690 }
-    ],
-    brands: [
-      { name: "Apple", total: 5400 },
-      { name: "Samsung", total: 3900 },
-      { name: "Sony", total: 2200 },
-      { name: "LG", total: 1500 },
-      { name: "Anker", total: 1100 }
-    ],
-    channels: [
-      { name: "Online Store", percentage: 65, amount: 16178.50 },
-      { name: "Mobile App", percentage: 22, amount: 5475.80 },
-      { name: "POS Terminal", percentage: 13, amount: 3235.70 }
-    ],
-    payments: [
-      { method: "Bkash", count: 88, amount: 11947.20 },
-      { method: "Card", count: 52, amount: 7218.10 },
-      { method: "Cash", count: 31, amount: 3484.60 },
-      { method: "Bank", count: 13, amount: 2240.10 }
-    ],
-    customers: [
-      { id: "C-9011", name: "Olivia Martin", email: "olivia.m@gmail.com", spent: 1850.00, items: 12, level: "VIP" },
-      { id: "C-9015", name: "Sofia Davis", email: "sofia.d@gmail.com", spent: 1420.00, items: 9, level: "VIP" },
-      { id: "C-9019", name: "Robert Taylor", email: "robert.t@outlook.com", spent: 1150.00, items: 8, level: "Gold" },
-      { id: "C-9013", name: "Isabella Nguyen", email: "isabella@yahoo.com", spent: 980.00, items: 6, level: "Gold" },
-      { id: "C-9022", name: "David Miller", email: "d.miller@gmail.com", spent: 780.00, items: 5, level: "Silver" }
-    ]
-  },
-  "This Month": {
-    kpis: {
-      revenue: { value: 105430.00, change: 24.1, positive: true },
-      orders: { value: 782, change: 16.4, positive: true },
-      aov: { value: 134.82, change: 6.6, positive: true },
-      conversion: { value: 3.52, change: 0.9, positive: true },
-      profitMargin: { value: 47.1, change: 3.0, positive: true }
-    },
-    trend: [
-      { name: "Week 1", sales: 24000, orders: 178, profit: 11280 },
-      { name: "Week 2", sales: 28500, orders: 211, profit: 13423 },
-      { name: "Week 3", sales: 22800, orders: 169, profit: 10738 },
-      { name: "Week 4", sales: 30130, orders: 224, profit: 14191 },
-    ],
-    categories: [
-      { name: "Electronics", value: 47500 },
-      { name: "Fashion", value: 28900 },
-      { name: "Home & Living", value: 18200 },
-      { name: "Grocery", value: 10830 }
-    ],
-    brands: [
-      { name: "Apple", total: 22800 },
-      { name: "Samsung", total: 16400 },
-      { name: "Sony", total: 9800 },
-      { name: "LG", total: 6200 },
-      { name: "Anker", total: 4900 }
-    ],
-    channels: [
-      { name: "Online Store", percentage: 68, amount: 71692.40 },
-      { name: "Mobile App", percentage: 21, amount: 22140.30 },
-      { name: "POS Terminal", percentage: 11, amount: 11597.30 }
-    ],
-    payments: [
-      { method: "Bkash", count: 360, amount: 48497.80 },
-      { method: "Card", count: 232, amount: 32683.30 },
-      { method: "Cash", count: 125, amount: 14760.20 },
-      { method: "Bank", count: 65, amount: 9488.70 }
-    ],
-    customers: [
-      { id: "C-9011", name: "Olivia Martin", email: "olivia.m@gmail.com", spent: 4890.00, items: 32, level: "VIP" },
-      { id: "C-9015", name: "Sofia Davis", email: "sofia.d@gmail.com", spent: 3950.00, items: 25, level: "VIP" },
-      { id: "C-9031", name: "Marcus Brody", email: "marcus.b@gmail.com", spent: 3410.00, items: 22, level: "VIP" },
-      { id: "C-9019", name: "Robert Taylor", email: "robert.t@outlook.com", spent: 2890.00, items: 19, level: "Gold" },
-      { id: "C-9013", name: "Isabella Nguyen", email: "isabella@yahoo.com", spent: 2450.00, items: 16, level: "Gold" }
-    ]
-  },
-  "This Year": {
-    kpis: {
-      revenue: { value: 1245800.00, change: 35.8, positive: true },
-      orders: { value: 9240, change: 28.2, positive: true },
-      aov: { value: 134.82, change: 5.9, positive: true },
-      conversion: { value: 3.65, change: 1.1, positive: true },
-      profitMargin: { value: 47.8, change: 4.2, positive: true }
-    },
-    trend: [
-      { name: "Jan", sales: 88000, orders: 652, profit: 41800 },
-      { name: "Feb", sales: 94000, orders: 697, profit: 44650 },
-      { name: "Mar", sales: 102000, orders: 756, profit: 48450 },
-      { name: "Apr", sales: 98000, orders: 727, profit: 46550 },
-      { name: "May", sales: 110000, orders: 816, profit: 52250 },
-      { name: "Jun", sales: 122000, orders: 905, profit: 57950 },
-      { name: "Jul", sales: 115000, orders: 853, profit: 54620 },
-      { name: "Aug", sales: 108000, orders: 801, profit: 51300 },
-      { name: "Sep", sales: 125000, orders: 927, profit: 59370 },
-      { name: "Oct", sales: 142000, orders: 1053, profit: 67450 },
-      { name: "Nov", sales: 41800, orders: 310, profit: 19850 },
-      { name: "Dec", sales: 0, orders: 0, profit: 0 }
-    ],
-    categories: [
-      { name: "Electronics", value: 562000 },
-      { name: "Fashion", value: 341000 },
-      { name: "Home & Living", value: 215000 },
-      { name: "Grocery", value: 127800 }
-    ],
-    brands: [
-      { name: "Apple", total: 268000 },
-      { name: "Samsung", total: 195000 },
-      { name: "Sony", total: 124000 },
-      { name: "LG", total: 78000 },
-      { name: "Anker", total: 54000 }
-    ],
-    channels: [
-      { name: "Online Store", percentage: 66, amount: 822228.00 },
-      { name: "Mobile App", percentage: 23, amount: 286534.00 },
-      { name: "POS Terminal", percentage: 11, amount: 137038.00 }
-    ],
-    payments: [
-      { method: "Bkash", count: 4250, amount: 573068.00 },
-      { method: "Card", count: 2710, amount: 386200.00 },
-      { method: "Cash", count: 1480, amount: 174412.00 },
-      { method: "Bank", count: 800, amount: 112120.00 }
-    ],
-    customers: [
-      { id: "C-9011", name: "Olivia Martin", email: "olivia.m@gmail.com", spent: 24500.00, items: 168, level: "VIP" },
-      { id: "C-9015", name: "Sofia Davis", email: "sofia.d@gmail.com", spent: 18200.00, items: 122, level: "VIP" },
-      { id: "C-9031", name: "Marcus Brody", email: "marcus.b@gmail.com", spent: 15400.00, items: 104, level: "VIP" },
-      { id: "C-9019", name: "Robert Taylor", email: "robert.t@outlook.com", spent: 12600.00, items: 84, level: "VIP" },
-      { id: "C-9045", name: "Elena Rostova", email: "elena.r@gmail.com", spent: 9800.00, items: 66, level: "Gold" }
-    ]
-  }
+  trend: [] as any[],
+  categories: [] as any[],
+  brands: [] as any[],
+  channels: [] as any[],
+  payments: [] as any[],
+  customers: [] as any[],
+};
+
+const ANALYTICS_DATA: Record<string, typeof emptyData> = {
+  Today: emptyData,
+  "Last 7 Days": emptyData,
+  "This Month": emptyData,
+  "This Year": emptyData,
 };
 
 type ScopeType = "Today" | "Last 7 Days" | "This Month" | "This Year";
@@ -243,7 +66,7 @@ export default function AnalyticsPage() {
       (cust) =>
         cust.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         cust.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        cust.id.toLowerCase().includes(searchQuery.toLowerCase())
+        cust.id.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }, [activeData, searchQuery]);
 
@@ -264,9 +87,12 @@ export default function AnalyticsPage() {
       {/* Header Panel */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-5">
         <div>
-          <h1 className="text-3xl font-semibold text-foreground tracking-tight">Analytics</h1>
+          <h1 className="text-3xl font-semibold text-foreground tracking-tight">
+            Analytics
+          </h1>
           <p className="text-muted-foreground mt-1 text-sm text-balance">
-            Real-time business performance analytics, customer demographics, and transactional diagnostic charts.
+            Real-time business performance analytics, customer demographics, and
+            transactional diagnostic charts.
           </p>
         </div>
 
@@ -284,9 +110,19 @@ export default function AnalyticsPage() {
             </button>
             {dropdownOpen && (
               <>
-                <div className="fixed inset-0 z-10" onClick={() => setDropdownOpen(false)} />
+                <div
+                  className="fixed inset-0 z-10"
+                  onClick={() => setDropdownOpen(false)}
+                />
                 <div className="absolute right-0 mt-1.5 w-48 bg-card border border-border rounded-md shadow-lg z-20 divide-y divide-border/50">
-                  {(["Today", "Last 7 Days", "This Month", "This Year"] as ScopeType[]).map((scope) => (
+                  {(
+                    [
+                      "Today",
+                      "Last 7 Days",
+                      "This Month",
+                      "This Year",
+                    ] as ScopeType[]
+                  ).map((scope) => (
                     <button
                       key={scope}
                       onClick={() => {
@@ -295,7 +131,9 @@ export default function AnalyticsPage() {
                       }}
                       className={cn(
                         "w-full text-left px-3 py-2 text-sm hover:bg-muted/80 transition-colors",
-                        dateFilter === scope ? "text-primary font-medium bg-primary/5" : "text-muted-foreground"
+                        dateFilter === scope
+                          ? "text-primary font-medium bg-primary/5"
+                          : "text-muted-foreground",
                       )}
                     >
                       {scope}
@@ -334,11 +172,21 @@ export default function AnalyticsPage() {
           <table className="w-full text-sm text-left table-fixed min-w-[800px] lg:min-w-0">
             <thead className="text-xs text-muted-foreground uppercase bg-muted/10 border-b border-border">
               <tr className="divide-x divide-border">
-                <th className="px-5 py-3 font-semibold text-center w-[20%]">Revenue</th>
-                <th className="px-5 py-3 font-semibold text-center w-[20%]">Orders</th>
-                <th className="px-5 py-3 font-semibold text-center w-[20%]">Avg Order Value</th>
-                <th className="px-5 py-3 font-semibold text-center w-[20%]">Conversion Rate</th>
-                <th className="px-5 py-3 font-semibold text-center w-[20%]">Profit Margin</th>
+                <th className="px-5 py-3 font-semibold text-center w-[20%]">
+                  Revenue
+                </th>
+                <th className="px-5 py-3 font-semibold text-center w-[20%]">
+                  Orders
+                </th>
+                <th className="px-5 py-3 font-semibold text-center w-[20%]">
+                  Avg Order Value
+                </th>
+                <th className="px-5 py-3 font-semibold text-center w-[20%]">
+                  Conversion Rate
+                </th>
+                <th className="px-5 py-3 font-semibold text-center w-[20%]">
+                  Profit Margin
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -349,11 +197,29 @@ export default function AnalyticsPage() {
                     <DollarSign className="w-4 h-4" />
                   </div>
                   <span className="text-xl font-bold text-foreground block tracking-tight">
-                    ${activeData.kpis.revenue.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    $
+                    {activeData.kpis.revenue.value.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
-                  <span className={cn("inline-flex items-center gap-0.5 text-xs font-semibold mt-1", activeData.kpis.revenue.positive ? "text-emerald-500" : "text-rose-500")}>
-                    {activeData.kpis.revenue.positive ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
-                    {activeData.kpis.revenue.change}% <span className="text-muted-foreground font-normal ml-1">vs prev</span>
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-0.5 text-xs font-semibold mt-1",
+                      activeData.kpis.revenue.positive
+                        ? "text-emerald-500"
+                        : "text-rose-500",
+                    )}
+                  >
+                    {activeData.kpis.revenue.positive ? (
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    ) : (
+                      <ArrowDownRight className="w-3.5 h-3.5" />
+                    )}
+                    {activeData.kpis.revenue.change}%{" "}
+                    <span className="text-muted-foreground font-normal ml-1">
+                      vs prev
+                    </span>
                   </span>
                 </td>
 
@@ -365,9 +231,23 @@ export default function AnalyticsPage() {
                   <span className="text-xl font-bold text-foreground block tracking-tight">
                     {activeData.kpis.orders.value.toLocaleString()}
                   </span>
-                  <span className={cn("inline-flex items-center gap-0.5 text-xs font-semibold mt-1", activeData.kpis.orders.positive ? "text-emerald-500" : "text-rose-500")}>
-                    {activeData.kpis.orders.positive ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
-                    {activeData.kpis.orders.change}% <span className="text-muted-foreground font-normal ml-1">vs prev</span>
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-0.5 text-xs font-semibold mt-1",
+                      activeData.kpis.orders.positive
+                        ? "text-emerald-500"
+                        : "text-rose-500",
+                    )}
+                  >
+                    {activeData.kpis.orders.positive ? (
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    ) : (
+                      <ArrowDownRight className="w-3.5 h-3.5" />
+                    )}
+                    {activeData.kpis.orders.change}%{" "}
+                    <span className="text-muted-foreground font-normal ml-1">
+                      vs prev
+                    </span>
                   </span>
                 </td>
 
@@ -379,9 +259,23 @@ export default function AnalyticsPage() {
                   <span className="text-xl font-bold text-foreground block tracking-tight">
                     ${activeData.kpis.aov.value.toFixed(2)}
                   </span>
-                  <span className={cn("inline-flex items-center gap-0.5 text-xs font-semibold mt-1", activeData.kpis.aov.positive ? "text-emerald-500" : "text-rose-500")}>
-                    {activeData.kpis.aov.positive ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
-                    {activeData.kpis.aov.change}% <span className="text-muted-foreground font-normal ml-1">vs prev</span>
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-0.5 text-xs font-semibold mt-1",
+                      activeData.kpis.aov.positive
+                        ? "text-emerald-500"
+                        : "text-rose-500",
+                    )}
+                  >
+                    {activeData.kpis.aov.positive ? (
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    ) : (
+                      <ArrowDownRight className="w-3.5 h-3.5" />
+                    )}
+                    {activeData.kpis.aov.change}%{" "}
+                    <span className="text-muted-foreground font-normal ml-1">
+                      vs prev
+                    </span>
                   </span>
                 </td>
 
@@ -393,9 +287,23 @@ export default function AnalyticsPage() {
                   <span className="text-xl font-bold text-foreground block tracking-tight">
                     {activeData.kpis.conversion.value.toFixed(2)}%
                   </span>
-                  <span className={cn("inline-flex items-center gap-0.5 text-xs font-semibold mt-1", activeData.kpis.conversion.positive ? "text-emerald-500" : "text-rose-500")}>
-                    {activeData.kpis.conversion.positive ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
-                    {activeData.kpis.conversion.change}% <span className="text-muted-foreground font-normal ml-1">vs prev</span>
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-0.5 text-xs font-semibold mt-1",
+                      activeData.kpis.conversion.positive
+                        ? "text-emerald-500"
+                        : "text-rose-500",
+                    )}
+                  >
+                    {activeData.kpis.conversion.positive ? (
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    ) : (
+                      <ArrowDownRight className="w-3.5 h-3.5" />
+                    )}
+                    {activeData.kpis.conversion.change}%{" "}
+                    <span className="text-muted-foreground font-normal ml-1">
+                      vs prev
+                    </span>
                   </span>
                 </td>
 
@@ -407,9 +315,23 @@ export default function AnalyticsPage() {
                   <span className="text-xl font-bold text-foreground block tracking-tight">
                     {activeData.kpis.profitMargin.value.toFixed(1)}%
                   </span>
-                  <span className={cn("inline-flex items-center gap-0.5 text-xs font-semibold mt-1", activeData.kpis.profitMargin.positive ? "text-emerald-500" : "text-rose-500")}>
-                    {activeData.kpis.profitMargin.positive ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
-                    {activeData.kpis.profitMargin.change}% <span className="text-muted-foreground font-normal ml-1">vs prev</span>
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-0.5 text-xs font-semibold mt-1",
+                      activeData.kpis.profitMargin.positive
+                        ? "text-emerald-500"
+                        : "text-rose-500",
+                    )}
+                  >
+                    {activeData.kpis.profitMargin.positive ? (
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    ) : (
+                      <ArrowDownRight className="w-3.5 h-3.5" />
+                    )}
+                    {activeData.kpis.profitMargin.change}%{" "}
+                    <span className="text-muted-foreground font-normal ml-1">
+                      vs prev
+                    </span>
                   </span>
                 </td>
               </tr>
@@ -451,8 +373,12 @@ export default function AnalyticsPage() {
             {/* Sales Channel Breakdown Card */}
             <div className="border border-border bg-card p-5 rounded-md flex flex-col justify-between">
               <div className="mb-4">
-                <h3 className="text-base font-semibold text-foreground tracking-tight">Sales Channels</h3>
-                <p className="text-xs text-muted-foreground">Breakdown of online vs physical channels</p>
+                <h3 className="text-base font-semibold text-foreground tracking-tight">
+                  Sales Channels
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  Breakdown of online vs physical channels
+                </p>
               </div>
 
               <div className="flex-1 flex flex-col justify-center gap-5">
@@ -461,7 +387,11 @@ export default function AnalyticsPage() {
                     <div className="flex justify-between items-center text-xs font-semibold text-foreground">
                       <span>{chan.name}</span>
                       <span className="text-muted-foreground">
-                        ${chan.amount.toLocaleString(undefined, { maximumFractionDigits: 0 })} ({chan.percentage}%)
+                        $
+                        {chan.amount.toLocaleString(undefined, {
+                          maximumFractionDigits: 0,
+                        })}{" "}
+                        ({chan.percentage}%)
                       </span>
                     </div>
                     <div className="w-full h-2 rounded bg-muted overflow-hidden">
@@ -470,7 +400,7 @@ export default function AnalyticsPage() {
                           "h-full rounded transition-all duration-500",
                           chan.name === "Online Store" && "bg-primary",
                           chan.name === "Mobile App" && "bg-cyan-500",
-                          chan.name === "POS Terminal" && "bg-purple-500"
+                          chan.name === "POS Terminal" && "bg-purple-500",
                         )}
                         style={{ width: `${chan.percentage}%` }}
                       />
@@ -493,30 +423,49 @@ export default function AnalyticsPage() {
           {/* Payment Method Transaction Counts & Value */}
           <div className="border border-border bg-card p-5 rounded-md flex flex-col h-full justify-between">
             <div>
-              <h3 className="text-base font-semibold text-foreground tracking-tight">Payment Gateways</h3>
-              <p className="text-xs text-muted-foreground mb-4">Volume & transaction totals per method</p>
+              <h3 className="text-base font-semibold text-foreground tracking-tight">
+                Payment Gateways
+              </h3>
+              <p className="text-xs text-muted-foreground mb-4">
+                Volume & transaction totals per method
+              </p>
             </div>
 
             <div className="flex flex-col gap-3">
               {activeData.payments.map((pm) => (
-                <div key={pm.method} className="flex justify-between items-center py-2 border-b border-border/40 last:border-0">
+                <div
+                  key={pm.method}
+                  className="flex justify-between items-center py-2 border-b border-border/40 last:border-0"
+                >
                   <div className="flex items-center gap-3">
-                    <div className={cn(
-                      "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold",
-                      pm.method === "Bkash" && "bg-pink-500/10 text-pink-500",
-                      pm.method === "Card" && "bg-cyan-500/10 text-cyan-500",
-                      pm.method === "Cash" && "bg-emerald-500/10 text-emerald-500",
-                      pm.method === "Bank" && "bg-purple-500/10 text-purple-500"
-                    )}>
+                    <div
+                      className={cn(
+                        "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold",
+                        pm.method === "Bkash" && "bg-pink-500/10 text-pink-500",
+                        pm.method === "Card" && "bg-cyan-500/10 text-cyan-500",
+                        pm.method === "Cash" &&
+                          "bg-emerald-500/10 text-emerald-500",
+                        pm.method === "Bank" &&
+                          "bg-purple-500/10 text-purple-500",
+                      )}
+                    >
                       {pm.method.substring(0, 2)}
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-sm font-medium text-foreground">{pm.method}</span>
-                      <span className="text-[10px] text-muted-foreground">{pm.count} transactions</span>
+                      <span className="text-sm font-medium text-foreground">
+                        {pm.method}
+                      </span>
+                      <span className="text-[10px] text-muted-foreground">
+                        {pm.count} transactions
+                      </span>
                     </div>
                   </div>
                   <span className="text-sm font-bold text-foreground">
-                    ${pm.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    $
+                    {pm.amount.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </span>
                 </div>
               ))}
@@ -533,7 +482,9 @@ export default function AnalyticsPage() {
               <Award className="w-4 h-4 text-amber-500" />
               <span>Top Performing Customers</span>
             </h3>
-            <p className="text-xs text-muted-foreground mt-0.5">Top purchasing client accounts for the chosen period</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Top purchasing client accounts for the chosen period
+            </p>
           </div>
 
           {/* Search bar inside Card */}
@@ -556,33 +507,58 @@ export default function AnalyticsPage() {
               <tr>
                 <th className="px-4 py-2 font-semibold">Customer ID</th>
                 <th className="px-4 py-2 font-semibold">Customer Details</th>
-                <th className="px-4 py-2 font-semibold text-center">Items Bought</th>
+                <th className="px-4 py-2 font-semibold text-center">
+                  Items Bought
+                </th>
                 <th className="px-4 py-2 font-semibold">Total Revenue</th>
-                <th className="px-4 py-2 font-semibold text-right">Status Tier</th>
+                <th className="px-4 py-2 font-semibold text-right">
+                  Status Tier
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/50">
               {filteredCustomers.map((cust) => (
-                <tr key={cust.id} className="hover:bg-muted/20 transition-colors">
-                  <td className="px-4 py-3 font-semibold text-muted-foreground">{cust.id}</td>
+                <tr
+                  key={cust.id}
+                  className="hover:bg-muted/20 transition-colors"
+                >
+                  <td className="px-4 py-3 font-semibold text-muted-foreground">
+                    {cust.id}
+                  </td>
                   <td className="px-4 py-3">
                     <div className="flex flex-col">
-                      <span className="font-semibold text-foreground">{cust.name}</span>
-                      <span className="text-[10px] text-muted-foreground">{cust.email}</span>
+                      <span className="font-semibold text-foreground">
+                        {cust.name}
+                      </span>
+                      <span className="text-[10px] text-muted-foreground">
+                        {cust.email}
+                      </span>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-center font-medium text-foreground">{cust.items} units</td>
+                  <td className="px-4 py-3 text-center font-medium text-foreground">
+                    {cust.items} units
+                  </td>
                   <td className="px-4 py-3 font-bold text-foreground">
-                    ${cust.spent.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    $
+                    {cust.spent.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <span className={cn(
-                      "inline-flex px-2 py-0.5 rounded text-[10px] font-semibold",
-                      cust.level === "VIP" && "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20",
-                      cust.level === "Gold" && "bg-slate-500/10 text-slate-700 dark:text-slate-300 border border-slate-500/20",
-                      cust.level === "Silver" && "bg-zinc-500/10 text-zinc-600 dark:text-zinc-400 border border-zinc-500/20",
-                      cust.level === "Bronze" && "bg-amber-700/10 text-amber-700 dark:text-amber-500 border border-amber-700/20"
-                    )}>
+                    <span
+                      className={cn(
+                        "inline-flex px-2 py-0.5 rounded text-[10px] font-semibold",
+                        cust.level === "VIP" &&
+                          "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20",
+                        cust.level === "Gold" &&
+                          "bg-slate-500/10 text-slate-700 dark:text-slate-300 border border-slate-500/20",
+                        cust.level === "Silver" &&
+                          "bg-zinc-500/10 text-zinc-600 dark:text-zinc-400 border border-zinc-500/20",
+                        cust.level === "Bronze" &&
+                          "bg-amber-700/10 text-amber-700 dark:text-amber-500 border border-amber-700/20",
+                      )}
+                    >
                       {cust.level}
                     </span>
                   </td>
@@ -590,7 +566,10 @@ export default function AnalyticsPage() {
               ))}
               {filteredCustomers.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">
+                  <td
+                    colSpan={5}
+                    className="px-4 py-8 text-center text-muted-foreground"
+                  >
                     No customers match your search criteria.
                   </td>
                 </tr>
