@@ -11,6 +11,10 @@ export interface DashboardStats extends DashboardReport {
   totalProducts?: number;
   totalParties?: number;
   lowStockCount?: number;
+  cashBalance?: number;
+  bankBalance?: number;
+  customerDue?: number;
+  supplierDue?: number;
 }
 
 interface ReportStore {
@@ -38,6 +42,10 @@ export const useReportStore = create<ReportStore>((set) => ({
         totalProducts: response.topProducts?.length || 0, // Fallback if actual count isn't provided
         totalParties: 0, // Not typically in DashboardReport, defaulting to 0
         lowStockCount: 0, // Not typically in DashboardReport, defaulting to 0
+        cashBalance: response.summary?.cashInHand || 0,
+        bankBalance: 0,
+        customerDue: response.summary?.receivables || 0,
+        supplierDue: response.summary?.payables || 0,
       };
 
       set({ dashboardStats: mappedStats, isLoading: false });
