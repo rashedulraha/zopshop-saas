@@ -154,7 +154,7 @@ export function TransactionForm({
           <Label htmlFor="mode">Payment Mode *</Label>
           <Select
             onValueChange={(val) =>
-              form.setValue("mode", (val as any) || "CASH")
+              form.setValue("mode", val || "CASH")
             }
             defaultValue={form.getValues("mode")}
           >

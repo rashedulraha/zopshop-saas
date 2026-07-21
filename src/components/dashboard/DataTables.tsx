@@ -18,8 +18,17 @@ function TableWrapper({
         </h3>
       </div>
       <div className="overflow-x-auto max-h-[280px] overflow-y-auto custom-scrollbar">
-        <table className="w-full text-sm text-left relative">{children}</table>
+        {children}
       </div>
+    </div>
+  );
+}
+
+function EmptyTableState({ message = "No records found" }: { message?: string }) {
+  return (
+    <div className="flex flex-col items-center justify-center p-8 text-center min-h-[140px] text-muted-foreground">
+      <p className="text-sm font-medium text-foreground">{message}</p>
+      <p className="text-xs text-muted-foreground mt-0.5">New transactions will appear here once created.</p>
     </div>
   );
 }
@@ -28,51 +37,36 @@ function TableWrapper({
 export function RecentSalesTable({ data }: { data: any[] }) {
   return (
     <TableWrapper title="Recent Sales">
-      <thead className="text-xs text-muted-foreground uppercase sticky top-0 z-10 bg-muted/95 backdrop-blur-sm shadow-sm">
-        <tr>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">
-            Invoice No
-          </th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">
-            Customer
-          </th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">Amount</th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">
-            Payment Status
-          </th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap text-right">
-            Date
-          </th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-border/50">
-        {data.map((row, i) => (
-          <tr key={i} className="hover:bg-muted/30 transition-colors">
-            <td className="px-4 py-1.5 font-medium text-foreground whitespace-nowrap">
-              {row.invoice}
-            </td>
-            <td className="px-4 py-1.5 whitespace-nowrap">{row.customer}</td>
-            <td className="px-4 py-1.5 font-medium whitespace-nowrap">
-              {row.amount}
-            </td>
-            <td className="px-4 py-1.5 whitespace-nowrap">
-              <span
-                className={cn(
-                  "px-2 py-0.5 rounded-full text-xs font-medium",
-                  row.status === "Paid"
-                    ? "bg-emerald-500/10 text-emerald-500"
-                    : "bg-amber-500/10 text-amber-500",
-                )}
-              >
-                {row.status}
-              </span>
-            </td>
-            <td className="px-4 py-1.5 text-right text-muted-foreground whitespace-nowrap">
-              {row.date}
-            </td>
-          </tr>
-        ))}
-      </tbody>
+      {!data || data.length === 0 ? (
+        <EmptyTableState message="No recent sales recorded" />
+      ) : (
+        <table className="w-full text-sm text-left relative">
+          <thead className="text-xs text-muted-foreground uppercase sticky top-0 z-10 bg-muted/95 backdrop-blur-sm shadow-sm">
+            <tr>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Invoice No</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Customer</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Amount</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Payment Status</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap text-right">Date</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border/50">
+            {data.map((row, i) => (
+              <tr key={i} className="hover:bg-muted/30 transition-colors">
+                <td className="px-4 py-1.5 font-medium text-foreground whitespace-nowrap">{row.invoice}</td>
+                <td className="px-4 py-1.5 whitespace-nowrap">{row.customer}</td>
+                <td className="px-4 py-1.5 font-medium whitespace-nowrap">{row.amount}</td>
+                <td className="px-4 py-1.5 whitespace-nowrap">
+                  <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", row.status === "Paid" ? "bg-emerald-500/10 text-emerald-500" : "bg-amber-500/10 text-amber-500")}>
+                    {row.status}
+                  </span>
+                </td>
+                <td className="px-4 py-1.5 text-right text-muted-foreground whitespace-nowrap">{row.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </TableWrapper>
   );
 }
@@ -81,49 +75,36 @@ export function RecentSalesTable({ data }: { data: any[] }) {
 export function RecentPurchasesTable({ data }: { data: any[] }) {
   return (
     <TableWrapper title="Recent Purchases">
-      <thead className="text-xs text-muted-foreground uppercase sticky top-0 z-10 bg-muted/95 backdrop-blur-sm shadow-sm">
-        <tr>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">
-            Supplier
-          </th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">Invoice</th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">Amount</th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">Status</th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap text-right">
-            Date
-          </th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-border/50">
-        {data.map((row, i) => (
-          <tr key={i} className="hover:bg-muted/30 transition-colors">
-            <td className="px-4 py-1.5 font-medium text-foreground whitespace-nowrap">
-              {row.supplier}
-            </td>
-            <td className="px-4 py-1.5 text-muted-foreground whitespace-nowrap">
-              {row.invoice}
-            </td>
-            <td className="px-4 py-1.5 font-medium whitespace-nowrap">
-              {row.amount}
-            </td>
-            <td className="px-4 py-1.5 whitespace-nowrap">
-              <span
-                className={cn(
-                  "px-2 py-0.5 rounded-full text-xs font-medium",
-                  row.status === "Received"
-                    ? "bg-blue-500/10 text-blue-500"
-                    : "bg-amber-500/10 text-amber-500",
-                )}
-              >
-                {row.status}
-              </span>
-            </td>
-            <td className="px-4 py-1.5 text-right text-muted-foreground whitespace-nowrap">
-              {row.date}
-            </td>
-          </tr>
-        ))}
-      </tbody>
+      {!data || data.length === 0 ? (
+        <EmptyTableState message="No recent purchases recorded" />
+      ) : (
+        <table className="w-full text-sm text-left relative">
+          <thead className="text-xs text-muted-foreground uppercase sticky top-0 z-10 bg-muted/95 backdrop-blur-sm shadow-sm">
+            <tr>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Supplier</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Invoice</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Amount</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Status</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap text-right">Date</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border/50">
+            {data.map((row, i) => (
+              <tr key={i} className="hover:bg-muted/30 transition-colors">
+                <td className="px-4 py-1.5 font-medium text-foreground whitespace-nowrap">{row.supplier}</td>
+                <td className="px-4 py-1.5 text-muted-foreground whitespace-nowrap">{row.invoice}</td>
+                <td className="px-4 py-1.5 font-medium whitespace-nowrap">{row.amount}</td>
+                <td className="px-4 py-1.5 whitespace-nowrap">
+                  <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", row.status === "Received" ? "bg-blue-500/10 text-blue-500" : "bg-amber-500/10 text-amber-500")}>
+                    {row.status}
+                  </span>
+                </td>
+                <td className="px-4 py-1.5 text-right text-muted-foreground whitespace-nowrap">{row.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </TableWrapper>
   );
 }
@@ -132,38 +113,30 @@ export function RecentPurchasesTable({ data }: { data: any[] }) {
 export function RecentExpensesTable({ data }: { data: any[] }) {
   return (
     <TableWrapper title="Recent Expenses">
-      <thead className="text-xs text-muted-foreground uppercase sticky top-0 z-10 bg-muted/95 backdrop-blur-sm shadow-sm">
-        <tr>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">
-            Category
-          </th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">Amount</th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">
-            Description
-          </th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap text-right">
-            Date
-          </th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-border/50">
-        {data.map((row, i) => (
-          <tr key={i} className="hover:bg-muted/30 transition-colors">
-            <td className="px-4 py-1.5 font-medium text-foreground whitespace-nowrap">
-              {row.category}
-            </td>
-            <td className="px-4 py-1.5 font-medium text-rose-500 whitespace-nowrap">
-              {row.amount}
-            </td>
-            <td className="px-4 py-1.5 text-muted-foreground whitespace-nowrap">
-              {row.description}
-            </td>
-            <td className="px-4 py-1.5 text-right text-muted-foreground whitespace-nowrap">
-              {row.date}
-            </td>
-          </tr>
-        ))}
-      </tbody>
+      {!data || data.length === 0 ? (
+        <EmptyTableState message="No expenses recorded" />
+      ) : (
+        <table className="w-full text-sm text-left relative">
+          <thead className="text-xs text-muted-foreground uppercase sticky top-0 z-10 bg-muted/95 backdrop-blur-sm shadow-sm">
+            <tr>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Category</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Amount</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Description</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap text-right">Date</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border/50">
+            {data.map((row, i) => (
+              <tr key={i} className="hover:bg-muted/30 transition-colors">
+                <td className="px-4 py-1.5 font-medium text-foreground whitespace-nowrap">{row.category}</td>
+                <td className="px-4 py-1.5 font-medium text-rose-500 whitespace-nowrap">{row.amount}</td>
+                <td className="px-4 py-1.5 text-muted-foreground whitespace-nowrap">{row.description}</td>
+                <td className="px-4 py-1.5 text-right text-muted-foreground whitespace-nowrap">{row.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </TableWrapper>
   );
 }
@@ -210,34 +183,34 @@ export function LowStockTable({ data }: { data: any[] }) {
 export function PendingDeliveriesTable({ data }: { data: any[] }) {
   return (
     <TableWrapper title="Pending Deliveries">
-      <thead className="text-xs text-muted-foreground uppercase sticky top-0 z-10 bg-muted/95 backdrop-blur-sm shadow-sm">
-        <tr>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">Invoice</th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">
-            Customer
-          </th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap">Driver</th>
-          <th className="px-4 py-1.5 font-medium whitespace-nowrap text-right">
-            Status
-          </th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-border/50">
-        {data.map((row, i) => (
-          <tr key={i} className="hover:bg-muted/30 transition-colors">
-            <td className="px-4 py-1.5 font-medium text-foreground whitespace-nowrap">
-              {row.invoice}
-            </td>
-            <td className="px-4 py-1.5 whitespace-nowrap">{row.customer}</td>
-            <td className="px-4 py-1.5 whitespace-nowrap">{row.driver}</td>
-            <td className="px-4 py-1.5 text-right whitespace-nowrap">
-              <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-500">
-                {row.status}
-              </span>
-            </td>
-          </tr>
-        ))}
-      </tbody>
+      {!data || data.length === 0 ? (
+        <EmptyTableState message="No pending deliveries" />
+      ) : (
+        <table className="w-full text-sm text-left relative">
+          <thead className="text-xs text-muted-foreground uppercase sticky top-0 z-10 bg-muted/95 backdrop-blur-sm shadow-sm">
+            <tr>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Invoice</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Customer</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap">Driver</th>
+              <th className="px-4 py-1.5 font-medium whitespace-nowrap text-right">Status</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border/50">
+            {data.map((row, i) => (
+              <tr key={i} className="hover:bg-muted/30 transition-colors">
+                <td className="px-4 py-1.5 font-medium text-foreground whitespace-nowrap">{row.invoice}</td>
+                <td className="px-4 py-1.5 whitespace-nowrap">{row.customer}</td>
+                <td className="px-4 py-1.5 whitespace-nowrap">{row.driver}</td>
+                <td className="px-4 py-1.5 text-right whitespace-nowrap">
+                  <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-500">
+                    {row.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </TableWrapper>
   );
 }

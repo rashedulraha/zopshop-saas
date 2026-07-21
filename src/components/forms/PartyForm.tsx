@@ -41,7 +41,7 @@ export function PartyForm({
       mobile: initialData?.mobile || "",
       email: initialData?.email || "",
       address: initialData?.address || "",
-      type: (initialData?.type || defaultType) as any,
+      type: (initialData?.type || defaultType) as PartyFormValues["type"],
       openingBalance: initialData?.openingBalance || 0,
     },
   });

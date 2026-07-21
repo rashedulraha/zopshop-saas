@@ -17,6 +17,21 @@ import {
   CartesianGrid,
   Legend,
 } from "recharts";
+import { BarChart3, Inbox } from "lucide-react";
+
+function EmptyChartState({ title }: { title?: string }) {
+  return (
+    <div className="flex flex-col items-center justify-center h-full min-h-[220px] w-full text-center p-6 bg-muted/10 rounded-lg border border-dashed border-border/60">
+      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-3">
+        <BarChart3 className="w-5 h-5" />
+      </div>
+      <p className="text-sm font-medium text-foreground">No data available for {title || "this chart"}</p>
+      <p className="text-xs text-muted-foreground mt-1 max-w-xs">
+        Start by adding sales, purchases, or inventory to visualize your store metrics.
+      </p>
+    </div>
+  );
+}
 
 const COLORS = [
   "hsl(var(--primary))",
@@ -63,7 +78,10 @@ export function LineChartWidget({
         )}
       </div>
       <div className="flex-1 min-h-[260px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
+        {!data || data.length === 0 ? (
+          <EmptyChartState title={title} />
+        ) : (
+          <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={data}
             margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
@@ -112,6 +130,7 @@ export function LineChartWidget({
             />
           </LineChart>
         </ResponsiveContainer>
+        )}
       </div>
     </div>
   );
@@ -136,7 +155,10 @@ export function AreaChartWidget({
         )}
       </div>
       <div className="flex-1 min-h-[260px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
+        {!data || data.length === 0 ? (
+          <EmptyChartState title={title} />
+        ) : (
+          <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
             margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
@@ -192,6 +214,7 @@ export function AreaChartWidget({
             />
           </AreaChart>
         </ResponsiveContainer>
+        )}
       </div>
     </div>
   );
@@ -217,7 +240,10 @@ export function BarChartWidget({
         )}
       </div>
       <div className="flex-1 min-h-[260px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
+        {!data || data.length === 0 ? (
+          <EmptyChartState title={title} />
+        ) : (
+          <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
@@ -275,6 +301,7 @@ export function BarChartWidget({
             ))}
           </BarChart>
         </ResponsiveContainer>
+        )}
       </div>
     </div>
   );
@@ -299,7 +326,10 @@ export function DonutChartWidget({
         )}
       </div>
       <div className="flex-1 min-h-[260px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
+        {!data || data.length === 0 ? (
+          <EmptyChartState title={title} />
+        ) : (
+          <ResponsiveContainer width="100%" height="100%">
           <PieChart margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
             <Tooltip
               contentStyle={tooltipStyle}
@@ -341,6 +371,7 @@ export function DonutChartWidget({
             />
           </PieChart>
         </ResponsiveContainer>
+        )}
       </div>
     </div>
   );
