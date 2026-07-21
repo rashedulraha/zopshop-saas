@@ -45,7 +45,9 @@ export function HeroSection() {
     BUSINESS_CONFIGS[activeBusiness as keyof typeof BUSINESS_CONFIGS];
 
   useEffect(() => {
-    setIsMounted(true);
+    setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
   }, []);
 
   if (!isMounted) return null;
@@ -68,7 +70,7 @@ export function HeroSection() {
             <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
           </span>
           <span className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wide">
-            World's First Agentic POS Stack
+            World&apos;s First Agentic POS Stack
           </span>
         </div>
 

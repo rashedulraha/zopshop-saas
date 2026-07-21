@@ -38,15 +38,21 @@ export function Navbar({
   useEffect(() => {
     if (isHome) {
       const hour = new Date().getHours();
-      if (hour >= 5 && hour < 12) setGreetingText("Good Morning");
-      else if (hour >= 12 && hour < 17) setGreetingText("Good Afternoon");
-      else if (hour >= 17 && hour < 21) setGreetingText("Good Evening");
-      else setGreetingText("Good Night");
+      let text = "Good Night";
+      if (hour >= 5 && hour < 12) text = "Good Morning";
+      else if (hour >= 12 && hour < 17) text = "Good Afternoon";
+      else if (hour >= 17 && hour < 21) text = "Good Evening";
+
+      setTimeout(() => {
+        setGreetingText(text);
+      }, 0);
 
       const timer = setTimeout(() => setShowGreeting(false), 2500);
       return () => clearTimeout(timer);
     } else {
-      setShowGreeting(false);
+      setTimeout(() => {
+        setShowGreeting(false);
+      }, 0);
     }
   }, [isHome]);
 

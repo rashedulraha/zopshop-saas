@@ -1,54 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import ResponsiveComponents from "../providers/ResponsiveComponents";
 import { UserPlus, LayoutDashboard, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-
-const STEPS = [
-  {
-    id: "step-1",
-    title: "Sign Up in Seconds",
-    description:
-      "Create your free account. Access your dashboard instantly without needing a credit card.",
-    icon: <UserPlus className="w-6 h-6" />,
-    color: "text-primary",
-    bg: "bg-primary/10 border border-primary/20",
-    glow: "rgba(79,70,229,0.15)",
-    num: "01",
-  },
-  {
-    id: "step-2",
-    title: "Add Your Products",
-    description:
-      "Quickly list your stock items, set retail prices, and organize them into clean categories.",
-    icon: <LayoutDashboard className="w-6 h-6" />,
-    color: "text-violet-500",
-    bg: "bg-violet-500/10 border border-violet-500/20",
-    glow: "rgba(139,92,246,0.15)",
-    num: "02",
-  },
-  {
-    id: "step-3",
-    title: "Start Selling & Billing",
-    description:
-      "Use our instant POS interface to check out customers, print invoices, and track dues in real-time.",
-    icon: <BarChart3 className="w-6 h-6" />,
-    color: "text-cyan-500",
-    bg: "bg-cyan-500/10 border border-cyan-500/20",
-    glow: "rgba(6,182,212,0.15)",
-    num: "03",
-  },
-];
 
 export function HowItWorks() {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   return (
     <section
       id="how-it-works"
@@ -73,7 +29,7 @@ export function HowItWorks() {
                 How It Works
               </h2>
               <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-medium">
-                We've simplified the setup process. Just sign up, add your
+                We&apos;ve simplified the setup process. Just sign up, add your
                 items, and start selling immediately with zero configuration required.
               </p>
             </motion.div>
