@@ -12,11 +12,7 @@ interface SessionItem {
   activeNow: boolean;
 }
 
-const initialSessions: SessionItem[] = [
-  { id: "SESS-001", device: "MacBook Pro • macOS", ip: "103.111.22.45", location: "Dhaka, Bangladesh", activeNow: true },
-  { id: "SESS-002", device: "iPhone 15 Pro • iOS Mobile", ip: "103.111.22.12", location: "Dhaka, Bangladesh", activeNow: false },
-  { id: "SESS-003", device: "Chrome Browser • Windows 11", ip: "192.168.1.10", location: "Chittagong, Bangladesh", activeNow: false }
-];
+const initialSessions: SessionItem[] = [];
 
 export default function SecuritySettingsPage() {
   const [sessions, setSessions] = useState<SessionItem[]>(initialSessions);

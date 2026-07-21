@@ -13,40 +13,7 @@ interface TaxRate {
   status: "Active" | "Inactive";
 }
 
-const initialTaxRates: TaxRate[] = [
-  {
-    id: "TAX-001",
-    name: "Standard VAT",
-    rate: 15,
-    description: "Standard Value Added Tax applicable to general consumer goods.",
-    isDefault: true,
-    status: "Active"
-  },
-  {
-    id: "TAX-002",
-    name: "Reduced VAT",
-    rate: 5,
-    description: "Concessional tax rate applied to essential products and services.",
-    isDefault: false,
-    status: "Active"
-  },
-  {
-    id: "TAX-003",
-    name: "Zero Rated",
-    rate: 0,
-    description: "VAT-exempt category for export items and designated staples.",
-    isDefault: false,
-    status: "Active"
-  },
-  {
-    id: "TAX-004",
-    name: "Luxury Tax",
-    rate: 25,
-    description: "Surcharge rate for premium vehicles, jewelry, and luxury assets.",
-    isDefault: false,
-    status: "Inactive"
-  }
-];
+const initialTaxRates: TaxRate[] = [];
 
 export default function TaxSettingsPage() {
   const [rates, setRates] = useState<TaxRate[]>(initialTaxRates);

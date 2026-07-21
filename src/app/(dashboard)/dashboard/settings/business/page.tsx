@@ -63,7 +63,7 @@ export default function BusinessSettingsPage() {
       setNotification("Business information successfully updated!");
       setTimeout(() => setNotification(null), 3000);
     } catch (error) {
-      console.error("Failed to update business settings:", error);
+      // Error handled by store
     }
   };
 

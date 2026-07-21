@@ -39,7 +39,7 @@ export default function SystemSettingsPage() {
       });
       showNotification("General system configurations successfully updated!");
     } catch (error) {
-      console.error("Failed to update system config:", error);
+      // Error handled by store
     }
   };
 

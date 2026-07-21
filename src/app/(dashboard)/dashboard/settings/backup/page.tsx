@@ -12,12 +12,7 @@ interface BackupItem {
   status: "Completed" | "Failed";
 }
 
-const initialBackups: BackupItem[] = [
-  { id: "BKP-001", filename: "db_zopshop_20261012_0300.sql", createdAt: "12 Oct 2026 03:00 AM", size: "11.8 MB", status: "Completed" },
-  { id: "BKP-002", filename: "db_zopshop_20261011_0300.sql", createdAt: "11 Oct 2026 03:00 AM", size: "11.6 MB", status: "Completed" },
-  { id: "BKP-003", filename: "db_zopshop_20261010_0300.sql", createdAt: "10 Oct 2026 03:00 AM", size: "11.5 MB", status: "Completed" },
-  { id: "BKP-004", filename: "db_zopshop_20261009_0300.sql", createdAt: "09 Oct 2026 03:00 AM", size: "11.5 MB", status: "Completed" }
-];
+const initialBackups: BackupItem[] = [];
 
 export default function BackupSettingsPage() {
   const [backups, setBackups] = useState<BackupItem[]>(initialBackups);
