@@ -6,7 +6,7 @@ export const NAV_LINKS = [
   { name: "How It Works", href: "#how-it-works", icon: HelpCircle },
   { name: "Pricing", href: "#pricing", icon: CreditCard },
   { name: "About", href: "#about", icon: Info },
-  { name: "Contact", href: "#contact", icon: Mail },
+  { name: "Contact", href: "/contact", icon: Mail },
 ];
 
 export type NavLink = (typeof NAV_LINKS)[0];

@@ -5,9 +5,9 @@
 
 @theme {
   /* ===== Fonts ===== */
-  --font-sans: var(--font-sans), "Noto Sans Bengali", system-ui, -apple-system, sans-serif;
+  --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono), "Courier New", monospace;
-  --font-heading: var(--font-sans), "Noto Sans Bengali", system-ui, sans-serif;
+  --font-heading: var(--font-sans), system-ui, sans-serif;
 
   /* ===== Colors ===== */
   --color-background: var(--background);
@@ -15,25 +15,44 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-light: var(--primary-light);
+  --color-primary-lighter: var(--primary-lighter);
   --color-primary-dark: var(--primary-dark);
+  --color-primary-dim: var(--primary-dim);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-light: var(--accent-light);
+  --color-accent-dim: var(--accent-dim);
   --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  --color-success-dim: var(--success-dim);
   --color-warning: var(--warning);
+  --color-warning-light: var(--warning-light);
+  --color-warning-dim: var(--warning-dim);
   --color-danger: var(--danger);
+  --color-danger-light: var(--danger-light);
+  --color-danger-dim: var(--danger-dim);
   --color-info: var(--info);
+  --color-info-light: var(--info-light);
+  --color-info-dim: var(--info-dim);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-muted-light: var(--muted-light);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  --color-card-hover: var(--card-hover);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-border-hover: var(--border-hover);
   --color-input: var(--input);
+  --color-input-focus: var(--input-focus);
   --color-ring: var(--ring);
+  --color-ring-offset: var(--ring-offset);
   --color-destructive: var(--destructive);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -43,146 +62,310 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  /* ===== Glass ===== */
+  --color-glass: var(--glass-bg);
+  --color-glass-strong: var(--glass-bg-strong);
+  --color-glass-weak: var(--glass-bg-weak);
+  --color-glass-border: var(--glass-border);
+  --color-glass-border-subtle: var(--glass-border-subtle);
+
   /* ===== Radius ===== */
-  --radius-sm: 0.75rem;
-  --radius-md: 1rem;
-  --radius-lg: 1.5rem;
-  --radius-xl: 2rem;
-  --radius-2xl: 2.5rem;
-  --radius-3xl: 3rem;
-  --radius-full: 9999px;
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-full: var(--radius-full);
+
+  /* ===== Shadows ===== */
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-glow: var(--shadow-glow);
+  --shadow-glass: var(--glass-shadow);
 }
+/* ===== CRYSTAL CLEAR THEME SYSTEM ===== */
+/* Optimized for: POS SaaS, Clean UI, Professional Feel */
 
 :root {
-  /* ===== Background ===== */
-  --background: #eef2ff;
+  /* ========================================
+     CORE PALETTE - Indigo Foundation
+     ======================================== */
+
+  /* Background - Soft lavender-white (not pure white) */
+  --background: #f5f7ff;
   --foreground: #0f172a;
 
-  /* ===== Primary - Indigo ===== */
+  /* Primary - Rich Indigo with depth */
   --primary: #4f46e5;
   --primary-foreground: #ffffff;
-  --primary-light: #6366f1;
+  --primary-light: #818cf8;
+  --primary-lighter: #c7d2fe;
   --primary-dark: #3730a3;
+  --primary-dim: rgba(79, 70, 229, 0.08);
 
-  /* ===== Secondary ===== */
-  --secondary: #e2e8f0;
-  --secondary-foreground: #0f172a;
+  /* Secondary - Cool gray with warmth */
+  --secondary: #e0e7ff;
+  --secondary-foreground: #1e1b4b;
 
-  /* ===== Accent ===== */
+  /* Accent - Purple for highlights/gradients */
   --accent: #8b5cf6;
   --accent-foreground: #ffffff;
+  --accent-light: #a78bfa;
+  --accent-dim: rgba(139, 92, 246, 0.08);
 
-  /* ===== Status Colors ===== */
-  --success: #16a34a;
-  --warning: #d97706;
-  --danger: #dc2626;
-  --info: #0284c7;
+  /* ========================================
+     SEMANTIC COLORS - Softer, accessible
+     ======================================== */
 
-  /* ===== Muted ===== */
-  --muted: #f1f5f9;
-  --muted-foreground: #475569;
+  --success: #10b981;
+  --success-light: #d1fae5;
+  --success-dim: rgba(16, 185, 129, 0.08);
 
-  /* ===== Card & Popover ===== */
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+  --warning-dim: rgba(245, 158, 11, 0.08);
+
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+  --danger-dim: rgba(239, 68, 68, 0.08);
+
+  --info: #0ea5e9;
+  --info-light: #e0f2fe;
+  --info-dim: rgba(14, 165, 233, 0.08);
+
+  /* ========================================
+     SURFACE COLORS - Layered depth
+     ======================================== */
+
+  /* Cards - Pure white for maximum contrast */
   --card: #ffffff;
   --card-foreground: #0f172a;
+  --card-hover: #fafbfc;
+
+  /* Popover - Slightly elevated */
   --popover: #ffffff;
   --popover-foreground: #0f172a;
 
-  /* ===== Border & Input ===== */
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #4f46e5;
-  --destructive: #dc2626;
+  /* Muted - For secondary info */
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --muted-light: #f8fafc;
 
-  /* ===== Sidebar ===== */
+  /* ========================================
+     BORDER & INTERACTION
+     ======================================== */
+
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --border-hover: #cbd5e1;
+  --input: #e2e8f0;
+  --input-focus: #c7d2fe;
+  --ring: #4f46e5;
+  --ring-offset: #ffffff;
+  --destructive: #ef4444;
+
+  /* ========================================
+     SIDEBAR - Clean navigation
+     ======================================== */
+
   --sidebar: #f8fafc;
-  --sidebar-foreground: #0f172a;
+  --sidebar-foreground: #334155;
   --sidebar-primary: #4f46e5;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f1f5f9;
+  --sidebar-accent: #eef2ff;
   --sidebar-accent-foreground: #4f46e5;
   --sidebar-border: #e2e8f0;
   --sidebar-ring: #4f46e5;
 
-  /* ===== Background Gradients ===== */
-  --bg-grad-1: rgba(99, 102, 241, 0.08);
-  --bg-grad-2: rgba(6, 182, 212, 0.05);
-  --bg-grad-3: rgba(238, 242, 255, 0.95);
-  --bg-grad-4: #eef2ff;
+  /* ========================================
+     BACKGROUND EFFECTS - Subtle & Premium
+     ======================================== */
 
-  /* ===== Glass System ===== */
-  /* High opacity so nothing bleeds through */
-  --glass-bg-xl: rgba(255, 255, 255, 0.88);
-  --glass-bg-md: rgba(255, 255, 255, 0.72);
-  --glass-bg-sm: rgba(255, 255, 255, 0.50);
-  --glass-border: rgba(255, 255, 255, 0.70);
-  --glass-border-subtle: rgba(255, 255, 255, 0.40);
+  /* Soft ambient glows */
+  --glow-primary: rgba(99, 102, 241, 0.15);
+  --glow-accent: rgba(139, 92, 246, 0.12);
+  --glow-cyan: rgba(6, 182, 212, 0.08);
+
+  /* Gradient stops for hero/sections */
+  --grad-start: rgba(99, 102, 241, 0.06);
+  --grad-mid: rgba(139, 92, 246, 0.04);
+  --grad-end: transparent;
+
+  /* ========================================
+     GLASS MORPHISM - Clean & Light
+     ======================================== */
+
+  /* Light theme: High opacity white for clarity */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-bg-strong: rgba(255, 255, 255, 0.95);
+  --glass-bg-weak: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-border-subtle: rgba(226, 232, 240, 0.6);
+  --glass-shadow: 0 8px 32px rgba(15, 23, 42, 0.06);
+
+  /* ========================================
+     TYPOGRAPHY SCALE
+     ======================================== */
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  /* ========================================
+     SHADOWS - Soft & Natural
+     ======================================== */
+
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm:
+    0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md:
+    0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg:
+    0 10px 15px -3px rgba(15, 23, 42, 0.06),
+    0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --shadow-xl:
+    0 20px 25px -5px rgba(15, 23, 42, 0.06),
+    0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.15);
+
+  /* ========================================
+     SPACING & RADIUS
+     ======================================== */
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
 }
 
+/* ========================================
+   DARK MODE - Deep Navy, Not Pure Black
+   ======================================== */
+
 .dark {
-  /* ===== Background ===== */
-  --background: #0f1729;
-  --foreground: #f0f4ff;
+  /* Background - Deep navy (easier on eyes than pure black) */
+  --background: #0f172a;
+  --foreground: #f1f5f9;
 
-  /* ===== Primary - Indigo ===== */
-  --primary: #6366f1;
-  --primary-foreground: #ffffff;
-  --primary-light: #818cf8;
-  --primary-dark: #4f46e5;
+  /* Primary - Brighter for dark mode */
+  --primary: #818cf8;
+  --primary-foreground: #0f172a;
+  --primary-light: #a5b4fc;
+  --primary-lighter: #c7d2fe;
+  --primary-dark: #6366f1;
+  --primary-dim: rgba(129, 140, 248, 0.12);
 
-  /* ===== Secondary ===== */
+  /* Secondary - Dark slate */
   --secondary: #1e293b;
-  --secondary-foreground: #f8fafc;
+  --secondary-foreground: #e2e8f0;
 
-  /* ===== Accent ===== */
+  /* Accent - Softer purple */
   --accent: #a78bfa;
-  --accent-foreground: #ffffff;
+  --accent-foreground: #0f172a;
+  --accent-light: #c4b5fd;
+  --accent-dim: rgba(167, 139, 250, 0.12);
 
-  /* ===== Status Colors ===== */
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --danger: #ef4444;
+  /* ========================================
+     SEMANTIC COLORS - Adjusted for dark
+     ======================================== */
+
+  --success: #34d399;
+  --success-light: rgba(52, 211, 153, 0.15);
+  --success-dim: rgba(52, 211, 153, 0.1);
+
+  --warning: #fbbf24;
+  --warning-light: rgba(251, 191, 36, 0.15);
+  --warning-dim: rgba(251, 191, 36, 0.1);
+
+  --danger: #f87171;
+  --danger-light: rgba(248, 113, 113, 0.15);
+  --danger-dim: rgba(248, 113, 113, 0.1);
+
   --info: #38bdf8;
+  --info-light: rgba(56, 189, 248, 0.15);
+  --info-dim: rgba(56, 189, 248, 0.1);
 
-  /* ===== Muted ===== */
-  --muted: #0f172a;
+  /* ========================================
+     SURFACE COLORS - Layered dark
+     ======================================== */
+
+  --card: rgba(30, 41, 59, 0.6);
+  --card-foreground: #f1f5f9;
+  --card-hover: rgba(30, 41, 59, 0.8);
+
+  --popover: #1e293b;
+  --popover-foreground: #f1f5f9;
+
+  --muted: rgba(30, 41, 59, 0.5);
   --muted-foreground: #94a3b8;
+  --muted-light: rgba(30, 41, 59, 0.3);
 
-  /* ===== Card & Popover ===== */
-  --card: rgba(15, 23, 42, 0.6);
-  --card-foreground: #f8fafc;
-  --popover: #020617;
-  --popover-foreground: #f8fafc;
+  /* ========================================
+     BORDER & INTERACTION
+     ======================================== */
 
-  /* ===== Border & Input ===== */
   --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.05);
-  --ring: #6366f1;
-  --destructive: #ef4444;
+  --border-light: rgba(255, 255, 255, 0.04);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --input: rgba(255, 255, 255, 0.06);
+  --input-focus: rgba(129, 140, 248, 0.25);
+  --ring: #818cf8;
+  --ring-offset: #0f172a;
+  --destructive: #f87171;
 
-  /* ===== Sidebar ===== */
+  /* ========================================
+     SIDEBAR - Dark mode
+     ======================================== */
+
   --sidebar: #020617;
-  --sidebar-foreground: #f8fafc;
-  --sidebar-primary: #6366f1;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: rgba(99, 102, 241, 0.1);
-  --sidebar-accent-foreground: #818cf8;
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: #6366f1;
+  --sidebar-foreground: #94a3b8;
+  --sidebar-primary: #818cf8;
+  --sidebar-primary-foreground: #0f172a;
+  --sidebar-accent: rgba(129, 140, 248, 0.1);
+  --sidebar-accent-foreground: #a5b4fc;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: #818cf8;
 
-  /* ===== Background Gradients ===== */
-  --bg-grad-1: rgba(99, 102, 241, 0.12);
-  --bg-grad-2: rgba(6, 182, 212, 0.07);
-  --bg-grad-3: rgba(15, 23, 41, 0.75);
-  --bg-grad-4: #0f1729;
+  /* ========================================
+     BACKGROUND EFFECTS - Dark ambient
+     ======================================== */
 
-  /* ===== Glass System ===== */
-  /* Lighter dark navy glass — NOT pure black */
-  --glass-bg-xl: rgba(30, 41, 75, 0.80);
-  --glass-bg-md: rgba(25, 35, 65, 0.65);
-  --glass-bg-sm: rgba(20, 30, 58, 0.45);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-border-subtle: rgba(255, 255, 255, 0.07);
+  --glow-primary: rgba(99, 102, 241, 0.2);
+  --glow-accent: rgba(139, 92, 246, 0.15);
+  --glow-cyan: rgba(6, 182, 212, 0.1);
+
+  --grad-start: rgba(99, 102, 241, 0.1);
+  --grad-mid: rgba(139, 92, 246, 0.06);
+  --grad-end: transparent;
+
+  /* ========================================
+     GLASS MORPHISM - Dark navy glass
+     ======================================== */
+
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-bg-strong: rgba(30, 41, 59, 0.85);
+  --glass-bg-weak: rgba(15, 23, 42, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-subtle: rgba(255, 255, 255, 0.05);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  /* ========================================
+     SHADOWS - Dark mode
+     ======================================== */
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+  --shadow-xl:
+    0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.2);
 }
 
 @layer base {
@@ -192,7 +375,7 @@
 
   html {
     scroll-behavior: smooth;
-    overflow-x: clip;
+    overflow-x: hidden;
     max-width: 100%;
   }
 
@@ -200,160 +383,43 @@
     @apply bg-background text-foreground antialiased font-sans;
     min-height: 100vh;
     line-height: 1.6;
-    overflow-x: clip;
+    overflow-x: hidden;
     max-width: 100%;
   }
-
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(
-        ellipse 80% 60% at 20% 0%,
-        var(--bg-grad-1) 0%,
-        transparent 65%
-      ),
-      radial-gradient(
-        ellipse 60% 50% at 80% 85%,
-        var(--bg-grad-2) 0%,
-        transparent 65%
-      ),
-      radial-gradient(
-        ellipse 100% 100% at 50% 50%,
-        var(--bg-grad-3) 0%,
-        var(--bg-grad-4) 100%
-      );
-    pointer-events: none;
-    z-index: -1;
-  }
 }
 
-/* ===== Glass Utility Classes ===== */
-.glass-xl {
-  background: var(--glass-bg-xl);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--glass-border);
-}
-
-.glass-md {
-  background: var(--glass-bg-md);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--glass-border);
-}
-
-.glass-sm {
-  background: var(--glass-bg-sm);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--glass-border-subtle);
-}
-
-/* ===== Gradient Text ===== */
+/* ===== Typography Additions ===== */
 .text-gradient {
-  background: linear-gradient(135deg, #4f46e5 0%, #818cf8 40%, #22d3ee 100%);
+  background: linear-gradient(to right, var(--foreground), #71717a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .dark .text-gradient {
-  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 40%, #22d3ee 100%);
+  background: linear-gradient(to right, var(--foreground), #a1a1aa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* ===== Glass Glow Border (animated shimmer) ===== */
-@keyframes shimmerBorder {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* ===== Subtle Glass Utility Classes ===== */
+.glass-xl {
+  @apply bg-background/80 backdrop-blur-2xl border border-border/50;
 }
 
-.glass-glow-border {
-  position: relative;
+.glass-md {
+  @apply bg-background/60 backdrop-blur-xl border border-border/50;
 }
 
-.glass-glow-border::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    rgba(79, 70, 229, 0.4),
-    rgba(6, 182, 212, 0.3),
-    rgba(139, 92, 246, 0.4),
-    rgba(79, 70, 229, 0.4)
-  );
-  background-size: 300% 300%;
-  animation: shimmerBorder 4s ease infinite;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+.glass-sm {
+  @apply bg-background/40 backdrop-blur-md border border-border/50;
 }
 
-/* ===== Section Ambient Background ===== */
-.section-ambient {
-  position: relative;
-}
-
-.section-ambient::before {
-  content: "";
-  position: absolute;
-  top: -100px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 400px;
-  background: radial-gradient(ellipse, rgba(79, 70, 229, 0.07) 0%, transparent 70%);
-  filter: blur(60px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ===== Fade-in animation ===== */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.3s ease forwards;
-}
-
-/* ===== Scrollbar ===== */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-radius: 9999px;
-}
-
-.custom-scrollbar:hover::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.25);
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.5);
-}
-
-/* Global scrollbar fallback */
+/* ===== Custom Scrollbar ===== */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -361,20 +427,29 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.2);
+  background: var(--muted);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.5);
+  background: var(--muted-foreground);
 }
 
 ::selection {
-  background: rgba(99, 102, 241, 0.3);
-  color: #fff;
+  background: var(--primary);
+  color: var(--primary-foreground);
 }
 
-/* Custom Animations for Performance Optimization (Instant LCP) */
+/* ===== Essential Animations ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -386,23 +461,38 @@
   }
 }
 
+@keyframes gradient {
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
 .animate-fade-in-up {
   opacity: 0;
   animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.animate-gradient {
+  animation: gradient 8s ease infinite;
+}
+
 .animation-delay-100 {
   animation-delay: 100ms;
 }
-
 .animation-delay-200 {
   animation-delay: 200ms;
 }
-
 .animation-delay-300 {
   animation-delay: 300ms;
 }
-
 .animation-delay-400 {
   animation-delay: 400ms;
 }
