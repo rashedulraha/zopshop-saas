@@ -1,107 +1,282 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
-import ResponsiveComponents from "../providers/ResponsiveComponents";
+import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import {
+  ArrowRight,
+  Sparkles,
+  Zap,
+  Star,
+  CheckCircle2,
+  Rocket,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+
+const TRUST_BADGES = [
+  { icon: CheckCircle2, label: "No credit card" },
+  { icon: Zap, label: "30-day free" },
+  { icon: Star, label: "4.9/5 rating" },
+];
+
+const FLOATING_ELEMENTS = [
+  {
+    icon: Rocket,
+    top: "15%",
+    left: "8%",
+    delay: 0,
+    color: "text-primary/15",
+    size: "w-10 h-10",
+  },
+  {
+    icon: TrendingUp,
+    top: "70%",
+    left: "5%",
+    delay: 1,
+    color: "text-cyan-500/15",
+    size: "w-8 h-8",
+  },
+  {
+    icon: Users,
+    top: "20%",
+    right: "8%",
+    delay: 2,
+    color: "text-violet-500/15",
+    size: "w-10 h-10",
+  },
+  {
+    icon: Star,
+    bottom: "20%",
+    right: "10%",
+    delay: 3,
+    color: "text-amber-500/15",
+    size: "w-8 h-8",
+  },
+];
+
+function FloatingElement({
+  element,
+}: {
+  element: (typeof FLOATING_ELEMENTS)[0];
+}) {
+  const Icon = element.icon;
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: element.delay * 0.3 }}
+      className={`absolute hidden lg:block ${element.color}`}
+      style={{
+        top: element.top,
+        left: element.left,
+        right: element.right,
+        bottom: element.bottom,
+      }}
+    >
+      <motion.div
+        animate={{ y: [0, -15, 0], rotate: [0, 8, -8, 0] }}
+        transition={{
+          duration: 5 + element.delay,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <Icon className={element.size} strokeWidth={1.2} />
+      </motion.div>
+    </motion.div>
+  );
+}
 
 export function CTASection() {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-150px" });
+
   return (
-    <section className="py-20 lg:py-32 relative overflow-hidden bg-white dark:bg-slate-950">
-      {/* Outer ambient glow */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] rounded-full bg-blue-500/10 dark:bg-blue-500/20 blur-[120px]" />
-      </div>
+    <section
+      ref={sectionRef}
+      className="relative py-24 lg:py-32 overflow-hidden"
+    >
+      {/* ===== CREATIVE BACKGROUND ===== */}
 
-      <ResponsiveComponents>
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
-          {/* CTA Glass Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-blue-600 to-indigo-700 dark:from-blue-900 dark:to-indigo-950 shadow-2xl shadow-blue-500/20 dark:shadow-indigo-500/20"
-          >
-            <div className="relative rounded-[2.5rem] p-12 md:p-24 text-center overflow-hidden border border-white/10 dark:border-white/5">
+      {/* Base gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/[0.02] to-background" />
 
-              {/* Ambient glows inside card */}
-              <div className="absolute left-1/2 top-0 -translate-x-1/2 pointer-events-none w-[600px] h-[300px] bg-white/10 blur-[80px]" />
-              <div className="absolute -bottom-24 -left-24 pointer-events-none w-[350px] h-[350px] bg-cyan-400/20 blur-[80px]" />
-              <div className="absolute -bottom-24 -right-24 pointer-events-none w-[350px] h-[350px] bg-purple-500/20 blur-[80px]" />
+      {/* Large ambient orbs */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-primary/8 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 left-1/4 w-[300px] h-[300px] bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
 
-              {/* Content */}
-              <div className="relative z-10 flex flex-col items-center gap-6">
+      {/* Dot grid pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `radial-gradient(circle, var(--foreground) 1px, transparent 1px)`,
+          backgroundSize: "40px 40px",
+        }}
+      />
+
+      {/* Floating decorative elements */}
+      {FLOATING_ELEMENTS.map((element, i) => (
+        <FloatingElement key={i} element={element} />
+      ))}
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* ===== MAIN CTA CARD ===== */}
+
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, type: "spring", stiffness: 100 }}
+          className="relative group"
+        >
+          {/* Glow behind card */}
+          <div className="absolute -inset-4 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 rounded-[2.5rem] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-700" />
+
+          {/* Card container */}
+          <div className="relative overflow-hidden rounded-[2rem] border border-border bg-card/80 backdrop-blur-xl shadow-2xl">
+            {/* Inner gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+
+            {/* Animated top line */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accent to-primary opacity-50" />
+
+            <div className="relative z-10 p-12 md:p-20 text-center">
+              {/* Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2.5 px-5 py-2.5 mb-8 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 backdrop-blur-sm"
+              >
                 <motion.span
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.1 }}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-xs font-semibold uppercase tracking-wider backdrop-blur-sm"
-                >
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400" />
-                  </span>
+                  animate={{
+                    scale: [1, 1.4, 1],
+                    opacity: [1, 0.5, 1],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                  }}
+                  className="inline-flex h-2.5 w-2.5 rounded-full bg-primary"
+                />
+                <span className="text-sm font-bold text-primary uppercase tracking-wider">
                   Limited Time Offer
-                </motion.span>
+                </span>
+              </motion.div>
 
-                <motion.h2
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.15 }}
-                  className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.1]"
-                >
-                  Ready to Get Started?
-                </motion.h2>
-
-                <motion.p
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="text-lg sm:text-xl max-w-2xl leading-relaxed text-blue-100 dark:text-blue-200 font-medium"
-                >
-                  Join 10,000+ businesses already using ZopShop. Start your free
-                  trial today — no credit card, no commitment.
-                </motion.p>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.25 }}
-                  className="flex flex-col sm:flex-row items-center gap-4 mt-6"
-                >
-                  <Button
-                    render={<Link href="/register" />}
-                    nativeButton={false}
-                    size="lg"
-                    className="bg-white hover:bg-slate-50 text-blue-700 rounded-xl px-10 py-6 text-base font-bold group shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+              {/* Headline */}
+              <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-foreground mb-6 leading-[1.1]"
+              >
+                Ready to{" "}
+                <span className="relative inline-block">
+                  <span className="relative z-10 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] animate-gradient bg-clip-text text-transparent">
+                    get started?
+                  </span>
+                  <svg
+                    className="absolute -bottom-2 left-0 w-full h-3 text-primary/20"
+                    viewBox="0 0 200 12"
+                    fill="none"
+                    preserveAspectRatio="none"
                   >
-                    Start 30-Day Free Trial
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                  <Button
-                    render={<Link href="#features" />}
-                    nativeButton={false}
-                    size="lg"
-                    className="rounded-xl px-10 py-6 text-base font-bold bg-white/10 hover:bg-white/20 border border-white/20 text-white backdrop-blur-sm transition-all duration-300"
-                  >
-                    See Features
-                  </Button>
-                </motion.div>
+                    <motion.path
+                      initial={{ pathLength: 0 }}
+                      animate={isInView ? { pathLength: 1 } : {}}
+                      transition={{ duration: 0.8, delay: 0.6 }}
+                      d="M2 8C50 2 150 2 198 8"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </span>
+              </motion.h2>
 
-                <p className="text-sm text-blue-200/80 font-medium mt-4">
-                  Free for 30 days · No credit card required · Cancel anytime
-                </p>
-              </div>
+              {/* Description */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10 font-medium"
+              >
+                Join <span className="text-foreground font-bold">10,000+</span>{" "}
+                businesses already using ZopShop. Start your free trial today —
+                no credit card, no commitment.
+              </motion.p>
+
+              {/* CTA Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10"
+              >
+                <Link href="/register" className="w-full sm:w-auto">
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto rounded-full px-10 py-7 text-base font-bold bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 hover:scale-[1.02] group"
+                  >
+                    <Sparkles className="mr-2 w-5 h-5 group-hover:rotate-12 transition-transform" />
+                    Start Free Trial
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+
+                <Link href="#features" className="w-full sm:w-auto">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full sm:w-auto rounded-full px-10 py-7 text-base font-bold border-border hover:border-primary/50 hover:bg-primary/5 text-foreground transition-all duration-300 group"
+                  >
+                    Explore Features
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+              </motion.div>
+
+              {/* Trust Badges */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="flex flex-wrap items-center justify-center gap-4"
+              >
+                {TRUST_BADGES.map((badge, i) => {
+                  const BadgeIcon = badge.icon;
+                  return (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                      transition={{ duration: 0.4, delay: 0.6 + i * 0.1 }}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-background border border-border shadow-sm"
+                    >
+                      <BadgeIcon className="w-4 h-4 text-primary" />
+                      <span className="text-sm font-semibold text-muted-foreground">
+                        {badge.label}
+                      </span>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
             </div>
-          </motion.div>
-        </div>
-      </ResponsiveComponents>
+
+            {/* Bottom decorative line */}
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+          </div>
+
+          {/* Corner accents */}
+          <div className="absolute -top-3 -left-3 w-10 h-10 border-t-2 border-l-2 border-primary/30 rounded-tl-2xl" />
+          <div className="absolute -top-3 -right-3 w-10 h-10 border-t-2 border-r-2 border-primary/30 rounded-tr-2xl" />
+          <div className="absolute -bottom-3 -left-3 w-10 h-10 border-b-2 border-l-2 border-primary/30 rounded-bl-2xl" />
+          <div className="absolute -bottom-3 -right-3 w-10 h-10 border-b-2 border-r-2 border-primary/30 rounded-br-2xl" />
+        </motion.div>
+      </div>
     </section>
   );
 }
