@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/hooks/useSidebar";
+import { BUSINESS_TYPES } from "@/config/business-types";
 import {
   LayoutDashboard,
   Package,
@@ -214,6 +215,28 @@ export function Sidebar({ className }: SidebarProps) {
   // Preserve sidebar scroll position across route changes
   const scrollPosRef = useRef(0);
 
+  // Filter groups dynamically based on businessType
+  const [activeBusinessType, setActiveBusinessType] = useState<string | null>(null);
+
+  useEffect(() => {
+    setActiveBusinessType(localStorage.getItem("businessType"));
+  }, []);
+
+  const config = activeBusinessType ? BUSINESS_TYPES[activeBusinessType as keyof typeof BUSINESS_TYPES] : null;
+  const hiddenItems = config?.hiddenSidebarItems || [];
+
+  const filteredSidebarGroups = sidebarGroups.map(group => {
+    const items = group.items.map(item => {
+       if (item.subItems) {
+         const filteredSub = item.subItems.filter(sub => !hiddenItems.includes(sub.name));
+         return { ...item, subItems: filteredSub.length > 0 ? filteredSub : undefined };
+       }
+       return item;
+    }).filter(item => !hiddenItems.includes(item.name) && (item.href || item.subItems));
+    
+    return { ...group, items };
+  }).filter(group => group.items.length > 0);
+
   useEffect(() => {
     // Save scroll position before pathname-triggered re-render
     if (navRef.current) {
@@ -221,7 +244,7 @@ export function Sidebar({ className }: SidebarProps) {
     }
 
     const newExpanded = { ...expanded };
-    sidebarGroups.forEach((group) => {
+    filteredSidebarGroups.forEach((group) => {
       group.items.forEach((item) => {
         if (item.subItems) {
           const isChildActive = item.subItems.some(
@@ -456,7 +479,7 @@ export function Sidebar({ className }: SidebarProps) {
             if (navRef.current) scrollPosRef.current = navRef.current.scrollTop;
           }}
         >
-          {sidebarGroups.map((group, groupIdx) => (
+          {filteredSidebarGroups.map((group, groupIdx) => (
             <div
               key={group.label}
               className={cn("flex flex-col", groupIdx > 0 && "mt-4")}
