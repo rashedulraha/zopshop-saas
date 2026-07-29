@@ -1,271 +1,281 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Button } from "../ui/button";
-import { ArrowRight, Play, Sparkles } from "lucide-react";
-import DemoDashboard from "../dmeoDashboard/DemoDashboard";
+import { useState } from "react";
+import Link from "next/link";
+import { Smartphone, Store, ShoppingCart } from "lucide-react";
 
 export function HeroSection() {
-  const [isMounted, setIsMounted] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [email, setEmail] = useState("");
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsMounted(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Animated background particles
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-      opacity: number;
-      color: string;
-    }> = [];
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-
-    const createParticles = () => {
-      particles = [];
-      const count = Math.min(50, Math.floor(window.innerWidth / 30));
-      const colors = [
-        "rgba(79, 70, 229, 0.4)", // primary
-        "rgba(139, 92, 246, 0.3)", // accent purple
-        "rgba(6, 182, 212, 0.3)", // cyan
-      ];
-
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-          size: Math.random() * 2 + 0.5,
-          opacity: Math.random() * 0.5 + 0.1,
-          color: colors[Math.floor(Math.random() * colors.length)],
-        });
-      }
-    };
-
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      particles.forEach((p, i) => {
-        // Update position
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // Wrap around
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-
-        // Draw particle
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-
-        // Draw connections
-        particles.slice(i + 1).forEach((p2) => {
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < 150) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(79, 70, 229, ${0.1 * (1 - dist / 150)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        });
-      });
-
-      animationFrameId = requestAnimationFrame(draw);
-    };
-
-    resize();
-    createParticles();
-    draw();
-
-    window.addEventListener("resize", () => {
-      resize();
-      createParticles();
-    });
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
-
-  // We removed `if (!isMounted) return null;` to ensure the section is in the DOM for IntersectionObserver to find `#home`.
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      window.location.href = `/register?email=${encodeURIComponent(email)}`;
+    }
+  };
 
   return (
-    <section id="home" className="relative flex flex-col items-center justify-start overflow-hidden bg-gradient-to-b from-background via-background/95 to-background pt-24 sm:pt-32">
-      {/* ===== ANIMATED PARTICLE BACKGROUND ===== */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none z-0"
-      />
-
-      {/* ===== GRADIENT ORBS (CSS fallback/enhancement) ===== */}
-      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] animate-pulse pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] animate-pulse delay-1000 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-purple-500/5 rounded-full blur-[130px] animate-pulse delay-2000 pointer-events-none" />
-
-      {/* Premium grid pattern */}
+    <section
+      id="home"
+      className="relative bg-background pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden border-b border-border transition-colors duration-300"
+    >
+      {/* Subtle tech dot grid background */}
       <div
-        className="absolute inset-0 opacity-[0.02] pointer-events-none"
+        className="absolute inset-0 opacity-[0.05] dark:opacity-[0.04] pointer-events-none"
         style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, var(--foreground) 1px, transparent 0)`,
-          backgroundSize: "40px 40px",
+          backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
+          backgroundSize: "32px 32px",
         }}
       />
 
-      {/* ===== FLOATING GEOMETRIC SHAPES ===== */}
-      <div className="absolute top-20 left-[10%] w-20 h-20 border border-primary/10 rounded-2xl rotate-12 animate-float hidden lg:block" />
-      <div className="absolute top-40 right-[15%] w-16 h-16 bg-primary/5 rounded-full animate-float-delayed hidden lg:block" />
-      <div className="absolute bottom-1/3 left-[5%] w-12 h-12 border border-accent/20 rounded-lg -rotate-12 animate-float hidden lg:block" />
-      <div className="absolute top-1/2 right-[8%] w-24 h-24 border border-primary/10 rounded-full animate-float-delayed hidden lg:block" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center mb-16">
+          {/* ===== LEFT COLUMN: Headline & CTA ===== */}
+          <div className="lg:col-span-6 flex flex-col items-start text-left">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.12] mb-6">
+              POS & Business management <br className="hidden sm:inline" />
+              designed for 2026
+            </h1>
 
-      {/* ===== HERO CONTENT ===== */}
-      <div className="relative w-full max-w-4xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center z-10 pb-12">
-        {/* Badge */}
-        <div
-          className={`inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-sm text-xs font-semibold uppercase tracking-wider text-primary shadow-lg shadow-primary/5 transition-all duration-1000 ${
-            isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>The Agentic POS Stack</span>
-        </div>
+            <p className="text-base sm:text-lg text-muted-foreground font-normal leading-relaxed mb-8 max-w-xl">
+              AI-native business management with built-in billing, inventory,
+              on-call, and status pages in one beautifully made product.
+            </p>
 
-        {/* Main Headline */}
-        <h1
-          className={`text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-foreground transition-all duration-1000 delay-200 ${
-            isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          One POS System. <br className="hidden sm:block" />
-          <span className="relative inline-block">
-            <span className="relative z-10 bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent">
-              For Every Business.
-            </span>
-            <svg
-              className="absolute -bottom-2 left-0 w-full h-3 text-primary/20"
-              viewBox="0 0 200 12"
-              fill="none"
-              preserveAspectRatio="none"
+            {/* Email form inline */}
+            <form
+              onSubmit={handleSubmit}
+              className="w-full max-w-md flex flex-col sm:flex-row gap-2.5 mb-6"
             >
-              <path
-                d="M2 8C50 2 150 2 198 8"
-                stroke="currentColor"
-                strokeWidth="4"
-                strokeLinecap="round"
+              <input
+                type="email"
+                placeholder="Your work e-mail"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 bg-card border border-border text-foreground placeholder-muted-foreground rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors shadow-sm"
+                required
               />
-            </svg>
-          </span>
-        </h1>
+              <button
+                type="submit"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium text-sm px-6 py-3 rounded-xl transition-all shadow-md shrink-0 flex items-center justify-center gap-2"
+              >
+                <span>Start for free</span>
+              </button>
+            </form>
 
-        {/* Description */}
-        <p
-          className={`text-base sm:text-lg font-normal text-muted-foreground leading-relaxed max-w-2xl mb-10 transition-all duration-1000 delay-300 ${
-            isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          Configure your POS for any industry in seconds. No code changes. No
-          complex setup. Just powerful management built for speed.
-        </p>
+            {/* Enterprise Link */}
+            <p className="text-sm text-muted-foreground">
+              Looking for an enterprise solution?{" "}
+              <Link
+                href="/contact"
+                className="text-foreground underline hover:text-primary font-medium transition-colors"
+              >
+                Book a demo
+              </Link>
+            </p>
+          </div>
 
-        {/* CTA Buttons */}
-        <div
-          className={`flex flex-col sm:flex-row items-center gap-4 mb-4 transition-all duration-1000 delay-500 ${
-            isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
-          <Button
-            size="lg"
-            className="rounded-full px-8 py-6 text-base font-semibold bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 group"
-          >
-            Get Started
-            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          {/* ===== RIGHT COLUMN: Real Dashboard & Mobile POS Demo ===== */}
+          <div className="lg:col-span-6 relative mt-6 lg:mt-0">
+            <div className="relative mx-auto max-w-lg lg:max-w-none">
+              {/* MAIN DESKTOP DASHBOARD MOCKUP */}
+              <div className="bg-card border border-border rounded-2xl p-4 sm:p-5 shadow-2xl relative z-10 transition-colors">
+                {/* Window Topbar */}
+                <div className="flex items-center justify-between pb-3 mb-4 border-b border-border">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-[#ef4444]/80" />
+                    <div className="w-3 h-3 rounded-full bg-[#f59e0b]/80" />
+                    <div className="w-3 h-3 rounded-full bg-[#10b981]/80" />
+                  </div>
+                  <div className="text-xs text-muted-foreground font-mono flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#10b981]" />
+                    <span>admin.zopshop.com/store-overview</span>
+                  </div>
+                </div>
 
-          <Button
-            variant="outline"
-            size="lg"
-            className="rounded-full px-8 py-6 text-base font-medium border-border/50 hover:border-primary/50 hover:bg-primary/5 backdrop-blur-sm transition-all duration-300 group"
-          >
-            <Play className="mr-2 w-4 h-4 text-primary group-hover:scale-110 transition-transform" />
-            Watch Demo
-          </Button>
-        </div>
+                {/* Main Content Area */}
+                <div className="space-y-3.5">
+                  {/* Status & Store Header Banner */}
+                  <div className="bg-muted/50 dark:bg-[#181a28] border border-border rounded-xl p-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <Store className="w-4 h-4 text-primary" />
+                      <span className="text-xs font-semibold text-foreground">
+                        Dhaka Main Store · Terminal #01
+                      </span>
+                    </div>
+                    <span className="text-[11px] text-[#10b981] bg-[#10b981]/10 px-2 py-0.5 rounded font-mono font-medium">
+                      ● Active & Synced
+                    </span>
+                  </div>
 
-        {/* Trust indicator */}
-        <p
-          className={`text-sm text-muted-foreground/60 transition-all duration-1000 delay-700 ${
-            isMounted ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          30-day free trial &nbsp;·&nbsp; No credit card required
-        </p>
-      </div>
+                  {/* Real Dashboard KPI Cards Row */}
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="bg-background dark:bg-[#0e1017] border border-border rounded-xl p-2.5">
+                      <div className="text-[10px] text-muted-foreground font-medium mb-0.5">
+                        Today's Revenue
+                      </div>
+                      <div className="text-sm font-bold text-foreground font-mono">
+                        BDT 48,250
+                      </div>
+                      <div className="text-[10px] text-[#10b981] font-mono">
+                        +14.2% today
+                      </div>
+                    </div>
+                    <div className="bg-background dark:bg-[#0e1017] border border-border rounded-xl p-2.5">
+                      <div className="text-[10px] text-muted-foreground font-medium mb-0.5">
+                        Total Orders
+                      </div>
+                      <div className="text-sm font-bold text-foreground font-mono">
+                        148 sales
+                      </div>
+                      <div className="text-[10px] text-primary font-mono">
+                        Avg BDT 325
+                      </div>
+                    </div>
+                    <div className="bg-background dark:bg-[#0e1017] border border-border rounded-xl p-2.5">
+                      <div className="text-[10px] text-muted-foreground font-medium mb-0.5">
+                        Inventory Status
+                      </div>
+                      <div className="text-sm font-bold text-foreground font-mono">
+                        1,840 items
+                      </div>
+                      <div className="text-[10px] text-[#f59e0b] font-mono">
+                        2 Low Stock
+                      </div>
+                    </div>
+                  </div>
 
-      {/* ===== DASHBOARD SHOWCASE WITH CREATIVE FRAME ===== */}
-      <div
-        className={`relative w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 z-10 transition-all duration-1000 delay-700 ${
-          isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-        }`}
-      >
-        {/* Glow behind dashboard */}
-        <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-2xl blur-3xl opacity-50" />
+                  {/* Live POS Sales Log Table */}
+                  <div className="bg-background dark:bg-[#0e1017] border border-border rounded-xl p-3 font-mono text-xs text-muted-foreground space-y-2">
+                    <div className="flex justify-between text-muted-foreground border-b border-border pb-1 font-semibold text-[11px]">
+                      <span>Order ID</span>
+                      <span>Item Qty</span>
+                      <span>Total / Status</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[11px]">
+                      <span className="text-foreground font-medium">
+                        INV-9042 · Retail
+                      </span>
+                      <span className="text-muted-foreground">2 items</span>
+                      <span className="text-[#10b981] bg-[#10b981]/10 px-1.5 py-0.5 rounded font-semibold">
+                        BDT 2,400 Paid
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center text-[11px]">
+                      <span className="text-foreground font-medium">
+                        INV-9041 · Wholesale
+                      </span>
+                      <span className="text-muted-foreground">5 items</span>
+                      <span className="text-[#10b981] bg-[#10b981]/10 px-1.5 py-0.5 rounded font-semibold">
+                        BDT 7,850 Paid
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center text-[11px]">
+                      <span className="text-foreground font-medium">
+                        INV-9040 · Online
+                      </span>
+                      <span className="text-muted-foreground">1 item</span>
+                      <span className="text-[#f59e0b] bg-[#f59e0b]/10 px-1.5 py-0.5 rounded font-semibold">
+                        BDT 1,200 Syncing
+                      </span>
+                    </div>
+                  </div>
 
-        {/* Dashboard container */}
-        <div className="relative rounded-xl border border-primary/20 bg-card/80 backdrop-blur-md shadow-2xl shadow-primary/10 overflow-hidden">
-          {/* Browser chrome */}
-          <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-muted/50">
-            <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-red-400/80" />
-              <div className="w-3 h-3 rounded-full bg-yellow-400/80" />
-              <div className="w-3 h-3 rounded-full bg-green-400/80" />
-            </div>
-            <div className="flex-1 mx-4">
-              <div className="w-full max-w-sm mx-auto h-6 rounded-md bg-muted border border-border flex items-center justify-center text-xs text-muted-foreground font-mono">
-                your-store.pos.app/dashboard
+                  {/* Store POS Terminal Sync Log */}
+                  <div className="bg-muted/40 dark:bg-[#090a0e] border border-border rounded-xl p-2.5 font-mono text-[11px] text-muted-foreground space-y-1">
+                    <div className="text-[#10b981]">
+                      $ zopshop pos --store-id dhaka-main
+                    </div>
+                    <div className="text-foreground">
+                      ✔ Barcode scanner & receipt printer active
+                    </div>
+                    <div className="text-muted-foreground">
+                      ✔ 148 transactions synced with cloud database
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* OVERLAPPING MOBILE POS APP MOCKUP */}
+              <div className="absolute -bottom-10 -left-4 sm:-left-8 w-64 sm:w-72 bg-card border border-border rounded-2xl p-3 shadow-2xl z-20 hidden sm:block transition-colors">
+                {/* Mobile Topbar */}
+                <div className="flex items-center justify-between pb-2 mb-2 border-b border-border">
+                  <div className="flex items-center gap-1.5">
+                    <Smartphone className="w-3.5 h-3.5 text-primary" />
+                    <span className="text-[11px] font-bold text-foreground">
+                      ZopShop Mobile POS
+                    </span>
+                  </div>
+                  <span className="text-[9px] text-[#10b981] bg-[#10b981]/10 px-1.5 py-0.5 rounded-full font-mono font-medium">
+                    ● Live Scanner
+                  </span>
+                </div>
+
+                {/* Mobile POS Checkout Content */}
+                <div className="bg-muted/30 dark:bg-[#13151f] rounded-xl p-2.5 space-y-2 border border-border">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-semibold text-foreground flex items-center gap-1">
+                      <ShoppingCart className="w-3 h-3 text-primary" />
+                      Quick Checkout
+                    </span>
+                    <span className="text-[10px] text-muted-foreground font-mono">
+                      Cart (2)
+                    </span>
+                  </div>
+
+                  <div className="bg-background dark:bg-[#090a0e] p-2 rounded-lg text-[10px] space-y-1 border border-border">
+                    <div className="flex justify-between text-foreground font-medium">
+                      <span>Wireless Mouse x1</span>
+                      <span className="font-mono">BDT 1,200</span>
+                    </div>
+                    <div className="flex justify-between text-foreground font-medium">
+                      <span>USB-C Adapter x1</span>
+                      <span className="font-mono">BDT 650</span>
+                    </div>
+                  </div>
+
+                  <div className="bg-muted/50 dark:bg-[#181a28] p-2 rounded-lg text-[11px] flex justify-between items-center border border-border">
+                    <span className="text-muted-foreground">Total Amount:</span>
+                    <span className="text-foreground font-bold font-mono">
+                      BDT 1,850
+                    </span>
+                  </div>
+
+                  <div className="bg-primary text-primary-foreground text-[11px] font-semibold py-1.5 px-3 rounded-lg text-center shadow-sm">
+                    Complete Sale & Print Receipt
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Dashboard */}
-          <div className="relative">
-            <DemoDashboard />
-            {/* Bottom fade */}
-            <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-background to-transparent pointer-events-none" />
-          </div>
         </div>
 
-        {/* Decorative corner accents */}
-        <div className="absolute -top-2 -left-2 w-8 h-8 border-t-2 border-l-2 border-primary/30 rounded-tl-lg" />
-        <div className="absolute -top-2 -right-2 w-8 h-8 border-t-2 border-r-2 border-primary/30 rounded-tr-lg" />
-        <div className="absolute -bottom-2 -left-2 w-8 h-8 border-b-2 border-l-2 border-primary/30 rounded-bl-lg" />
-        <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-2 border-r-2 border-primary/30 rounded-br-lg" />
+        {/* ===== TRUSTED BY BRAND LOGOS BANNER ===== */}
+        <div className="pt-12 border-t border-border">
+          <p className="text-center text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-8">
+            Relied on by the world's best engineering teams
+          </p>
+          <div className="flex items-center justify-center gap-8 sm:gap-12 lg:gap-16 flex-wrap opacity-65 grayscale hover:grayscale-0 transition-all duration-300">
+            <span className="text-sm font-extrabold tracking-widest text-muted-foreground uppercase font-mono">
+              AMETEK
+            </span>
+            <span className="text-sm font-extrabold tracking-widest text-muted-foreground uppercase font-mono">
+              redis
+            </span>
+            <span className="text-sm font-extrabold tracking-widest text-muted-foreground uppercase font-mono">
+              Octopus Deploy
+            </span>
+            <span className="text-sm font-extrabold tracking-widest text-muted-foreground uppercase font-mono">
+              accenture
+            </span>
+            <span className="text-sm font-extrabold tracking-widest text-muted-foreground uppercase font-mono">
+              Raspberry Pi
+            </span>
+            <span className="text-sm font-extrabold tracking-widest text-muted-foreground uppercase font-mono">
+              brave
+            </span>
+          </div>
+        </div>
       </div>
     </section>
   );
