@@ -102,7 +102,9 @@ export function ThermalReceiptModal({
                     <td className="py-1 font-sans text-gray-900 truncate max-w-[100px]">
                       {item.name}
                     </td>
-                    <td className="py-1 text-center font-bold">{item.quantity}</td>
+                    <td className="py-1 text-center font-bold">
+                      {item.quantity}
+                    </td>
                     <td className="py-1 text-right">BDT {item.price}</td>
                     <td className="py-1 text-right font-bold">
                       BDT {item.price * item.quantity}
@@ -188,7 +190,8 @@ export function ThermalReceiptModal({
           body * {
             visibility: hidden !important;
           }
-          #printable-receipt, #printable-receipt * {
+          #printable-receipt,
+          #printable-receipt * {
             visibility: visible !important;
           }
           #printable-receipt {

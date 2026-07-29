@@ -52,7 +52,7 @@ export function DashboardOverview({ data }: DashboardOverviewProps) {
               fontSize={12}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => `$${value}`}
+              tickFormatter={(value) => `BDT ${value}`}
             />
             <Tooltip
               cursor={{ fill: "hsl(var(--muted))" }}

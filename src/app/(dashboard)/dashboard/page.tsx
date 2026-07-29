@@ -185,7 +185,7 @@ export default function DashboardPage() {
             {isReportLoading ? (
               <div className="h-8 w-24 bg-muted animate-pulse rounded" />
             ) : (
-              `$${(dashboardStats?.todaySales || 0).toLocaleString()}`
+              `BDT ${(dashboardStats?.todaySales || 0).toLocaleString()}`
             )}
           </span>
         </div>
@@ -203,7 +203,7 @@ export default function DashboardPage() {
             {isReportLoading ? (
               <div className="h-8 w-24 bg-muted animate-pulse rounded" />
             ) : (
-              `$${(dashboardStats?.totalOutstanding || 0).toLocaleString()}`
+              `BDT ${(dashboardStats?.totalOutstanding || 0).toLocaleString()}`
             )}
           </span>
         </div>

@@ -285,8 +285,8 @@ export function TransactionForm({
             <>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Subtotal</span>
-                <span className="font-medium">
-                  $
+                <span className="font-medium font-mono">
+                  BDT{" "}
                   {watchItems
                     .reduce(
                       (acc, item) => acc + item.unitPrice * item.quantity,
@@ -320,8 +320,8 @@ export function TransactionForm({
 
           <div className="flex justify-between items-center pt-2 border-t">
             <span className="text-base font-semibold">Grand Total</span>
-            <span className="text-lg font-bold text-primary">
-              ${(form.watch("amount") || 0).toFixed(2)}
+            <span className="text-lg font-bold text-primary font-mono">
+              BDT {(form.watch("amount") || 0).toFixed(2)}
             </span>
           </div>
 
