@@ -33,22 +33,21 @@ export function UserActions({
   }
 
   return (
-    <>
-      <Button
-        variant="outline"
-        className="w-full md:w-auto border-border"
-        render={<Link href="/login" onClick={onClose} />}
-        nativeButton={false}
+    <div className="flex items-center gap-3">
+      <Link
+        href="/login"
+        onClick={onClose}
+        className="text-sm font-medium text-slate-300 hover:text-white transition-colors px-2 py-1"
       >
-        Sign In
-      </Button>
-      <Button
-        className="w-full md:w-auto bg-primary text-primary-foreground hover:bg-primary-light transition-colors duration-300"
-        render={<Link href="/register" onClick={onClose} />}
-        nativeButton={false}
+        Sign in
+      </Link>
+      <Link
+        href="/register"
+        onClick={onClose}
+        className="text-sm font-medium bg-[#615fff] hover:bg-[#5250e6] text-white px-4 py-1.5 rounded-lg transition-colors shadow-sm"
       >
-        Get Started Free
-      </Button>
-    </>
+        Sign up
+      </Link>
+    </div>
   );
 }
