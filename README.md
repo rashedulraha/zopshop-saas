@@ -1,61 +1,28 @@
-# ZopShop - Business Management SaaS
+# 🛒 ZopShop SaaS — Frontend Client (Next.js 16 + React 19)
 
-ZopShop is a high-performance, multi-tenant SaaS platform built to help small and medium business owners digitize their operations. It provides a seamless experience for managing inventory, tracking daily sales, and monitoring business profitability in a minimalist, user-friendly interface.
-
-## Key Features
-
-- **Multi-Tenant Architecture**: Manage multiple independent shops securely within a single platform.
-- **Smart Inventory**: Real-time stock tracking with low-stock alerts to ensure you never run out of essential products.
-- **Sales Dashboard**: Intuitive UI to track daily, weekly, and monthly sales and profit analytics.
-- **Role-Based Access**: Secure access levels for Super Admin, Shop Owners, and Staff members.
-- **Mobile-First Design**: Optimized for mobile devices, making it perfect for shop owners who manage operations on the go.
-
-## Tech Stack
-
-- **Framework**: Next.js 16 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS, shadcn/ui
-- **Database**: MongoDB
-- **Authentication**: Auth.js (NextAuth)
-- **Deployment**: Vercel
-
-## Getting Started
-
-### Prerequisites
-
-Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
-
-### Installation
-
-1. **Clone the repository:**
-
-````bash
-  git clone [https://github.com/yourusername/zopshop-saas.git](https://github.com/yourusername/zopshop-saas.git)
-  ```
-2.  **Navigate to the project directory:**
-  ```bash
-  cd zopshop-saas
-  ```
-3.  **Install dependencies:**
-  ```bash
-  npm install
-  ```
-4.  **Configure environment variables:**
-  Copy the `.env.example` file to `.env` in the root directory:
-  ```bash
-  cp .env.example .env
-  ```
-  Ensure `NEXT_PUBLIC_API_URL` points to your backend API.
-5.  **Run the development server:**
-  ```bash
-  npm run dev
-  ```
-
-## 💡 Goal
-
-Our mission is to replace traditional manual ledger (Khata) systems with a robust, minimalist, and powerful digital solution for local businesses.
+This is the frontend client application for **ZopShop SaaS**, built with Next.js 16 App Router, Tailwind CSS v4, TypeScript, and Zustand.
 
 ---
 
-Built with ❤️ by **Md Rashedul Islam**
-````
+## ⚡ Features Included
+
+- **Better Stack Aesthetic**: Flat dynamic color palette with HSL theme tokens and zero hardcoded dark colors.
+- **Marquee Feature Carousel**: Auto-sliding interactive feature cards matching modern SaaS designs.
+- **Real-Time POS Billing**: POS terminal interface with auto-calculated 15% VAT, discounts, and 58mm/80mm thermal receipt printing support.
+- **Client API Caching System**: Custom TTL MemoryCache module for ultra-fast page navigation.
+- **Global WhatsApp Support Widget**: Floating customer support widget for instant assistance.
+- **Bangladesh Currency Ready**: BDT (৳) currency formatting across all reports, charts, and tables.
+
+---
+
+## 🚀 Running Locally
+
+```bash
+# Install dependencies
+npm install
+
+# Start Next.js Development Server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
