@@ -98,23 +98,23 @@
   --background: #f5f7ff;
   --foreground: #0f172a;
 
-  /* Primary - Rich Indigo with depth */
-  --primary: #4f46e5;
+  /* Primary - Solid Better Stack purple/blue accent (#615fff) */
+  --primary: #615fff;
   --primary-foreground: #ffffff;
-  --primary-light: #818cf8;
-  --primary-lighter: #c7d2fe;
-  --primary-dark: #3730a3;
-  --primary-dim: rgba(79, 70, 229, 0.08);
+  --primary-light: #7c7aef;
+  --primary-lighter: #a5a3f8;
+  --primary-dark: #4b48db;
+  --primary-dim: rgba(97, 95, 255, 0.08);
 
   /* Secondary - Cool gray with warmth */
-  --secondary: #e0e7ff;
-  --secondary-foreground: #1e1b4b;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
 
-  /* Accent - Purple for highlights/gradients */
-  --accent: #8b5cf6;
+  /* Accent - Solid purple accent */
+  --accent: #615fff;
   --accent-foreground: #ffffff;
-  --accent-light: #a78bfa;
-  --accent-dim: rgba(139, 92, 246, 0.08);
+  --accent-light: #7c7aef;
+  --accent-dim: rgba(97, 95, 255, 0.08);
 
   /* ========================================
      SEMANTIC COLORS - Softer, accessible
@@ -246,126 +246,127 @@
    DARK MODE - Deep Navy, Not Pure Black
    ======================================== */
 
+/* ========================================
+   DARK MODE - Better Stack Inspired Flat Theme
+   ======================================== */
+
 .dark {
-  /* Background - Deep navy (easier on eyes than pure black) */
-  --background: #0f172a;
-  --foreground: #f1f5f9;
+  /* Background - Better Stack signature deep dark slate/black */
+  --background: #0b0c10;
+  --foreground: #ffffff;
 
-  /* Primary - Brighter for dark mode */
-  --primary: #818cf8;
-  --primary-foreground: #0f172a;
-  --primary-light: #a5b4fc;
-  --primary-lighter: #c7d2fe;
-  --primary-dark: #6366f1;
-  --primary-dim: rgba(129, 140, 248, 0.12);
+  /* Primary - Solid Better Stack purple/blue accent (#615fff) */
+  --primary: #615fff;
+  --primary-foreground: #ffffff;
+  --primary-light: #7c7aef;
+  --primary-lighter: #a5a3f8;
+  --primary-dark: #4b48db;
+  --primary-dim: rgba(97, 95, 255, 0.12);
 
-  /* Secondary - Dark slate */
-  --secondary: #1e293b;
-  --secondary-foreground: #e2e8f0;
+  /* Secondary - Dark slate border/container */
+  --secondary: #161822;
+  --secondary-foreground: #f1f5f9;
 
-  /* Accent - Softer purple */
-  --accent: #a78bfa;
-  --accent-foreground: #0f172a;
-  --accent-light: #c4b5fd;
-  --accent-dim: rgba(167, 139, 250, 0.12);
-
-  /* ========================================
-     SEMANTIC COLORS - Adjusted for dark
-     ======================================== */
-
-  --success: #34d399;
-  --success-light: rgba(52, 211, 153, 0.15);
-  --success-dim: rgba(52, 211, 153, 0.1);
-
-  --warning: #fbbf24;
-  --warning-light: rgba(251, 191, 36, 0.15);
-  --warning-dim: rgba(251, 191, 36, 0.1);
-
-  --danger: #f87171;
-  --danger-light: rgba(248, 113, 113, 0.15);
-  --danger-dim: rgba(248, 113, 113, 0.1);
-
-  --info: #38bdf8;
-  --info-light: rgba(56, 189, 248, 0.15);
-  --info-dim: rgba(56, 189, 248, 0.1);
+  /* Accent - Solid vibrant purple/indigo accent */
+  --accent: #615fff;
+  --accent-foreground: #ffffff;
+  --accent-light: #7c7aef;
+  --accent-dim: rgba(97, 95, 255, 0.12);
 
   /* ========================================
-     SURFACE COLORS - Layered dark
+     SEMANTIC COLORS - High contrast flat
      ======================================== */
 
-  --card: rgba(30, 41, 59, 0.6);
-  --card-foreground: #f1f5f9;
-  --card-hover: rgba(30, 41, 59, 0.8);
+  --success: #10b981;
+  --success-light: rgba(16, 185, 129, 0.15);
+  --success-dim: rgba(16, 185, 129, 0.1);
 
-  --popover: #1e293b;
-  --popover-foreground: #f1f5f9;
+  --warning: #f59e0b;
+  --warning-light: rgba(245, 158, 11, 0.15);
+  --warning-dim: rgba(245, 158, 11, 0.1);
 
-  --muted: rgba(30, 41, 59, 0.5);
+  --danger: #ef4444;
+  --danger-light: rgba(239, 68, 68, 0.15);
+  --danger-dim: rgba(239, 68, 68, 0.1);
+
+  --info: #3b82f6;
+  --info-light: rgba(59, 130, 246, 0.15);
+  --info-dim: rgba(59, 130, 246, 0.1);
+
+  /* ========================================
+     SURFACE COLORS - Solid layered dark
+     ======================================== */
+
+  --card: #13151f;
+  --card-foreground: #ffffff;
+  --card-hover: #191b29;
+
+  --popover: #13151f;
+  --popover-foreground: #ffffff;
+
+  --muted: #161824;
   --muted-foreground: #94a3b8;
-  --muted-light: rgba(30, 41, 59, 0.3);
+  --muted-light: #12131c;
 
   /* ========================================
      BORDER & INTERACTION
      ======================================== */
 
-  --border: rgba(255, 255, 255, 0.08);
-  --border-light: rgba(255, 255, 255, 0.04);
-  --border-hover: rgba(255, 255, 255, 0.15);
-  --input: rgba(255, 255, 255, 0.06);
-  --input-focus: rgba(129, 140, 248, 0.25);
-  --ring: #818cf8;
-  --ring-offset: #0f172a;
-  --destructive: #f87171;
+  --border: #1e202e;
+  --border-light: #171926;
+  --border-hover: #2d3045;
+  --input: #151722;
+  --input-focus: #615fff;
+  --ring: #615fff;
+  --ring-offset: #0b0c10;
+  --destructive: #ef4444;
 
   /* ========================================
      SIDEBAR - Dark mode
      ======================================== */
 
-  --sidebar: #020617;
+  --sidebar: #090a0e;
   --sidebar-foreground: #94a3b8;
-  --sidebar-primary: #818cf8;
-  --sidebar-primary-foreground: #0f172a;
-  --sidebar-accent: rgba(129, 140, 248, 0.1);
-  --sidebar-accent-foreground: #a5b4fc;
-  --sidebar-border: rgba(255, 255, 255, 0.06);
-  --sidebar-ring: #818cf8;
+  --sidebar-primary: #615fff;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #161822;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #1e202e;
+  --sidebar-ring: #615fff;
 
   /* ========================================
-     BACKGROUND EFFECTS - Dark ambient
+     BACKGROUND EFFECTS - Pure Solid
      ======================================== */
 
-  --glow-primary: rgba(99, 102, 241, 0.2);
-  --glow-accent: rgba(139, 92, 246, 0.15);
-  --glow-cyan: rgba(6, 182, 212, 0.1);
+  --glow-primary: transparent;
+  --glow-accent: transparent;
+  --glow-cyan: transparent;
 
-  --grad-start: rgba(99, 102, 241, 0.1);
-  --grad-mid: rgba(139, 92, 246, 0.06);
+  --grad-start: transparent;
+  --grad-mid: transparent;
   --grad-end: transparent;
 
   /* ========================================
-     GLASS MORPHISM - Dark navy glass
+     GLASS MORPHISM - Dark Solid Surface
      ======================================== */
 
-  --glass-bg: rgba(30, 41, 59, 0.7);
-  --glass-bg-strong: rgba(30, 41, 59, 0.85);
-  --glass-bg-weak: rgba(15, 23, 42, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-border-subtle: rgba(255, 255, 255, 0.05);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --glass-bg: #0b0c10;
+  --glass-bg-strong: #0e0f14;
+  --glass-bg-weak: #0b0c10;
+  --glass-border: #1e202e;
+  --glass-border-subtle: #171926;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 
   /* ========================================
      SHADOWS - Dark mode
      ======================================== */
 
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-md:
-    0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
-  --shadow-lg:
-    0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
-  --shadow-xl:
-    0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
-  --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.2);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  --shadow-glow: none;
 }
 
 @layer base {
@@ -388,19 +389,13 @@
   }
 }
 
-/* ===== Typography Additions ===== */
+/* ===== Typography Additions (Solid Flat Text, No Gradients) ===== */
 .text-gradient {
-  background: linear-gradient(to right, var(--foreground), #71717a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--foreground);
 }
 
 .dark .text-gradient {
-  background: linear-gradient(to right, var(--foreground), #a1a1aa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--foreground);
 }
 
 /* ===== Subtle Glass Utility Classes ===== */
@@ -495,4 +490,30 @@
 }
 .animation-delay-400 {
   animation-delay: 400ms;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 40s linear infinite;
+}
+
+.animate-marquee:hover, .animate-marquee-reverse:hover {
+  animation-play-state: paused;
 }
