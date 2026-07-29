@@ -73,7 +73,11 @@ export function OnboardingForm() {
       toast.success("Store created successfully!");
       router.push("/dashboard");
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || err.message || "Failed to create store.");
+      toast.error(
+        err?.response?.data?.message ||
+          err.message ||
+          "Failed to create store.",
+      );
     } finally {
       setIsSubmitting(false);
     }

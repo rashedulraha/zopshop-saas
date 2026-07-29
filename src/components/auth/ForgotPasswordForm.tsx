@@ -23,7 +23,8 @@ export default function ForgotPasswordForm() {
               Reset Password
             </h1>
             <p className="text-sm text-muted-foreground mt-2">
-              Enter your email address and we'll send you a link to reset your password.
+              Enter your email address and we'll send you a link to reset your
+              password.
             </p>
           </div>
         </div>
@@ -56,7 +57,7 @@ export default function ForgotPasswordForm() {
                 required
               />
             </div>
-            
+
             <button
               type="submit"
               className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4 py-2 w-full mt-2"
