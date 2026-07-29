@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import { SupportWidget } from "@/components/support/SupportWidget";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -51,6 +52,7 @@ export default function RootLayout({
           <AuthProvider>
             {children}
           </AuthProvider>
+          <SupportWidget />
         </ThemeProvider>
         <Toaster />
       </body>
