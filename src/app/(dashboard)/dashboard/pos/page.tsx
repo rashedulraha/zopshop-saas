@@ -15,6 +15,7 @@ import {
   CreditCard,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThermalReceiptModal } from "@/components/pos/ThermalReceiptModal";
 
 interface Product {
   id: string;
@@ -98,11 +99,13 @@ export default function POSBillingPage() {
   const [discount, setDiscount] = useState("0");
   const [selectedCustomer, setSelectedCustomer] = useState("Walk-in Customer");
 
-  // Pay Modal State
+  // Pay Modal & Thermal Receipt State
   const [isPayOpen, setIsPayOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Cash");
   const [receivedAmount, setReceivedAmount] = useState("");
   const [notification, setNotification] = useState<string | null>(null);
+  const [isReceiptOpen, setIsReceiptOpen] = useState(false);
+  const [completedInvoice, setCompletedInvoice] = useState<any>(null);
 
   const addToCart = (product: Product) => {
     const existing = cart.find((item) => item.id === product.id);
@@ -162,14 +165,38 @@ export default function POSBillingPage() {
     const received = parseFloat(receivedAmount) || 0;
     if (received < totals.netTotal) {
       alert(
-        `Paid amount cannot be less than Net Payable: $${totals.netTotal.toFixed(2)}`,
+        `Paid amount cannot be less than Net Payable: BDT ${totals.netTotal.toFixed(2)}`,
       );
       return;
     }
 
+    const change = received - totals.netTotal;
+    const invoice = {
+      invoiceNo: `INV-${Math.floor(100000 + Math.random() * 900000)}`,
+      customerName: selectedCustomer,
+      items: cart.map((i) => ({
+        name: i.name,
+        quantity: i.quantity,
+        price: i.price,
+      })),
+      subtotal: totals.subtotal,
+      discount: totals.discVal,
+      vat: totals.vatVal,
+      total: totals.netTotal,
+      paidAmount: received,
+      changeAmount: change,
+      paymentMethod: paymentMethod,
+      date: new Date().toLocaleString("en-US", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }),
+    };
+
+    setCompletedInvoice(invoice);
     setIsPayOpen(false);
+    setIsReceiptOpen(true);
     showNotification(
-      `Invoice successfully generated! Change return: $${(received - totals.netTotal).toFixed(2)}`,
+      `Invoice successfully generated! Change return: BDT ${change.toFixed(2)}`,
     );
     setCart([]);
     setDiscount("0");
@@ -472,6 +499,13 @@ export default function POSBillingPage() {
           </div>
         </div>
       )}
+
+      {/* Printable Thermal Receipt Modal */}
+      <ThermalReceiptModal
+        isOpen={isReceiptOpen}
+        onClose={() => setIsReceiptOpen(false)}
+        invoiceData={completedInvoice}
+      />
     </div>
   );
 }
