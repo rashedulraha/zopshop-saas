@@ -1,148 +1,150 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import ResponsiveComponents from "../providers/ResponsiveComponents";
+import { CheckCircle2 } from "lucide-react";
 
-const FEATURES = [
+const FEATURES_ROW_1 = [
   {
-    title: "Inventory Management",
-    description: "Track stock in real-time with instant low-stock alerts.",
-    image: "/Features_img/Inventory Management – Real‑time stock updates.jpg",
+    category: "Store Inventory",
+    title: "Real-time Stock Alerts",
+    description: "Track inventory across branches. Auto-receive alerts when items run low.",
     slug: "inventory-management",
   },
   {
-    title: "Billing System",
-    description: "Create invoices quickly and track every payment easily.",
-    image: "/Features_img/Billing System – Fast invoicing.jpg",
+    category: "SaaS Billing",
+    title: "Instant Invoicing",
+    description: "Issue digital bills to SMS & WhatsApp immediately after checkout.",
     slug: "billing-system",
   },
   {
-    title: "Reports & Analytics",
-    description: "View business insights with clear reports and dashboards.",
-    image: "/Features_img/Reports & Analytics – Data‑driven insights.jpg",
+    category: "Business Analytics",
+    title: "Live Sales Dashboard",
+    description: "Monitor branch revenues, transaction totals, and top-selling items.",
     slug: "reports-analytics",
   },
   {
-    title: "Team Management",
-    description: "Manage roles and permissions for your entire team.",
-    image: "/Features_img/Team Management – Role‑based access.jpg",
+    category: "Security",
+    title: "End-to-End Encryption",
+    description: "Store data securely in encrypted cloud storage with automatic backups.",
+    slug: "secure-data",
+  },
+];
+
+const FEATURES_ROW_2 = [
+  {
+    category: "Staff Control",
+    title: "Role-based Permissions",
+    description: "Configure cashier access levels, store manager controls, and audit logs.",
     slug: "team-management",
   },
   {
-    title: "Secure Data",
-    description: "Protect your data with secure encrypted storage.",
-    image: "/Features_img/Secure Data – Encrypted storage.jpg",
-    slug: "secure-data",
+    category: "POS Hardware",
+    title: "Barcode Scanner Sync",
+    description: "Seamlessly connect physical scanners, receipt printers, and cash drawers.",
+    slug: "mobile-friendly",
   },
   {
-    title: "Mobile Friendly",
-    description: "Access and manage your business from any device.",
-    image: "/Features_img/Mobile Friendly – Access from anywhere.jpg",
+    category: "Enterprise Scale",
+    title: "Multi-branch Network",
+    description: "Connect hundreds of outlets under one unified central headquarters admin.",
+    slug: "reports-analytics",
+  },
+  {
+    category: "Offline Mode",
+    title: "Local Transaction Cache",
+    description: "Continue scanning and sales checkout offline. Sync automatically when back online.",
     slug: "mobile-friendly",
   },
 ];
 
 export function FeaturesSection() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
   return (
-    <section
-      id="features"
-      className="py-16 lg:py-24 relative overflow-hidden bg-background"
-    >
-      <ResponsiveComponents>
+    <section id="features" className="bg-background py-20 lg:py-28 border-b border-border overflow-hidden transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
         {/* Header */}
-        <div className="text-center mb-16 relative z-10 flex flex-col items-center max-w-3xl mx-auto px-4 sm:px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="flex justify-center mb-6"
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border bg-card text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Features
-            </div>
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="mb-4 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1]"
-          >
-            Everything you need.
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg font-normal text-muted-foreground leading-relaxed"
-          >
-            Manage your entire business efficiently, wrapped in a minimal,
-            intuitive experience.
-          </motion.p>
+        <div className="text-center max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full border border-border bg-card text-xs font-semibold uppercase tracking-wider text-primary shadow-sm">
+            Features
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-4">
+            Everything built into ZopShop
+          </h2>
+          <p className="text-base sm:text-lg text-muted-foreground">
+            Explore our features organized in an interactive auto-sliding marquee grid.
+          </p>
         </div>
+      </div>
 
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
-          {FEATURES.map((feature, index) => (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              key={index}
-              className="relative group h-full"
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+      {/* Marquee Row 1 */}
+      <div className="relative w-full overflow-hidden mb-6 flex">
+        {/* Gradient overlays to blur sides */}
+        <div className="absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+
+        <div className="animate-marquee py-2 flex">
+          {[...FEATURES_ROW_1, ...FEATURES_ROW_1, ...FEATURES_ROW_1].map((feat, idx) => (
+            <Link
+              key={idx}
+              href={`/features/${feat.slug}`}
+              className="bg-card border border-border rounded-2xl p-6 min-w-[280px] sm:min-w-[320px] max-w-[320px] mx-3 flex flex-col justify-between shadow-sm hover:border-primary/40 hover:shadow-md transition-all group shrink-0"
             >
-              <div className="relative bg-card border border-border rounded-xl shadow-sm overflow-hidden h-full flex flex-col hover:shadow-md hover:border-border-hover hover:bg-card-hover transition-all duration-300">
-                {/* Browser-framed image */}
-                <div className="relative w-full overflow-hidden shrink-0 bg-muted flex flex-col border-b border-border">
-                  <div className="h-8 flex items-center px-4 shrink-0 bg-card border-b border-border gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
-                  </div>
-
-                  <div className="relative w-full aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={feature.image}
-                      alt={feature.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
-                    />
-                  </div>
-                </div>
-
-                {/* Card body */}
-                <div className="relative z-10 flex flex-col flex-1 p-6">
-                  <h3 className="font-bold text-lg text-foreground mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="font-normal text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
-                    {feature.description}
-                  </p>
-
-                  {/* Footer link (text only) */}
-                  <Link
-                    href={`/features/${feature.slug}`}
-                    className="mt-auto text-sm font-medium text-foreground hover:text-primary transition-colors inline-block"
-                  >
-                    View details &rarr;
-                  </Link>
-                </div>
+              <div>
+                <span className="text-[10px] font-mono font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">
+                  {feat.category}
+                </span>
+                <h3 className="text-base font-bold text-foreground mt-4 mb-1 group-hover:text-primary transition-colors">
+                  {feat.title}
+                </h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {feat.description}
+                </p>
               </div>
-            </motion.div>
+
+              <div className="flex items-center justify-between mt-6 pt-4 border-t border-border/60">
+                <span className="text-[10px] font-semibold text-muted-foreground group-hover:text-primary transition-colors flex items-center gap-1">
+                  View details &rarr;
+                </span>
+                <CheckCircle2 className="w-4 h-4 text-primary/40 group-hover:text-primary transition-colors" />
+              </div>
+            </Link>
           ))}
         </div>
-      </ResponsiveComponents>
+      </div>
+
+      {/* Marquee Row 2 */}
+      <div className="relative w-full overflow-hidden flex">
+        <div className="absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+
+        <div className="animate-marquee-reverse py-2 flex">
+          {[...FEATURES_ROW_2, ...FEATURES_ROW_2, ...FEATURES_ROW_2].map((feat, idx) => (
+            <Link
+              key={idx}
+              href={`/features/${feat.slug}`}
+              className="bg-card border border-border rounded-2xl p-6 min-w-[280px] sm:min-w-[320px] max-w-[320px] mx-3 flex flex-col justify-between shadow-sm hover:border-primary/40 hover:shadow-md transition-all group shrink-0"
+            >
+              <div>
+                <span className="text-[10px] font-mono font-bold text-primary bg-primary/10 px-2 py-0.5 rounded">
+                  {feat.category}
+                </span>
+                <h3 className="text-base font-bold text-foreground mt-4 mb-1 group-hover:text-primary transition-colors">
+                  {feat.title}
+                </h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {feat.description}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-between mt-6 pt-4 border-t border-border/60">
+                <span className="text-[10px] font-semibold text-muted-foreground group-hover:text-primary transition-colors flex items-center gap-1">
+                  View details &rarr;
+                </span>
+                <CheckCircle2 className="w-4 h-4 text-primary/40 group-hover:text-primary transition-colors" />
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
