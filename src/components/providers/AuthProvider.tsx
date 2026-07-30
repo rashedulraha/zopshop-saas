@@ -31,7 +31,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const isSuperAdmin = user?.role === "SUPERADMIN";
     if (isSuperAdmin) return;
 
-    const hasStore = !!localStorage.getItem("activeStoreId");
+    const hasStore = !!localStorage.getItem("activeStoreId") || !!user?.storeId;
 
     // If accessing dashboard without a store
     if (pathname.startsWith("/dashboard") && !hasStore) {

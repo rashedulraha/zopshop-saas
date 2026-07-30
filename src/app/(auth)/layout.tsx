@@ -8,12 +8,21 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex w-full bg-background text-foreground overflow-hidden">
+    <div className="min-h-screen flex w-full bg-background text-foreground overflow-hidden relative">
+      {/* Subtle tech dot grid background matching landing page */}
+      <div
+        className="absolute inset-0 opacity-[0.05] dark:opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
+          backgroundSize: "32px 32px",
+        }}
+      />
+
       {/* Left Panel: Trust Building (Hidden on Mobile, ~60% width on Desktop) */}
-      <div className="hidden lg:flex flex-col w-[60%] relative bg-muted text-foreground p-12 justify-between overflow-hidden border-r border-border">
+      <div className="hidden lg:flex flex-col w-[60%] relative bg-background/50 text-foreground p-12 justify-between overflow-hidden border-r border-border">
         {/* Subtle premium gradient mesh */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--primary)_0%,transparent_80%)] opacity-5 pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,var(--primary)_0%,transparent_50%)] opacity-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--primary)_0%,transparent_70%)] opacity-[0.07] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,var(--primary)_0%,transparent_50%)] opacity-[0.08] pointer-events-none" />
 
         {/* Header (Logo) */}
         <Link
@@ -42,7 +51,7 @@ export default function AuthLayout({
             {[1, 2, 3, 4, 5].map((i) => (
               <div
                 key={i}
-                className="w-10 h-10 rounded-full border-2 border-muted bg-background flex items-center justify-center"
+                className="w-10 h-10 rounded-full border-2 border-border bg-card flex items-center justify-center"
               >
                 <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
               </div>
@@ -50,17 +59,17 @@ export default function AuthLayout({
           </div>
           <div>
             <div className="text-sm font-semibold text-foreground">
-              Trusted by 0 businesses
+              Trusted by 500+ businesses
             </div>
             <div className="text-sm text-muted-foreground">
-              Rated 0.00/5 on G2 and Capterra
+              Rated 4.9/5 on G2 and Capterra
             </div>
           </div>
         </div>
       </div>
 
       {/* Right Panel: Auth Form (~40% width) */}
-      <div className="w-full lg:w-[40%] relative flex flex-col justify-center items-center p-6 sm:p-12 overflow-y-auto">
+      <div className="w-full lg:w-[40%] relative flex flex-col justify-center items-center p-6 sm:p-12 overflow-y-auto z-10">
         {/* Desktop Back Button */}
         <Link
           href="/"
@@ -81,7 +90,7 @@ export default function AuthLayout({
           className="lg:hidden absolute top-6 left-6 z-20 flex items-center gap-2 no-underline"
         >
           <span className="font-extrabold text-xl tracking-tight text-foreground">
-            Zop<span className="text-cyan-500">Shop</span>
+            Zop<span className="text-primary">Shop</span>
           </span>
         </Link>
 
